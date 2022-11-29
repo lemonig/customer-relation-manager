@@ -1,0 +1,57 @@
+@import url("~@Styles/index.less");
+
+@box-shadow-greay: 0px 1px 3px rgba(0, 0, 0, 0.07),
+  0px 1px 2px rgba(0, 0, 0, 0.06), 0px 0px 1px rgba(0, 0, 0, 0.05);
+
+// 盒子
+.box-warp {
+  display: flex;
+  background: @--pd-global-color-red-100;
+  cursor: pointer;
+  margin-bottom: 4px;
+  opacity: initial;
+  word-break: initial;
+  box-shadow: @box-shadow-greay;
+  border-radius: @--pd-radius-s;
+  border: 0;
+  .box-inner {
+    padding: 6px 8px;
+    width: 100%;
+    overflow: hidden;
+    // box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.12), 0px 3px 5px rgba(0, 0, 0, 0.08);
+    // border-radius: @--pd-radius-s;
+  }
+  .left {
+    width: 100%;
+  }
+  .right {
+    flex-direction: column;
+    margin-bottom: 0;
+    justify-content: center;
+    padding-left: 8px;
+    .icon-wrap {
+      bottom: 6px;
+      display: flex;
+      -webkit-box-align: center;
+      align-items: center;
+      -webkit-box-pack: center;
+      justify-content: center;
+      width: 24px;
+      height: 24px;
+      border-radius: 24px;
+      transition: all 0.1s linear 0s;
+      cursor: pointer;
+      background: #fff;
+    }
+  }
+}
+
+//容器dustin-wrap
+.dustin-wrap {
+  background: @--pd-global-color-neutral-40;
+  border-radius: 2px;
+  height: 100%;
+  .dustin-inner {
+    height: 100%;
+  }
+}

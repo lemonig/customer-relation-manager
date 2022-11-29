@@ -1,0 +1,35 @@
+@import url("../../../styles/index.less");
+.stage-block {
+  background: @--pd-color-fill-base-secondary;
+  height: 55px;
+  position: sticky;
+  top: 0px;
+  z-index: 1;
+  .inner {
+    display: flex;
+    -webkit-box-align: center;
+    align-items: center;
+    flex-direction: row;
+    background: @--pd-color-fill-base-secondary;
+    height: 55px;
+    padding-left: 8px;
+    padding-right: 16px;
+    margin: 0px 0px 0px 9px;
+    .content {
+      width: 100%;
+      overflow: hidden;
+    }
+    .arrow {
+      position: absolute;
+      left: 0px;
+      width: 9px;
+      height: 55px;
+    }
+  }
+  .inner > svg {
+    position: absolute;
+    left: 0px;
+    width: 9px;
+    height: 55px;
+  }
+}

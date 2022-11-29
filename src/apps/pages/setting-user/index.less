@@ -1,0 +1,38 @@
+.staff {
+  height: calc(100% - 40px);
+  .tree-wrap {
+    // width: 240px;
+    height: 100%;
+    padding: 8px;
+    overflow: auto;
+    background-color: rgba(8, 30, 66, 0.04);
+    border-radius: 3px;
+    font-size: 14px;
+  }
+}
+.staff {
+  :global(.ant-tree) {
+    font-size: 14px !important;
+  }
+  .tree-root {
+    padding: 20px 8px;
+    height: calc(100% - 32px);
+    background-color: #fff;
+  }
+
+  .table-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+    height: 50px;
+    font-size: 16px;
+    .desc {
+      margin-left: 14px;
+      color: #6b778c;
+    }
+  }
+  .value {
+    color: #172b4d;
+  }
+}

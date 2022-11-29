@@ -1,0 +1,70 @@
+@import "./theme.less";
+.flex-row-base {
+  display: flex;
+  flex-direction: wrap;
+}
+.flex-colum-base {
+  display: flex;
+  flex-direction: column;
+}
+.flex-justify-center {
+  justify-content: center;
+}
+.flex-align-center {
+  align-items: center;
+}
+
+// 搜索
+.search {
+  margin-bottom: 20px;
+}
+// antd 样式覆盖
+// MENU
+// .menu-warp .ant-layout-sider {
+//   max-width: 56px !important;
+//   min-width: 56px !important;
+//   width: 56px !important;
+//   flex: 0 0 56px !important;
+// }
+
+// PageHeader
+.site-page-header {
+  padding: 0;
+}
+
+// Tree
+.staff {
+  .ant-tree {
+    font-size: 14px !important;
+  }
+  .ant-tree .ant-tree-treenode {
+    width: 100%;
+    > span {
+      line-height: 40px;
+    }
+    > span:last-child {
+      span {
+        line-height: 40px;
+      }
+    }
+  }
+  .ant-tree.ant-tree-directory .ant-tree-treenode-selected:hover::before,
+  .ant-tree.ant-tree-directory .ant-tree-treenode-selected::before {
+    background-color: #ebecf0;
+    color: #0052cc !important;
+  }
+  .ant-tree.ant-tree-directory .ant-tree-treenode-selected .ant-tree-switcher {
+    color: #0052cc !important;
+  }
+  .ant-tree.ant-tree-directory
+    .ant-tree-treenode
+    .ant-tree-node-content-wrapper.ant-tree-node-selected {
+    color: #0052cc !important;
+  }
+}
+
+input:hover {
+  background-color: #ebecf0;
+  // border-color: #dfe1e6;
+  color: #172b4d;
+}

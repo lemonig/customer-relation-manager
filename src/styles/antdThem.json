@@ -1,0 +1,13 @@
+{
+  "@primary-color": "#6861F2",
+  "@link-color": "#1890ff",
+  "@font-size-base": "12px",
+  "@modal-color": "rgba(23, 43, 77, 0.06)",
+  "@module-hover": "rgba(0, 0, 0, 1)",
+  "@comment-bg": "#f5f6f7",
+  "@layout-footer-background": "#f5f6f7",
+  "@layout-body-background": "#f0f2f5",
+  "@body-background": "#fff",
+  "@modal-header-bg": "rgba(241, 243, 245, 1)",
+  "@modal-footer-bg": "rgba(241, 243, 245, 1)"
+}
