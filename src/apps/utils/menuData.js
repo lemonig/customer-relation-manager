@@ -59,6 +59,17 @@ const menu = [
     isleaf: true,
   },
   {
+    key: 999,
+    id: 999,
+    pid: 2,
+    path: "/dealList",
+    name: "dealList",
+    component: "deal-list",
+    auth: true,
+    label: "商机列表",
+    isleaf: true,
+  },
+  {
     key: 6,
     id: 6,
     pid: 3,

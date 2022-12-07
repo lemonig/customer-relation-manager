@@ -21,7 +21,6 @@ import {
   productTypeList,
 } from "@Api/product.js";
 import { ExclamationCircleOutlined } from "@ant-design/icons";
-import moment from "moment";
 const { Option } = Select;
 
 function ProductManage() {
@@ -41,7 +40,6 @@ function ProductManage() {
 
   useEffect(() => {
     getProducttTypelist();
-    console.log(moment().format("W"));
   }, []);
   useEffect(() => {
     getPageData();

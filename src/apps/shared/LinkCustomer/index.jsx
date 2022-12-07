@@ -1,33 +1,11 @@
 import React, { useState, useEffect } from "react";
-import {
-  Input,
-  Select,
-  Button,
-  Space,
-  Table,
-  Tag,
-  Modal,
-  Form,
-  message,
-  Tooltip,
-} from "antd";
-import {
-  companyInfo,
-  companyDelete,
-  companyUpdate,
-  companyAdd,
-} from "@Api/info_company.js";
-import { tianyancha } from "@Api/public.js";
-import { ExclamationCircleOutlined } from "@ant-design/icons";
+import { Input, Select, Space, Table, Modal, Form, Tooltip } from "antd";
+import { companyInfo } from "@Api/info_company.js";
 import { organize } from "@Utils/data";
-
-const { Option } = Select;
 
 function LinkCustomer({ open, getRowSelected, defaultId }) {
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [operateId, setOperateId] = useState(null); //正在操作id
   const [pageMsg, setPagemsg] = useState({
     pagination: {
       current: 1,
@@ -35,18 +13,13 @@ function LinkCustomer({ open, getRowSelected, defaultId }) {
     },
   });
   const [searchVal, setSearchVal] = useState("");
-  const [selectVal, setSelectVal] = useState("1");
   const [data, setData] = useState([]);
-  const [rowSelected, setRowSelected] = useState();
-  const [rowKey, setRowKey] = useState([defaultId]);
+  const [rowSelected, setRowSelected] = useState([]);
+  const [rowKey, setRowKey] = useState([]);
 
   useEffect(() => {
     getPageData();
   }, [JSON.stringify(pageMsg)]);
-
-  const showModal = () => {
-    setIsModalOpen(true);
-  };
 
   // 查询
   const search = () => {
@@ -68,18 +41,25 @@ function LinkCustomer({ open, getRowSelected, defaultId }) {
       size: pageMsg.pagination.pageSize,
       data: {
         name: searchVal,
-        orgType: selectVal,
       },
     }).then((res) => {
-      setData(res.data);
+      if (res.success) {
+        setData(res.data);
+        setPagemsg({
+          ...pageMsg,
+          pagination: {
+            ...pageMsg.pagination,
+            total: res.additional_data.pagination.total,
+          },
+        });
+        // 默认第一条
+        setRowSelected([res.data[0]]);
+        console.log(defaultId);
+        if (!defaultId) {
+          setRowKey([res.data[0].id]);
+        }
+      }
       setLoading(false);
-      setPagemsg({
-        ...pageMsg,
-        pagination: {
-          ...pageMsg.pagination,
-          total: res.additional_data.pagination.total,
-        },
-      });
     });
   };
 
@@ -116,7 +96,6 @@ function LinkCustomer({ open, getRowSelected, defaultId }) {
           {creditCode}
         </Tooltip>
       ),
-      
     },
     {
       title: "备注",
@@ -195,56 +174,60 @@ function LinkCustomer({ open, getRowSelected, defaultId }) {
   };
 
   return (
-    <Modal
-      title="关联客户"
-      open={open}
-      onOk={() => getRowSelected(true, rowSelected)}
-      onCancel={() => getRowSelected(false)}
-      width={800}
-      destroyOnClose
-      bodyStyle={{
-        padding: "8px",
-      }}
-      style={{
-        top: "0px",
-      }}
-    >
-      <div>
-        <div className="search">
-          <Space>
-            <Input
-              placeholder="请输入客户名称"
-              style={{ width: 240 }}
-              // value={searchVal}
-              onChange={handleInputChange}
-            />
-          </Space>
-        </div>
-        <Table
-          rowSelection={{
-            type: "radio",
-            ...rowSelection,
+    <>
+      {open && (
+        <Modal
+          title="关联客户"
+          open={open}
+          onOk={() => getRowSelected(true, rowSelected)}
+          onCancel={() => getRowSelected(false)}
+          width={800}
+          destroyOnClose
+          bodyStyle={{
+            padding: "8px",
           }}
-          columns={columns}
-          dataSource={data}
-          loading={loading}
-          pagination={pageMsg.pagination}
-          rowKey={(record) => record.id}
-          onChange={handleTableChange}
-          onRow={(record) => {
-            return {
-              onClick: (event) => {
-                console.log(event);
-                console.log(record);
-                setRowSelected([record]);
+          style={{
+            top: "0px",
+          }}
+        >
+          <div>
+            <div className="search">
+              <Space>
+                <Input
+                  placeholder="请输入客户名称"
+                  style={{ width: 240 }}
+                  // value={searchVal}
+                  onChange={handleInputChange}
+                />
+              </Space>
+            </div>
+            <Table
+              rowSelection={{
+                type: "radio",
+                ...rowSelection,
+              }}
+              columns={columns}
+              dataSource={data}
+              loading={loading}
+              pagination={pageMsg.pagination}
+              rowKey={(record) => record.id}
+              onChange={handleTableChange}
+              onRow={(record) => {
+                return {
+                  onClick: (event) => {
+                    console.log(event);
+                    console.log(record);
+                    setRowSelected([record]);
 
-                setRowKey([record.id]);
-              }, // 点击行
-            };
-          }}
-        />
-      </div>
-    </Modal>
+                    setRowKey([record.id]);
+                  }, // 点击行
+                };
+              }}
+            />
+          </div>
+        </Modal>
+      )}
+    </>
   );
 }
 

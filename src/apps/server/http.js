@@ -115,7 +115,7 @@ export const _post = ({ url, data }) => {
   });
 };
 
-export const _download = (url, data, title) => {
+export const _download = ({ url, data, title }) => {
   let nowDate = new Date();
   let day = nowDate.getDate();
   let month = nowDate.getMonth() + 1;

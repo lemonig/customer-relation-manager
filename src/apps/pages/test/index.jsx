@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Space, Table, Tag, Button, Modal, Form, Input } from "antd";
 import EChartsReact from "echarts-for-react";
 import * as ReactDOM from "react-dom";
+import MyTimePicker from "@Components/MyTimePicker";
 
 const columns = [
   {
@@ -185,19 +186,19 @@ function Test() {
   console.log(textA.substring(1, textA.length - 2));
   return (
     <div>
-      {/* <Table columns={columns} dataSource={data} />
+      <Table columns={columns} dataSource={data} />
       <Button type="primary" onClick={() => setIsModalOpen(true)}>
         Primary Button
       </Button>
       <Button onClick={() => setIsModalOpen(true)}>Primary Button</Button>
-      <EChartsReact option={getOption()} /> */}
+      <EChartsReact option={getOption()} lazyUpdate={true} />
+      <MyTimePicker />
       <div
         dangerouslySetInnerHTML={{
           __html: textA,
         }}
       />
       {React.createElement("div", { className: "sidebar" }, "Click Me")}
-
       <Button
         onClick={async () => {
           let arr = [];
@@ -214,7 +215,6 @@ function Test() {
       >
         渲染
       </Button>
-
       {flag && list.map((item) => <ImgItem id={item} key={item} />)}
       {/* 弹出表单 */}
       <Modal

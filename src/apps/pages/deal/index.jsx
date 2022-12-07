@@ -28,7 +28,6 @@ function Deal() {
 
   useLayoutEffect(() => {
     const abortController = new AbortController();
-    ("xxx");
     hadleData();
     // return () => abortController.abort();
   }, []);

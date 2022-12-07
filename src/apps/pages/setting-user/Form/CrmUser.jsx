@@ -16,7 +16,7 @@ import { userList } from "@Api/set_user.js";
 
 const { Option } = Select;
 
-function LinkCustomer({ open, getRowSelected, defaultId }) {
+function CrmUser({ open, getRowSelected, defaultId, title }) {
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -54,54 +54,36 @@ function LinkCustomer({ open, getRowSelected, defaultId }) {
     // FIXME 分页信息异步了
     // getPageData();
   };
-  const getPageData = () => {
+  const getPageData = async () => {
     setLoading(true);
-    userList({
+    let res = await userList({
       page: pageMsg.pagination.current,
       size: pageMsg.pagination.pageSize,
       data: {
         name: searchVal,
       },
-    }).then((res) => {
-      setData(res.data);
-      setLoading(false);
-      setPagemsg({
-        ...pageMsg,
-        pagination: {
-          ...pageMsg.pagination,
-          total: res.additional_data.pagination.total,
-        },
-      });
+    });
+    setData(res.data);
+    setLoading(false);
+    setPagemsg({
+      ...pageMsg,
+      pagination: {
+        ...pageMsg.pagination,
+        total: res.additional_data.pagination.total,
+      },
     });
   };
 
   const columns = [
-    // {
-    //   title: "状态",
-    //   key: "status",
-    //   dataIndex: "status",
-    //   width: 100,
-    //   render: (status) => {
-    //     return (
-    //       <>
-    //         {status == 1 ? (
-    //           <Badge status="success" text="已激活" />
-    //         ) : (
-    //           <Badge status="error" text="禁用" />
-    //         )}
-    //       </>
-    //     );
-    //   },
-    // },
     {
       title: "姓名",
       key: "nickname",
       render: (row) => {
         return (
-          <>
+          <Space>
             {row.nickname}
             {row.isDeptOwner ? <Tag color="warning">负责人</Tag> : null}
-          </>
+          </Space>
         );
       },
     },
@@ -111,26 +93,13 @@ function LinkCustomer({ open, getRowSelected, defaultId }) {
       dataIndex: "phone",
       key: "phone",
     },
-    // {
-    //   title: "性别",
-    //   dataIndex: "sex",
-    //   key: "sex",
-    // },
-    // {
-    //   title: "邮箱",
-    //   dataIndex: "email",
-    //   key: "email",
-    // },
+
     {
       title: "部门",
       dataIndex: "deptName",
       key: "deptName",
     },
-    // {
-    //   title: "岗位",
-    //   dataIndex: "updateTime",
-    //   key: "updateTime",
-    // },
+
     {
       title: "直接上级",
       dataIndex: "leaderName",
@@ -140,6 +109,14 @@ function LinkCustomer({ open, getRowSelected, defaultId }) {
       title: "角色",
       dataIndex: "roleName",
       key: "roleName",
+      ellipsis: {
+        showTitle: false,
+      },
+      render: (roleName) => (
+        <Tooltip placement="topLeft" title={roleName}>
+          {roleName}
+        </Tooltip>
+      ),
     },
   ];
 
@@ -180,7 +157,7 @@ function LinkCustomer({ open, getRowSelected, defaultId }) {
 
   return (
     <Modal
-      title="直接上级"
+      title={title ?? "直接上级"}
       open={open}
       onOk={() => getRowSelected(true, rowSelected)}
       onCancel={() => getRowSelected(false)}
@@ -229,4 +206,4 @@ function LinkCustomer({ open, getRowSelected, defaultId }) {
   );
 }
 
-export default LinkCustomer;
+export default CrmUser;

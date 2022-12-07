@@ -42,6 +42,7 @@ function SettingSaleStage() {
 
   const getPageData = async () => {
     setLoading(true);
+    console.log(pipelineId);
     let { data } = await saleStageList({ pipelineId });
     setData(data);
     setLoading(false);
@@ -239,6 +240,13 @@ function SettingSaleStage() {
                 },
               ]}
             ></Select>
+          </Form.Item>
+          <Form.Item label="排序" name="orderNr">
+            <InputNumber
+              min={1}
+              max={10000}
+              formatter={(value) => Math.floor(value)}
+            />
           </Form.Item>
         </Form>
       </Modal>

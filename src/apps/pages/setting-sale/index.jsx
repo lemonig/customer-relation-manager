@@ -130,8 +130,7 @@ function SettingSale() {
       ),
       onCell: (record) => ({
         onClick: (event) => {
-          console.log(record);
-          gotoSaleStage(record);
+          gotoSaleStage(record.id);
         },
       }),
     },

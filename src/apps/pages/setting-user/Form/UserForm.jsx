@@ -34,6 +34,7 @@ function UserForm({ isModalOpen, closeModal, treeData, userData }) {
   const [roleList, setRoleList] = useState([]);
   const [linkModalOpen, setLinkModalOpen] = useState(false); //直接上级
   const [linkSelected, setLinkSelected] = useState({}); //直接上级
+  const [selectedStaff, setSelectedStaff] = useState({});
 
   const [form] = Form.useForm(); //员工
   // if (userData) {
@@ -71,7 +72,7 @@ function UserForm({ isModalOpen, closeModal, treeData, userData }) {
     await form.validateFields();
     const values = form.getFieldsValue();
     setLoading(true);
-    if (userData.id) {
+    if (userData?.id) {
       // 编辑员工
       values.id = userData.id;
       let { success, message: msg } = await userUpdate(values);
@@ -83,7 +84,9 @@ function UserForm({ isModalOpen, closeModal, treeData, userData }) {
       }
     } else {
       // 新建员工
-
+      // 加上nickname 和openiD
+      values.username = selectedStaff.username;
+      values.openId = selectedStaff.openId;
       let { success, message: msg } = await userAdd(values);
       if (success) {
         message.success("提交成功");
@@ -107,9 +110,10 @@ function UserForm({ isModalOpen, closeModal, treeData, userData }) {
     form.setFieldsValue({
       ...option,
       nickname: option.name,
-      openId: option.openId,
+      // openId: option.openId,
       deptId: "",
     });
+    setSelectedStaff(option);
   };
 
   const modalClosed = () => {
@@ -183,7 +187,7 @@ function UserForm({ isModalOpen, closeModal, treeData, userData }) {
               </Form.Item>
             </Col>
           </Row>
-          <Row gutter={24}>
+          {/* <Row gutter={24}>
             <Col span={12}>
               <Form.Item label="openId" name="openId">
                 <Input placeholder="请输入" disabled />
@@ -194,32 +198,7 @@ function UserForm({ isModalOpen, closeModal, treeData, userData }) {
                 <Input placeholder="请输入" disabled />
               </Form.Item>
             </Col>
-            {/* <Col span={12}>
-              <Form.Item
-                label="登录密码"
-                name="password"
-                rules={[{ required: true, message: "请输入登录密码!" }]}
-              >
-                <Input placeholder="请输入" />
-              </Form.Item>
-            </Col> */}
-            {/* <Col span={12}>
-              <Form.Item label="性别" name="password">
-                <Select
-                  options={[
-                    {
-                      value: "1",
-                      label: "男",
-                    },
-                    {
-                      value: "2",
-                      label: "女",
-                    },
-                  ]}
-                />
-              </Form.Item>
-            </Col> */}
-          </Row>
+          </Row> */}
           <Row gutter={24}>
             <Col span={12}>
               <Form.Item label="邮箱" name="email">
@@ -239,7 +218,6 @@ function UserForm({ isModalOpen, closeModal, treeData, userData }) {
                     overflow: "auto",
                   }}
                   placeholder="请选择"
-                  allowClear
                   treeDefaultExpandAll
                   treeData={treeData}
                   fieldNames={{ label: "name", value: "id" }}
@@ -261,6 +239,7 @@ function UserForm({ isModalOpen, closeModal, treeData, userData }) {
                   dropdownStyle={{
                     display: "none",
                   }}
+                  allowClear
                   autoFocus
                   options={[
                     {
@@ -291,11 +270,13 @@ function UserForm({ isModalOpen, closeModal, treeData, userData }) {
         </Form>
       </Modal>
       {/* 直接上级 */}
-      <CrmUser
-        open={linkModalOpen}
-        getRowSelected={getRowSelected}
-        defaultId={linkSelected.id}
-      />
+      {linkModalOpen ? (
+        <CrmUser
+          open={linkModalOpen}
+          getRowSelected={getRowSelected}
+          defaultId={linkSelected.id}
+        />
+      ) : null}
     </>
   );
 }

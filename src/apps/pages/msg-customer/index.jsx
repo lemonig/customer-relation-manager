@@ -278,6 +278,7 @@ function MsgCustomer() {
   //获取许诸南泽的客户公司
   const getRowSelected = (confirm, row) => {
     if (confirm) {
+      console.log("confirm");
       form.setFieldValue("orgId", row[0].id);
       setLinkSelected(row[0]);
     }
@@ -310,6 +311,7 @@ function MsgCustomer() {
         onChange={handleTableChange}
       />
       {/* 弹出表单 */}
+
       <Modal
         title={operateId ? "编辑" : "新建"}
         open={isModalOpen}
@@ -379,26 +381,6 @@ function MsgCustomer() {
                 },
               ]}
             />
-
-            {/* <Button icon={<DownOutlined />} onClick={showLinkModal}>
-              {linkSelected.name ?? "请选择"}{" "}
-            </Button> */}
-            {/* <Space>
-              <Form.Item name="orgName" noStyle>
-                <Input
-                  placeholder="选择"
-                  disabled
-                  style={{
-                    width: 160,
-                  }}
-                />
-              </Form.Item>
-              <Tooltip title="点击选择客户联系人">
-                <Typography.Link onClick={showLinkModal}>
-                  选择客户
-                </Typography.Link>
-              </Tooltip>
-            </Space> */}
           </Form.Item>
 
           <Form.Item label="部门" name="department">
@@ -433,11 +415,13 @@ function MsgCustomer() {
           </Form.Item>
         </Form>
       </Modal>
-      <LinkCustomer
-        open={linkModalOpen}
-        getRowSelected={getRowSelected}
-        defaultId={linkSelected.id}
-      />
+      {linkModalOpen && (
+        <LinkCustomer
+          open={linkModalOpen}
+          getRowSelected={getRowSelected}
+          defaultId={linkSelected.id}
+        />
+      )}
     </div>
   );
 }
