@@ -1,10 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  useParams,
-  useSearchParams,
-  useNavigate,
-  useLocation,
-} from "react-router-dom";
+import { useParams, useSearchParams } from "react-router-dom";
 import {
   Card,
   Avatar,
@@ -17,23 +12,13 @@ import {
   Form,
   Modal,
   Input,
-  Descriptions,
-  Progress,
 } from "antd";
 import { EllipsisOutlined } from "@ant-design/icons";
 import IconFont from "@Components/IconFont";
 import Stage from "./components/Stage/index";
 import "./index.less";
-import {
-  dealPage,
-  dealSingleGet,
-  dealList,
-  dealadd,
-  dealUpdate,
-  dealCodeGet,
-  dealChart,
-  dealExport,
-} from "@Api/deal_list";
+import LCard from "./components/Card"; //通用组件
+import PipeNote from "./components/PipeNote"; //业务组件
 
 const menu = (
   <Menu
@@ -81,27 +66,13 @@ const menu = (
 function DealDetail() {
   const params = useParams();
   const [getParams, setParam] = useSearchParams(); //第一个参数 getParams 获取 param 等 url  信息, 第二个参数 setParam 设置 url 等信息。
-  const pipelineId = getParams.getAll("pipelineId")[0];
+  const name = getParams.getAll("id");
   const [form] = Form.useForm();
   const [modalVisible, setModalVisible] = useState(false);
-  const [data, setData] = useState(null);
-
-  console.log(pipelineId);
-  useEffect(() => {
-    const getPageData = async () => {
-      let { data } = await dealSingleGet({
-        id: pipelineId,
-      });
-      console.log(data);
-      setData(data);
-    };
-    getPageData();
-  }, []);
 
   // 弹窗表单
   const handleFormOk = () => {};
   const handleFormCancel = () => {};
-
   return (
     <div className="detail-view-wrap">
       <div className="detail-view">
@@ -169,109 +140,12 @@ function DealDetail() {
         </Card>
         <div className="main-block">
           <div className="sidebar">
-            {data && (
-              <Card
-                // title="客户公司"
-                bordered={false}
-                className="l-card card-margin"
-                headStyle={{
-                  fontSize: "12px",
-                  color: "#721ea9",
-                  fontWeight: 600,
-                }}
-              >
-                {/* 基本信息 */}
-                <Descriptions title="基本信息" column={2}>
-                  <Descriptions.Item label="商机编号">
-                    {data.code}
-                  </Descriptions.Item>
-                  <Descriptions.Item label="项目名称">
-                    {data.title}
-                  </Descriptions.Item>
-                  <Descriptions.Item label="销售人员">
-                    {data.ownerUserName}
-                  </Descriptions.Item>
-                  <Descriptions.Item label="预计金额（元）">
-                    {data.value}
-                  </Descriptions.Item>
-                  <Descriptions.Item label="产品信息" span={2}>
-                    {data.productList.description}
-                  </Descriptions.Item>
-                  <Descriptions.Item label="备注" span={2}>
-                    {data.description}
-                  </Descriptions.Item>
-                  <Descriptions.Item label="销售阶段" span={2}>
-                    <Stage msg={data.pipelineDetailList} />
-                  </Descriptions.Item>
-                  <Descriptions.Item label="信心指数" span={2}>
-                    <Progress
-                      percent={data.probability}
-                      status="active"
-                      strokeWidth={20}
-                    />
-                  </Descriptions.Item>
-                  <Descriptions.Item label="商机状态" span={2}>
-                    {data.status}
-                  </Descriptions.Item>
-                </Descriptions>
-                {/* 信息维护 */}
-                <Descriptions title="信息维护" column={2}>
-                  <Descriptions.Item label="客户名称">
-                    {data.organization.name}
-                  </Descriptions.Item>
-                  <Descriptions.Item label="最终用户">
-                    {data.code}
-                  </Descriptions.Item>
-                  <Descriptions.Item label="主要联系人" span={2}>
-                    {data.personList.name}
-                  </Descriptions.Item>
-                  <Descriptions.Item label="招标公司">
-                    {data.code}
-                  </Descriptions.Item>
-                  <Descriptions.Item label="联系人">
-                    {data.biddingAgency.name}
-                  </Descriptions.Item>
-                  <Descriptions.Item label="合作伙伴">
-                    {data.partnerList.name}
-                  </Descriptions.Item>
-                  <Descriptions.Item label="联系人">
-                    {data.biddingAgency.partnerPersonName}
-                  </Descriptions.Item>
-                  {data.competitorList.map((item) => (
-                    <>
-                      <Descriptions.Item label="竞争对手" span={2}>
-                        {item.competitorName}
-                      </Descriptions.Item>
-                      <Descriptions.Item label="优劣势分析" span={2}>
-                        {item.description}
-                      </Descriptions.Item>
-                    </>
-                  ))}
-                </Descriptions>
-              </Card>
-            )}
+            <LCard></LCard>
+            <LCard></LCard>
+            <LCard></LCard>
           </div>
           <div className="content">
-            <Card
-              title="销售计划"
-              bordered={false}
-              className="l-card card-margin"
-              headStyle={{
-                fontSize: "12px",
-                color: "#721ea9",
-                fontWeight: 600,
-              }}
-            ></Card>
-            <Card
-              title="工作日志"
-              bordered={false}
-              className="l-card card-margin"
-              headStyle={{
-                fontSize: "12px",
-                color: "#721ea9",
-                fontWeight: 600,
-              }}
-            ></Card>
+            <PipeNote />
           </div>
         </div>
       </div>

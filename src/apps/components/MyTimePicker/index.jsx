@@ -1,18 +1,19 @@
 import React, { useState, useEffect } from "react";
 import { DatePicker, Space, Select } from "antd";
 import { ClockCircleOutlined } from "@ant-design/icons";
-import dayjs from "dayjs";
+import moment from "moment";
 
 function MyTimePicker({ value = {}, onChange }) {
-  const [date, setDate] = useState();
+  const [date, setDate] = useState(moment());
   const [time, setTime] = useState("0000");
-  // TODO日期填充报错
+  // TODO日期填充报错 因change 所以产生了 受控组件，triger的时候 格式变化了，所以导致datepicker返回的时候不是时间了，加个时间格式化就可
+  console.log(moment().minutes());
+  console.log(moment().hours());
+  console.log(moment().format("HHmm"));
   useEffect(() => {
-    console.log(dayjs());
+    console.log(value);
     if (Reflect.has(value, "date")) {
-      console.log(value);
-      // setDate(dayjs(value.date).format());
-      setDate(value.date);
+      setDate(moment(value.date));
       setTime(value.time);
     }
   }, [JSON.stringify(value)]);
@@ -43,11 +44,11 @@ function MyTimePicker({ value = {}, onChange }) {
     // if (Number.isNaN(date)) {
     //   return;
     // }
-    // if (!("date" in value)) {
-    //   setDate(date);
-    // }
+    if (!("date" in value)) {
+      setDate(date);
+    }
     triggerChange({
-      date: dayjs(date).format("YYYYMMDD"),
+      date: moment(date).format("YYYYMMDD"),
     });
   };
 
@@ -62,7 +63,7 @@ function MyTimePicker({ value = {}, onChange }) {
   };
   return (
     <Space>
-      <DatePicker onChange={onDateChange} value={date} />
+      <DatePicker onChange={onDateChange} value={date} allowClear={false} />
       <Select
         suffixIcon={<ClockCircleOutlined />}
         placeholder="请选择时间"

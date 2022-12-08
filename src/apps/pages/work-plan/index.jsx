@@ -9,11 +9,11 @@ import {
   PageHeader,
   DatePicker,
 } from "antd";
-import { actPage, actDelete, actExport } from "@Api/act_adm.js";
+import { actPage, actDelete, actExport, actUpdate } from "@Api/act_adm.js";
 import { ExclamationCircleOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 import ActForm from "./Form/ActForm";
-import dayjs from "dayjs";
+import moment from "moment";
 import { activeList } from "@Api/set_active.js";
 import IconFont from "@Components/IconFont";
 import "./index.less";
@@ -51,17 +51,42 @@ function WorkPlan() {
     }));
     setActiveData(list);
   };
+  //转变完成状态
+  const handleChangeOver = async (id, val) => {
+    let { success, message: msg } = await actUpdate({
+      id: id,
+      done: !val,
+    });
+    if (success) {
+      message.success("更新成功！");
+      search();
+    } else {
+      message.error(msg);
+    }
+  };
 
   const columns = [
     {
       title: "完成",
       dataIndex: "done",
       key: "done",
-      render: (down) =>
+      render: (down, record) =>
         down ? (
-          <IconFont iconName="wancheng" />
+          <IconFont
+            iconName="wancheng"
+            color="#DEDEDE"
+            style={{ cursor: "pointer" }}
+            size={18}
+            onClick={() => handleChangeOver(record.id, down)}
+          />
         ) : (
-          <IconFont iconName="weikao" />
+          <IconFont
+            iconName="weikao"
+            color="#DEDEDE"
+            style={{ cursor: "pointer" }}
+            size={16}
+            onClick={() => handleChangeOver(record.id, down)}
+          />
         ),
     },
 
@@ -100,6 +125,11 @@ function WorkPlan() {
       title: "客户联系人",
       dataIndex: "personName",
       key: "personName",
+    },
+    {
+      title: "联系人电话",
+      dataIndex: "phone",
+      key: "phone",
     },
     {
       title: "任务开始时间",
@@ -186,11 +216,11 @@ function WorkPlan() {
         : undefined,
       data: {
         name: searchVal,
-        beginTime: searchTime.length
-          ? dayjs(searchTime[0]).format("YYYYMMDD")
+        beginTime: searchTime?.length
+          ? moment(searchTime[0]).format("YYYYMMDD")
           : undefined,
-        endTime: searchTime.length
-          ? dayjs(searchTime[1]).format("YYYYMMDD")
+        endTime: searchTime?.length
+          ? moment(searchTime[1]).format("YYYYMMDD")
           : undefined,
         userIdList: undefined,
         typeIdList: pageMsg?.filters?.typeName,
@@ -214,7 +244,7 @@ function WorkPlan() {
     Modal.confirm({
       title: "提示",
       icon: <ExclamationCircleOutlined />,
-      content: "这些员工账号将被禁用, 是否继续?",
+      content: "是否删除?",
       okText: "确认",
       cancelText: "取消",
       onOk: async () => {
@@ -285,10 +315,12 @@ function WorkPlan() {
   };
   //导出
   const download = () => {
-    actExport({
-      idList: selectedRowKeys,
-      title: "销售计划",
-    });
+    actExport(
+      {
+        idList: selectedRowKeys,
+      },
+      "任务导出"
+    );
   };
 
   return (
@@ -298,7 +330,7 @@ function WorkPlan() {
         <Space>
           <Input
             placeholder="请输入商机名称、任务编号、任务名称、客户公司"
-            style={{ width: 240 }}
+            style={{ width: 300 }}
             // value={searchVal}
             onChange={handleInputChange}
           />
@@ -328,11 +360,18 @@ function WorkPlan() {
         pagination={pageMsg.pagination}
         rowKey={(record) => record.id}
         onChange={handleTableChange}
+        title={() => (
+          <p style={{ textAlign: "right", fontSize: "16px" }}>
+            共{pageMsg.pagination.total}项数据
+          </p>
+        )}
+        onHeaderCell={() => "onHeaderCell"}
         rowClassName={(record, index) => {
           if (record.status == 1) {
-            return "green";
           } else if (record.status == 3) {
             return "red";
+          } else if (record.status == 2) {
+            return "gray";
           } else {
           }
         }}

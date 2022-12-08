@@ -15,7 +15,7 @@ import {
 } from "antd";
 import { ExclamationCircleOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
-import dayjs from "dayjs";
+import moment from "moment";
 import {
   dealPage,
   dealSingleGet,
@@ -84,8 +84,8 @@ function DealList() {
     setLoading(true);
     let values = searchForm.getFieldsValue();
     if (Array.isArray(values?.time) && values?.time.length > 0) {
-      values.beginTime = dayjs(values.time[0]).format("YYYYMMDD");
-      values.endTime = dayjs(values.time[1]).format("YYYYMMDD");
+      values.beginTime = moment(values.time[0]).format("YYYYMMDD");
+      values.endTime = moment(values.time[1]).format("YYYYMMDD");
     }
     console.log(values);
     if (values.valueList) {
@@ -197,7 +197,7 @@ function DealList() {
 
   const gotoDealDetail = (id) => {
     navigate({
-      pathname: "/settingSaleStage",
+      pathname: "/pipeline",
       search: `?pipelineId=${id}`,
     });
   };

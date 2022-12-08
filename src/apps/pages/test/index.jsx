@@ -1,5 +1,14 @@
 import React, { useState } from "react";
-import { Space, Table, Tag, Button, Modal, Form, Input } from "antd";
+import {
+  Space,
+  Table,
+  Tag,
+  Button,
+  Modal,
+  Form,
+  Input,
+  DatePicker,
+} from "antd";
 import EChartsReact from "echarts-for-react";
 import * as ReactDOM from "react-dom";
 import MyTimePicker from "@Components/MyTimePicker";
@@ -89,11 +98,15 @@ function Test() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [flag, setFalag] = useState(false);
   const [list, setList] = useState([]);
-
+  const [form] = Form.useForm();
+  const [date, setDate] = useState();
   const showModal = () => {
     setIsModalOpen(true);
   };
-  const handleOk = () => {
+  const handleOk = async () => {
+    await form.validateFields();
+    const values = form.getFieldsValue();
+    console.log(values);
     setIsModalOpen(false);
   };
   const handleCancel = () => {
@@ -184,6 +197,17 @@ function Test() {
   };
   let textA = "<a>xxx</a>";
   console.log(textA.substring(1, textA.length - 2));
+
+  const onDateChange = (date, dateString) => {
+    console.log(date, dateString);
+    // if (Number.isNaN(date)) {
+    //   return;
+    // }
+    // if (!("date" in value)) {
+    //   setDate(date);
+    // }
+    setDate(date);
+  };
   return (
     <div>
       <Table columns={columns} dataSource={data} />
@@ -229,6 +253,7 @@ function Test() {
           labelCol={{ span: 4 }}
           wrapperCol={{ span: 16 }}
           autoComplete="off"
+          form={form}
         >
           <Form.Item
             label="Username"
@@ -244,6 +269,13 @@ function Test() {
             rules={[{ required: true, message: "Please input your password!" }]}
           >
             <Input.Password />
+          </Form.Item>
+          <Form.Item
+            label="Time"
+            name="time"
+            rules={[{ required: true, message: "Please input your password!" }]}
+          >
+            <DatePicker onChange={onDateChange} value={date} />
           </Form.Item>
         </Form>
       </Modal>

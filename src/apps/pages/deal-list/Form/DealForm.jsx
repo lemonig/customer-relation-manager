@@ -28,16 +28,23 @@ function DealForm({ isModalOpen, closeModal, data }) {
   const [customLink, setCustomerLink] = useState([]); //客户联系人
   const [pipeline, setPipeline] = useState([]); //销售流程
   const [pipelineStage, setPipelineStage] = useState([]); //销售流程阶段
+  const [productData, setProductData] = useState([]); //销售流程阶段
 
   useEffect(() => {
     getCustomerLink();
     getPlpeline();
+    getProductData();
   }, []);
 
   //获取客户公司
   const getCustomerLink = async () => {
     let { data } = await customerInfo();
     setCustomerLink(data);
+  };
+  //获取产品列表
+  const getProductData = async () => {
+    let { data } = await productList();
+    setProductData(data);
   };
 
   //销售流程
@@ -208,16 +215,11 @@ function DealForm({ isModalOpen, closeModal, data }) {
           <Form.Item label="产品信息" name="productList">
             <Select
               placeholder="请选择"
-              options={[
-                {
-                  value: 1,
-                  label: "男",
-                },
-                {
-                  value: 2,
-                  label: "女",
-                },
-              ]}
+              fieldNames={{
+                label: "name",
+                value: "id",
+              }}
+              options={productData}
             />
           </Form.Item>
 

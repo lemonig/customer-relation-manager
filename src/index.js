@@ -10,12 +10,9 @@ import { ConfigProvider } from "antd";
 import zhCN from "antd/lib/locale/zh_CN";
 import { Provider } from "react-redux";
 import store from "./store/index";
-import dayjs from "dayjs";
-import isLeapYear from "dayjs/plugin/isLeapYear"; // 导入插件
-import "dayjs/locale/zh-cn"; // 导入本地化语言
-
-dayjs.extend(isLeapYear); // 使用插件
-dayjs.locale("zh-cn"); // 使用本地化语言
+import moment from "moment";
+import "moment/locale/zh-cn";
+moment.locale("zh-cn");
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 

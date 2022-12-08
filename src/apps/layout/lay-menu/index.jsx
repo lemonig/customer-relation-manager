@@ -15,8 +15,8 @@ import IconFont from "@Components/IconFont";
 import { useDispatch, useSelector } from "react-redux";
 import { handleMenu } from "@Utils/menu";
 import { useNavigate } from "react-router-dom";
+import logo from "../../../assets/image/logo.png";
 const { Header, Content, Footer, Sider } = Layout;
-
 // function getItem(label, key, icon, children, type) {
 //   return {
 //     key,
@@ -85,7 +85,8 @@ function LayMenu() {
         style={{ background: "#1b1a40", color: "#fff" }}
       >
         <div className="logo">
-          <IconFont iconName="crm" size="24"></IconFont>
+          {/* <IconFont iconName="crm" size="24"></IconFont> */}
+          <img src={logo} alt="logo" height={50} />
         </div>
         <Menu
           theme="dark"

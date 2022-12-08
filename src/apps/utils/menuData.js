@@ -38,7 +38,6 @@ const menu = [
   {
     key: 4,
     id: 4,
-    pid: 2,
     path: "/pipeline",
     name: "pipeline",
     component: "deal-detail",

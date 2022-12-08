@@ -19,7 +19,7 @@ import LinkBusiness from "@Shared/LinkBusiness";
 import LinkCustomer from "@Shared/LinkCustomer";
 import { activeList } from "@Api/set_active.js";
 import { customerInfo } from "@Api/info_customer.js";
-import dayjs from "dayjs";
+import moment from "moment";
 import MyTimePicker from "@Components/MyTimePicker";
 
 function ActForm({ isModalOpen, record, closeModal }) {
@@ -41,8 +41,8 @@ function ActForm({ isModalOpen, record, closeModal }) {
     await getCustomerLink();
     if (record) {
       //编辑
-      record.endTimeDto.date = dayjs(record.endTimeDto.date);
-      record.startTimeDto.date = dayjs(record.endTimeDto.date);
+      record.endTimeDto.date = moment(record.endTimeDto.date);
+      record.startTimeDto.date = moment(record.endTimeDto.date);
       console.log(record);
 
       setLinkSelected({
@@ -99,8 +99,8 @@ function ActForm({ isModalOpen, record, closeModal }) {
     await form.validateFields();
     const values = form.getFieldsValue();
     console.log(values);
-    values.startTime = dayjs(values.startTime).format("YYYYMMDD");
-    values.endTime = dayjs(values.endTime).format("YYYYMMDD");
+    values.startTime = moment(values.startTime).format("YYYYMMDD");
+    values.endTime = moment(values.endTime).format("YYYYMMDD");
     setLoading(true);
     // 编辑
     if (record?.id) {
@@ -141,13 +141,14 @@ function ActForm({ isModalOpen, record, closeModal }) {
           labelCol={{ span: 6 }}
           wrapperCol={{ span: 18 }}
           autoComplete="off"
-          initialValues={{
-            orgType: "1",
-            // startTimeDto: {
-            //   date: "2021-12-08",
-            //   time: "0030",
-            // },
-          }}
+          initialValues={
+            {
+              // startTimeDto: {
+              //   date: "2021-12-08",
+              //   time: "0030",
+              // },
+            }
+          }
           form={form}
         >
           <Form.Item
@@ -163,7 +164,7 @@ function ActForm({ isModalOpen, record, closeModal }) {
               options={actData}
             />
           </Form.Item>
-          <Form.Item label="任务主题" name="name">
+          <Form.Item label="任务主题" name="subject">
             <Input placeholder="请输入" />
           </Form.Item>
 
@@ -246,7 +247,14 @@ function ActForm({ isModalOpen, record, closeModal }) {
               options={customLink}
             />
           </Form.Item>
-          <Form.Item name="done" wrapperCol={{ offset: 6, span: 16 }}>
+          <Form.Item label="联系电话" name="phone">
+            <Input placeholder="请输入" />
+          </Form.Item>
+          <Form.Item
+            name="done"
+            valuePropName="checked"
+            wrapperCol={{ offset: 6, span: 16 }}
+          >
             <Checkbox>标记为已完成</Checkbox>
           </Form.Item>
         </Form>

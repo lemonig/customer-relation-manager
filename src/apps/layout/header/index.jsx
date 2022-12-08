@@ -136,7 +136,9 @@ const Header = ({ message }) => {
       <div className="page-title">
         <div className="title" onClick={gotoHome}>
           {/* <img width={25} src={biaoti} alt="" /> */}
-          <span style={{ fontSize: "22px", marginLeft: "8px" }}>CRM</span>
+          <span style={{ fontSize: "22px", marginLeft: "8px" }}>
+            杭州绿洁销售管理系统
+          </span>
         </div>
 
         <div className="title-wrap">
