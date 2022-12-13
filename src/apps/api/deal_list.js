@@ -56,3 +56,61 @@ export function dealExport(data, title) {
     title,
   });
 }
+
+// 终止
+export function terminate(data) {
+  return _post({
+    url: `/api/deal/action/terminate`,
+    data,
+  });
+}
+// 丢单
+export function lose(data) {
+  return _post({
+    url: `/api/deal/action/lose`,
+    data,
+  });
+}
+// 赢单
+export function win(data) {
+  return _post({
+    url: `/api/deal/action/win`,
+    data,
+  });
+}
+// 转移
+export function transfer(data) {
+  return _post({
+    url: `/api/deal/action/transfer`,
+    data,
+  });
+}
+// 批准完成
+export function complete(data) {
+  return _post({
+    url: `/api/deal/approve/complete`,
+    data,
+  });
+}
+// 批准拒绝
+export function reject(data) {
+  return _post({
+    url: `/api/deal/approve/reject`,
+    data,
+  });
+}
+// 审批分页获取
+export function approvalPage(data) {
+  return _post({
+    url: `/api/deal/approve/page`,
+    data,
+  });
+}
+// 审批导出
+export function Approvalexport(data, title) {
+  return _post({
+    url: `/api/deal/approve/export`,
+    data,
+    title,
+  });
+}

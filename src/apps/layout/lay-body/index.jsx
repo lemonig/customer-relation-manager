@@ -9,11 +9,11 @@ function BodyLayout() {
   const { Content, Footer, Sider } = Layout;
   return (
     <div>
+      <Header />
       <section className="body-flex">
         <LayMenu />
         <section style={{ width: "100%" }}>
           {/* 标题 */}
-          <Header />
           {/* 主体内容 */}
           <section className="body-main-content">
             <div id="default_content_warp">

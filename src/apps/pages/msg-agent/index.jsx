@@ -22,13 +22,14 @@ import { tianyancha } from "@Api/public.js";
 import { ExclamationCircleOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 import { organize } from "@Utils/data";
+import FormAgent from "./components/FormAgent";
 const { Option } = Select;
 
 function MsgAgent() {
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [operateId, setOperateId] = useState(null); //正在操作id
+  const [operate, setOperate] = useState(null); //正在操作
   const [pageMsg, setPagemsg] = useState({
     pagination: {
       current: 1,
@@ -105,49 +106,15 @@ function MsgAgent() {
   };
   // 新建
   const handleAdd = () => {
-    form.resetFields();
+    setOperate(null);
     setIsModalOpen(true);
   };
   // 编辑
   const handleEdit = (record) => {
-    setOperateId(record.id);
-    form.setFieldsValue(record);
+    setOperate(record);
     setIsModalOpen(true);
   };
 
-  const handleOk = async () => {
-    await form.validateFields();
-    const values = form.getFieldsValue();
-    setLoading(true);
-    // 编辑
-    if (operateId) {
-      values.id = operateId;
-      let { success, message: msg } = await agentUpdate(values);
-      if (success) {
-        message.success("提交成功");
-        setIsModalOpen(false);
-      } else {
-        message.error(msg);
-      }
-      setOperateId(null);
-    } else {
-      let { success, message: msg } = await agentAdd(values);
-      if (success) {
-        message.success("提交成功");
-        setIsModalOpen(false);
-      } else {
-        message.error(msg);
-      }
-    }
-    // 添加
-    getPageData();
-    setLoading(false);
-  };
-
-  // 弹窗取消
-  const handleCancel = () => {
-    setIsModalOpen(false);
-  };
   const gotoLink = (record) => {
     navigate({
       pathname: "/msgAgentLink",
@@ -261,6 +228,11 @@ function MsgAgent() {
       ...option,
       orgType: option.companyType,
     });
+  }; //表单回调
+  const closeModal = (flag) => {
+    // flag 确定还是取消
+    setIsModalOpen(false);
+    if (flag) getPageData();
   };
 
   return (
@@ -290,84 +262,15 @@ function MsgAgent() {
         onChange={handleTableChange}
       />
       {/* 弹出表单 */}
-      <Modal
-        title={operateId ? "编辑" : "新建"}
-        open={isModalOpen}
-        onOk={handleOk}
-        onCancel={handleCancel}
-        maskClosable={false}
-      >
-        <Form
-          name="basic"
-          labelCol={{ span: 6 }}
-          wrapperCol={{ span: 18 }}
-          autoComplete="off"
-          initialValues={{
-            orgType: "1",
-          }}
-          form={form}
-        >
-          <Form.Item
-            label="公司名称"
-            name="name"
-            rules={[{ required: true, message: "请输入公司名称!" }]}
-          >
-            <Select
-              showSearch
-              placeholder="请输入"
-              defaultActiveFirstOption={false}
-              showArrow={false}
-              filterOption={false}
-              onSearch={handleSearch}
-              onChange={handleChange}
-              notFoundContent={null}
-              fieldNames={{
-                label: "name",
-                value: "creditCode",
-              }}
-              options={tycList}
-            />
-          </Form.Item>
-          <Form.Item label="机构类型" name="orgType">
-            <Select
-              placeholder="请选择机构"
-              options={organize}
-              disabled
-            ></Select>
-          </Form.Item>
-          <Form.Item label="统一社会信用代码" name="creditCode">
-            <Input disabled placeholder="请输入" />
-          </Form.Item>
-          <Form.Item label="地址" name="address">
-            <Input placeholder="请输入" />
-          </Form.Item>
-
-          <Form.Item label="备注" name="description">
-            <Input.TextArea placeholder="请输入" />
-          </Form.Item>
-        </Form>
-      </Modal>
+      {isModalOpen && (
+        <FormAgent
+          open={isModalOpen}
+          closeModal={closeModal}
+          record={operate}
+        />
+      )}
     </div>
   );
 }
 
 export default MsgAgent;
-let timeout;
-let currentValue;
-
-const fetch = (value, callback) => {
-  if (timeout) {
-    clearTimeout(timeout);
-    timeout = null;
-  }
-  currentValue = value;
-  const fake = async () => {
-    let { data } = await tianyancha({
-      keyword: value,
-    });
-    if (currentValue === value) {
-      callback(data);
-    }
-  };
-  timeout = setTimeout(fake, 300);
-};

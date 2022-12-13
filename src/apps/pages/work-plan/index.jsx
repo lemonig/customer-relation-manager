@@ -128,8 +128,8 @@ function WorkPlan() {
     },
     {
       title: "联系人电话",
-      dataIndex: "phone",
-      key: "phone",
+      dataIndex: "personPhone",
+      key: "personPhone",
     },
     {
       title: "任务开始时间",
@@ -361,9 +361,9 @@ function WorkPlan() {
         rowKey={(record) => record.id}
         onChange={handleTableChange}
         title={() => (
-          <p style={{ textAlign: "right", fontSize: "16px" }}>
+          <div style={{ textAlign: "right", fontSize: "12px" }}>
             共{pageMsg.pagination.total}项数据
-          </p>
+          </div>
         )}
         onHeaderCell={() => "onHeaderCell"}
         rowClassName={(record, index) => {

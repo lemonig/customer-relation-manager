@@ -418,12 +418,14 @@ function DealList() {
           </Form.Item>
           <Form.Item label="" name="pipelineId">
             <Select
+              style={{ width: 120 }}
               placeholder="销售流程"
               fieldNames={{
                 label: "name",
                 value: "id",
               }}
               options={pipeline}
+              allowClear
             />
           </Form.Item>
           <Form.Item label="" name="deparment">
@@ -458,19 +460,19 @@ function DealList() {
               options={[
                 {
                   label: "1000万以上",
-                  value: "1000",
+                  value: "10000000",
                 },
                 {
                   label: "500~1000万",
-                  value: "500,1000",
+                  value: "5000000,10000000",
                 },
                 {
                   label: "100~500万",
-                  value: "100,500",
+                  value: "1000000,5000000",
                 },
                 {
                   label: "0~100万",
-                  value: "0,100",
+                  value: "0,1000000",
                 },
               ]}
               placeholder="预计金额"

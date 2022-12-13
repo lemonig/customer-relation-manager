@@ -21,6 +21,7 @@ import { activeList } from "@Api/set_active.js";
 import { customerInfo } from "@Api/info_customer.js";
 import moment from "moment";
 import MyTimePicker from "@Components/MyTimePicker";
+const { Option } = Select;
 
 function ActForm({ isModalOpen, record, closeModal }) {
   const [form] = Form.useForm();
@@ -42,7 +43,7 @@ function ActForm({ isModalOpen, record, closeModal }) {
     if (record) {
       //编辑
       record.endTimeDto.date = moment(record.endTimeDto.date);
-      record.startTimeDto.date = moment(record.endTimeDto.date);
+      record.startTimeDto.date = moment(record.startTimeDto.date);
       console.log(record);
 
       setLinkSelected({
@@ -71,7 +72,7 @@ function ActForm({ isModalOpen, record, closeModal }) {
 
   const getCustomerLink = async () => {
     let { data } = await customerInfo();
-    console.log(222);
+
     setCustomerLink(data);
   };
 
@@ -99,8 +100,12 @@ function ActForm({ isModalOpen, record, closeModal }) {
     await form.validateFields();
     const values = form.getFieldsValue();
     console.log(values);
-    values.startTime = moment(values.startTime).format("YYYYMMDD");
-    values.endTime = moment(values.endTime).format("YYYYMMDD");
+    values.startTime = moment(values.startTimeDto.date).format("YYYYMMDD");
+    values.endTime = moment(values.endTimeDto.date).format("YYYYMMDD");
+    values.endTimeDto.date = moment(values.endTimeDto.date).format("YYYYMMDD");
+    values.startTimeDto.date = moment(values.startTimeDto.date).format(
+      "YYYYMMDD"
+    );
     setLoading(true);
     // 编辑
     if (record?.id) {
@@ -124,7 +129,14 @@ function ActForm({ isModalOpen, record, closeModal }) {
     // 添加
     setLoading(false);
   };
-
+  // 选择人
+  const handleSelectPeople = (val) => {
+    console.log(val);
+    let res = customLink.find((ele) => ele.id === val);
+    if (res) {
+      form.setFieldValue("phone", res.phone);
+    }
+  };
   return (
     <>
       <Modal
@@ -187,7 +199,11 @@ function ActForm({ isModalOpen, record, closeModal }) {
             <Input placeholder="请输入" />
           </Form.Item>
 
-          <Form.Item label="参与人员" name="participantList">
+          <Form.Item
+            label="参与人员"
+            name="participantList"
+          
+          >
             <Select
               mode="multiple"
               fieldNames={{
@@ -195,6 +211,7 @@ function ActForm({ isModalOpen, record, closeModal }) {
                 value: "id",
               }}
               options={customLink}
+              optionFilterProp="name"
             />
           </Form.Item>
           <Form.Item label="任务描述" name="description">
@@ -247,9 +264,7 @@ function ActForm({ isModalOpen, record, closeModal }) {
               options={customLink}
             />
           </Form.Item>
-          <Form.Item label="联系电话" name="phone">
-            <Input placeholder="请输入" />
-          </Form.Item>
+
           <Form.Item
             name="done"
             valuePropName="checked"

@@ -263,6 +263,7 @@ function UserForm({ isModalOpen, closeModal, treeData, userData }) {
                   mode="multiple"
                   showArrow
                   fieldNames={{ label: "name", value: "id" }}
+                  optionFilterProp="name"
                 />
               </Form.Item>
             </Col>

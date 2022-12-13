@@ -137,19 +137,19 @@ function DealForm({ isModalOpen, closeModal, data }) {
             />
           </Form.Item>
           <Form.Item
-            label="*商机名称"
+            label="商机名称"
             name="title"
             rules={[{ required: true, message: "商机名称!" }]}
           >
             <Input placeholder="请输入" />
           </Form.Item>
-          <Form.Item label="*商机编号">
+          <Form.Item
+            label="商机编号"
+            name="code"
+            rules={[{ required: true, message: "请输入商机编号!" }]}
+          >
             <Space>
-              <Form.Item
-                name="code"
-                noStyle
-                rules={[{ required: true, message: "请输入商机编号" }]}
-              >
+              <Form.Item name="code" noStyle>
                 <Input style={{ width: 200 }} placeholder="请输入" />
               </Form.Item>
               <Button type="link" onClick={getDealCode}>
@@ -161,7 +161,7 @@ function DealForm({ isModalOpen, closeModal, data }) {
             </Space>
           </Form.Item>
 
-          <Form.Item label="*最终用户" name="isFinalOrg">
+          <Form.Item label="最终用户" name="isFinalOrg">
             <Select
               placeholder="请选择"
               options={[
@@ -176,7 +176,7 @@ function DealForm({ isModalOpen, closeModal, data }) {
               ]}
             />
           </Form.Item>
-          <Form.Item label="*主要联系人" name="personList">
+          <Form.Item label="主要联系人" name="personList">
             <Select
               mode="multiple"
               fieldNames={{
@@ -185,9 +185,10 @@ function DealForm({ isModalOpen, closeModal, data }) {
               }}
               options={customLink}
               placeholder="请选择"
+              optionFilterProp="name"
             />
           </Form.Item>
-          <Form.Item label="*销售流程" name="pipelineId">
+          <Form.Item label="销售流程" name="pipelineId">
             <Select
               placeholder="请选择"
               fieldNames={{
@@ -198,7 +199,7 @@ function DealForm({ isModalOpen, closeModal, data }) {
               onChange={handlePipelineChange}
             />
           </Form.Item>
-          <Form.Item label="*销售流程阶段" name="pipelineStageId">
+          <Form.Item label="销售流程阶段" name="pipelineStageId">
             <Select
               placeholder="请选择"
               fieldNames={{
@@ -214,12 +215,14 @@ function DealForm({ isModalOpen, closeModal, data }) {
           </Form.Item>
           <Form.Item label="产品信息" name="productList">
             <Select
+              mode="multiple"
               placeholder="请选择"
               fieldNames={{
                 label: "name",
                 value: "id",
               }}
               options={productData}
+              optionFilterProp="name"
             />
           </Form.Item>
 

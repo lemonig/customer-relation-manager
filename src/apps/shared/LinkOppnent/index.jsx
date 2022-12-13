@@ -1,10 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { Input, Space, Table, Modal, Form, Tooltip, Button } from "antd";
-import { companyInfo, customerAdd } from "@Api/info_company.js"; //客户
+import {
+  oppnentInfo,
+  oppnentDelete,
+  oppnentUpdate,
+  oppnentAdd,
+} from "@Api/info_oppnent.js";
 import { organize } from "@Utils/data";
-import FormComy from "../../pages/msg-company/components/FormComy";
+import FormOppo from "../../pages/msg-oppnent/components/FormOppo";
 
-function LinkCustomer({ open, getRowSelected, defaultId, url }) {
+function LinkOppnent({ open, getRowSelected, defaultId, url }) {
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
   const [pageMsg, setPagemsg] = useState({
@@ -40,7 +45,7 @@ function LinkCustomer({ open, getRowSelected, defaultId, url }) {
   };
   const getPageData = () => {
     setLoading(true);
-    companyInfo({
+    oppnentInfo({
       page: pageMsg.pagination.current,
       size: pageMsg.pagination.pageSize,
       data: {
@@ -69,7 +74,7 @@ function LinkCustomer({ open, getRowSelected, defaultId, url }) {
 
   const columns = [
     {
-      title: "客户名称",
+      title: "公司名称",
       width: 200,
       dataIndex: "name",
       key: "name",
@@ -190,7 +195,7 @@ function LinkCustomer({ open, getRowSelected, defaultId, url }) {
     <>
       {open && (
         <Modal
-          title="关联客户"
+          title="关联公司"
           open={open}
           onOk={() => getRowSelected(true, rowSelected)}
           onCancel={() => getRowSelected(false)}
@@ -207,7 +212,7 @@ function LinkCustomer({ open, getRowSelected, defaultId, url }) {
             <div className="search">
               <Space>
                 <Input
-                  placeholder="请输入客户名称"
+                  placeholder="请输入公司名称"
                   style={{ width: 240 }}
                   // value={searchVal}
                   onChange={handleInputChange}
@@ -245,9 +250,9 @@ function LinkCustomer({ open, getRowSelected, defaultId, url }) {
         </Modal>
       )}
       {/* 弹出表单 */}
-      {isModalOpen && <FormComy open={isModalOpen} closeModal={closeModal} />}
+      {isModalOpen && <FormOppo open={isModalOpen} closeModal={closeModal} />}
     </>
   );
 }
 
-export default LinkCustomer;
+export default LinkOppnent;

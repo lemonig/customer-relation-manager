@@ -8,6 +8,7 @@ import User from "./use";
 import biaoti from "../../../assets/image/OKR.svg";
 import { _post } from "../../server/http";
 import store from "@Store";
+import logo from "../../../assets/image/logo.png";
 
 import { connect } from "react-redux";
 
@@ -136,6 +137,10 @@ const Header = ({ message }) => {
       <div className="page-title">
         <div className="title" onClick={gotoHome}>
           {/* <img width={25} src={biaoti} alt="" /> */}
+          {/* <div className="logo"> */}
+          {/* <IconFont iconName="crm" size="24"></IconFont> */}
+          <img src={logo} alt="logo" height={50} />
+          {/* </div> */}
           <span style={{ fontSize: "22px", marginLeft: "8px" }}>
             杭州绿洁销售管理系统
           </span>

@@ -3,7 +3,7 @@
 .detail-view-wrap {
   height: 100%;
   overflow: auto;
-  background: @--pd-global-color-neutral-40;
+  // background: @--pd-global-color-neutral-40;
 }
 .detail-view {
   position: relative;
@@ -19,12 +19,12 @@
       text-align: right;
       display: block;
       white-space: nowrap;
-      float: left;
+      float: right;
       -webkit-touch-callout: none;
       -webkit-user-select: none;
       -ms-user-select: none;
       user-select: none;
-      background-color: #fff;
+      background-color: #eee;
       width: calc(100% - 48px);
       margin: 0px 24px;
       padding: 8px 0;
@@ -58,18 +58,32 @@
 }
 // 下面块主要内容
 .detail-view-wrap .main-block {
-  display: flex;
   position: relative;
-  width: 100%;
+  width: 70%;
   min-height: 100%;
-  .sidebar {
-    flex: 0 0 auto;
-    width: 70%;
-    margin: 24px;
-  }
+  margin: 24px;
+  background-color: #fff;
+
   .content {
-    flex: 1;
     min-width: 0;
     margin: 24px 24px 24px 0;
   }
+}
+
+// 表单操作
+.dynamic-delete-button {
+  position: relative;
+  top: 4px;
+  margin: 0 8px;
+  color: #999;
+  font-size: 24px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+.dynamic-delete-button:hover {
+  color: #777;
+}
+.dynamic-delete-button[disabled] {
+  cursor: not-allowed;
+  opacity: 0.5;
 }

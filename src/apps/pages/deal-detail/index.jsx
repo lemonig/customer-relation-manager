@@ -19,6 +19,8 @@ import {
   Input,
   Descriptions,
   Progress,
+  PageHeader,
+  Space,
 } from "antd";
 import { EllipsisOutlined } from "@ant-design/icons";
 import IconFont from "@Components/IconFont";
@@ -35,51 +37,9 @@ import {
   dealExport,
 } from "@Api/deal_list";
 
-const menu = (
-  <Menu
-    items={[
-      {
-        key: "1",
-        label: (
-          <a
-            target="_blank"
-            rel="noopener noreferrer"
-            href="https://www.antgroup.com"
-          >
-            1st menu item
-          </a>
-        ),
-      },
-      {
-        key: "2",
-        label: (
-          <a
-            target="_blank"
-            rel="noopener noreferrer"
-            href="https://www.aliyun.com"
-          >
-            2nd menu item
-          </a>
-        ),
-      },
-      {
-        key: "3",
-        label: (
-          <a
-            target="_blank"
-            rel="noopener noreferrer"
-            href="https://www.luohanacademy.com"
-          >
-            3rd menu item
-          </a>
-        ),
-      },
-    ]}
-  />
-);
-
 function DealDetail() {
   const params = useParams();
+  let navigate = useNavigate();
   const [getParams, setParam] = useSearchParams(); //第一个参数 getParams 获取 param 等 url  信息, 第二个参数 setParam 设置 url 等信息。
   const pipelineId = getParams.getAll("pipelineId")[0];
   const [form] = Form.useForm();
@@ -101,72 +61,61 @@ function DealDetail() {
   // 弹窗表单
   const handleFormOk = () => {};
   const handleFormCancel = () => {};
+  const menu = (
+    <Menu
+      items={[
+        {
+          key: "1",
+          label: <Button type="link">转移</Button>,
+        },
+        {
+          key: "2",
+          label: <Button type="link">终止</Button>,
+        },
+      ]}
+    />
+  );
+  // 编辑
+  const handleEdit = () => {
+    navigate({
+      pathname: "/dealEdit",
+      search: `?pipelineId=${pipelineId}`,
+    });
+  };
 
   return (
     <div className="detail-view-wrap">
       <div className="detail-view">
-        <Card
-          style={{
-            margin: "24px 24px 0",
-          }}
-        >
-          <div className="content actions-content">
-            <div className="actions">
-              <div className="owner-view">
-                <div className="owner">
-                  <Avatar
-                    src={
-                      <Image
-                        src="https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png"
-                        style={{ width: 32 }}
-                        preview={false}
-                      />
-                    }
-                  />
-                  <div className="info">
-                    <span className="name">李大钊</span>
-                    <span className="role">all man</span>
-                  </div>
-                </div>
-              </div>
-              <div className="state-actions">
+        <PageHeader
+          className="site-page-header"
+          onBack={() => null}
+          title="商机详情"
+        />
+        <div className="actions-content">
+          <div className="actions">
+            <div className="state-actions">
+              <Space>
+                <Button onClick={handleEdit}>编辑</Button>
+                <Divider
+                  type="vertical"
+                  style={{
+                    borderLeft: "2px  solid rgba(0, 0, 0, 0.15)",
+                    height: "2em",
+                  }}
+                />
                 <Button type="primary" danger>
                   赢单
                 </Button>
-                <Button
-                  type="primary"
-                  style={{ background: "#119143", marginLeft: "16px" }}
-                >
+                <Button type="primary" style={{ background: "#119143" }}>
                   丢单
                 </Button>
-              </div>
-
-              <Dropdown trigger={["click"]} overlay={menu}>
-                <Button icon={<EllipsisOutlined />}></Button>
-              </Dropdown>
+              </Space>
             </div>
-            <div className="description-head">
-              <h1>
-                <a className="editable title" style={{ maxWidth: "933px" }}>
-                  年底大促销采购
-                </a>
-              </h1>
-            </div>
+            <Dropdown trigger={["click"]} overlay={menu}>
+              <Button icon={<EllipsisOutlined />}></Button>
+            </Dropdown>
           </div>
-          <div className="content value-related-itemsc-content">
-            <span style={{ display: "inline-block" }}>
-              <Statistic value={112893} />
-            </span>
-            <Divider type="vertical" style={{}} />
-            <IconFont iconName="ren" size="32"></IconFont>
-            <span>赵四</span>
-            <Divider type="vertical" />
-            <IconFont iconName="gongsi" size="32"></IconFont>
-            <span>平湖</span>
-          </div>
-
-          <Stage />
-        </Card>
+        </div>
         <div className="main-block">
           <div className="sidebar">
             {data && (
@@ -195,7 +144,7 @@ function DealDetail() {
                     {data.value}
                   </Descriptions.Item>
                   <Descriptions.Item label="产品信息" span={2}>
-                    {data.productList.description}
+                    {data.productList.map((item) => item.name + ", ")}
                   </Descriptions.Item>
                   <Descriptions.Item label="备注" span={2}>
                     {data.description}
@@ -220,32 +169,37 @@ function DealDetail() {
                     {data.organization.name}
                   </Descriptions.Item>
                   <Descriptions.Item label="最终用户">
-                    {data.code}
+                    {data.isFinalOrg ? "是" : "否"}
                   </Descriptions.Item>
                   <Descriptions.Item label="主要联系人" span={2}>
-                    {data.personList.name}
+                    {data.personList.map((item) => item.name + ", ")}
                   </Descriptions.Item>
                   <Descriptions.Item label="招标公司">
-                    {data.code}
-                  </Descriptions.Item>
-                  <Descriptions.Item label="联系人">
                     {data.biddingAgency.name}
                   </Descriptions.Item>
-                  <Descriptions.Item label="合作伙伴">
-                    {data.partnerList.name}
-                  </Descriptions.Item>
                   <Descriptions.Item label="联系人">
-                    {data.biddingAgency.partnerPersonName}
+                    {data.biddingAgencyPerson.name}
                   </Descriptions.Item>
+                  {data.partnerList.map((item) => (
+                    <React.Fragment key={item.id}>
+                      <Descriptions.Item label="合作伙伴">
+                        {item.partnerName}
+                      </Descriptions.Item>
+                      <Descriptions.Item label="联系人">
+                        {item.partnerPersonName}
+                      </Descriptions.Item>
+                    </React.Fragment>
+                  ))}
+
                   {data.competitorList.map((item) => (
-                    <>
+                    <React.Fragment key={item.id}>
                       <Descriptions.Item label="竞争对手" span={2}>
                         {item.competitorName}
                       </Descriptions.Item>
                       <Descriptions.Item label="优劣势分析" span={2}>
                         {item.description}
                       </Descriptions.Item>
-                    </>
+                    </React.Fragment>
                   ))}
                 </Descriptions>
               </Card>

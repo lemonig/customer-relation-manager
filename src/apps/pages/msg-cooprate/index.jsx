@@ -20,13 +20,14 @@ import {
 } from "@Api/info_cooperate.js";
 import { ExclamationCircleOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
+import FormCoop from "./components/FormCoop";
 const { Option } = Select;
 
 function MsgCooprate() {
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [operateId, setOperateId] = useState(null); //正在操作id
+  const [operate, setOperate] = useState(null); //正在操作id
   const [pageMsg, setPagemsg] = useState({
     pagination: {
       current: 1,
@@ -39,10 +40,6 @@ function MsgCooprate() {
   useEffect(() => {
     getPageData();
   }, [JSON.stringify(pageMsg)]);
-
-  const showModal = () => {
-    setIsModalOpen(true);
-  };
 
   // 查询
   const search = () => {
@@ -101,49 +98,15 @@ function MsgCooprate() {
   };
   // 新建
   const handleAdd = () => {
-    form.resetFields();
+    setOperate(null);
     setIsModalOpen(true);
   };
   // 编辑
   const handleEdit = (record) => {
-    setOperateId(record.id);
-    form.setFieldsValue(record);
+    setOperate(record);
     setIsModalOpen(true);
   };
 
-  const handleOk = async () => {
-    await form.validateFields();
-    const values = form.getFieldsValue();
-    setLoading(true);
-    // 编辑
-    if (operateId) {
-      values.id = operateId;
-      let { success, message: msg } = await cooperateUpdate(values);
-      if (success) {
-        message.success("提交成功");
-        setIsModalOpen(false);
-      } else {
-        message.error(msg);
-      }
-      setOperateId(null);
-    } else {
-      let { success, message: msg } = await cooperateAdd(values);
-      if (success) {
-        message.success("提交成功");
-        setIsModalOpen(false);
-      } else {
-        message.error(msg);
-      }
-    }
-    // 添加
-    getPageData();
-    setLoading(false);
-  };
-
-  // 弹窗取消
-  const handleCancel = () => {
-    setIsModalOpen(false);
-  };
   const gotoLinkPeople = (record) => {
     navigate({
       pathname: "/msgCoopratePeople",
@@ -243,6 +206,14 @@ function MsgCooprate() {
       ...sorter,
     });
   };
+
+  //表单回调
+  const closeModal = (flag) => {
+    // flag 确定还是取消
+    setIsModalOpen(false);
+    if (flag) getPageData();
+  };
+
   return (
     <div>
       <PageHeader className="site-page-header" title="合作伙伴" />
@@ -270,40 +241,9 @@ function MsgCooprate() {
         onChange={handleTableChange}
       />
       {/* 弹出表单 */}
-      <Modal
-        title={operateId ? "编辑" : "新建"}
-        open={isModalOpen}
-        onOk={handleOk}
-        onCancel={handleCancel}
-        maskClosable={false}
-      >
-        <Form
-          name="basic"
-          labelCol={{ span: 6 }}
-          wrapperCol={{ span: 18 }}
-          autoComplete="off"
-          initialValues={{
-            orgType: "1",
-          }}
-          form={form}
-        >
-          <Form.Item
-            label="公司名称"
-            name="name"
-            rules={[{ required: true, message: "请输入公司名称!" }]}
-          >
-            <Input placeholder="请输入" />
-          </Form.Item>
-
-          <Form.Item label="地址" name="address">
-            <Input placeholder="请输入" />
-          </Form.Item>
-
-          <Form.Item label="备注" name="description">
-            <Input.TextArea placeholder="请输入" />
-          </Form.Item>
-        </Form>
-      </Modal>
+      {isModalOpen && (
+        <FormCoop open={isModalOpen} closeModal={closeModal} record={operate} />
+      )}
     </div>
   );
 }
