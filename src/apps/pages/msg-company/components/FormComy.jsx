@@ -130,6 +130,9 @@ function FormComy({ record, open, closeModal }) {
           <Form.Item label="统一社会信用代码" name="creditCode">
             <Input disabled placeholder="请输入" />
           </Form.Item>
+          <Form.Item label="省份" name="base">
+            <Input disabled placeholder="请输入" />
+          </Form.Item>
           <Form.Item label="地址" name="address">
             <Input placeholder="请输入" />
           </Form.Item>

@@ -9,7 +9,6 @@ function DeparmentForm({ isModalOpen, closeModal, data, operate, deptData }) {
   // const [deptData, setDeptData] = useState([]); //部门
   const [linkModalOpen, setLinkModalOpen] = useState(false); //部门负责人
   const [linkSelected, setLinkSelected] = useState({}); //部门负责人
-  console.log(data);
   useEffect(() => {
     if (operate === "add") {
       form.setFieldValue("pId", data.id);
@@ -29,7 +28,6 @@ function DeparmentForm({ isModalOpen, closeModal, data, operate, deptData }) {
     setLoading(true);
     await form.validateFields();
     const values = form.getFieldsValue();
-    console.log(values);
     setLoading(true);
     if (operate === "edit") {
       // 编辑部门
@@ -60,7 +58,6 @@ function DeparmentForm({ isModalOpen, closeModal, data, operate, deptData }) {
   //获取部门负责人选中
   const getRowSelected = (confirm, row) => {
     if (confirm) {
-      console.log(row);
       form.setFieldValue("leaderId", row[0].id);
       setLinkSelected(row[0]);
     }

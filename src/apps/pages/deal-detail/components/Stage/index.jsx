@@ -14,7 +14,7 @@ function Stage({ msg }) {
             </li>
           ))}
         </ul>
-        {msg[0].name}
+        <span className="text">{msg[0].name}</span>
       </div>
     )
   );

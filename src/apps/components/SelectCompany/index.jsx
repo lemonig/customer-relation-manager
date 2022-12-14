@@ -11,16 +11,23 @@ import LinkAgent from "@Shared/LinkAgent";
  * url: zb jz hz
  * */
 
-function SelectCompany({ value = {}, onChange, url }) {
+function SelectCompany({ value = {}, onChange, url, text }) {
   const [data, setData] = useState({});
   const [open, setOpen] = useState(false);
-  console.log(url);
+
+  useEffect(() => {
+    if (text) {
+      setData({
+        id: value,
+        name: text,
+      });
+    }
+  }, [text]);
+
   const triggerChange = (changedValue) => {
-    console.log(changedValue);
     onChange?.(changedValue.data.id);
   };
   const getRowSelected = (flag, row) => {
-    console.log(row);
     if (flag) {
       setData(row[0]);
       triggerChange({

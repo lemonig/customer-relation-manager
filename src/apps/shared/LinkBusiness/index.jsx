@@ -177,8 +177,7 @@ function LinkBusiness({ open, getRowSelected, defaultId }) {
   const rowSelection = {
     onChange: (selectedRowKeys, selectedRows) => {
       setRowSelected(selectedRows);
-      console.log(selectedRows);
-      console.log(selectedRowKeys);
+
       setRowKey(selectedRowKeys);
     },
     getCheckboxProps: (record) => ({
@@ -229,8 +228,6 @@ function LinkBusiness({ open, getRowSelected, defaultId }) {
           onRow={(record) => {
             return {
               onClick: (event) => {
-                console.log(event);
-                console.log(record);
                 setRowSelected([record]);
 
                 setRowKey([record.id]);

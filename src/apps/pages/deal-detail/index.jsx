@@ -21,8 +21,9 @@ import {
   Progress,
   PageHeader,
   Space,
+  message,
 } from "antd";
-import { EllipsisOutlined } from "@ant-design/icons";
+import { ExclamationCircleOutlined, EllipsisOutlined } from "@ant-design/icons";
 import IconFont from "@Components/IconFont";
 import Stage from "./components/Stage/index";
 import "./index.less";
@@ -35,7 +36,12 @@ import {
   dealCodeGet,
   dealChart,
   dealExport,
+  dealwin,
 } from "@Api/deal_list";
+import FormTrans from "./components/Form/FormTrans";
+import FormLose from "./components/Form/FormLose";
+import FormSop from "./components/Form/FormSop";
+const { confirm } = Modal;
 
 function DealDetail() {
   const params = useParams();
@@ -45,19 +51,21 @@ function DealDetail() {
   const [form] = Form.useForm();
   const [modalVisible, setModalVisible] = useState(false);
   const [data, setData] = useState(null);
+  const [modalVis, setModalVis] = useState({
+    lose: false,
+    stop: false,
+    trans: false,
+  });
 
-  console.log(pipelineId);
   useEffect(() => {
-    const getPageData = async () => {
-      let { data } = await dealSingleGet({
-        id: pipelineId,
-      });
-      console.log(data);
-      setData(data);
-    };
     getPageData();
   }, []);
-
+  const getPageData = async () => {
+    let { data } = await dealSingleGet({
+      id: pipelineId,
+    });
+    setData(data);
+  };
   // 弹窗表单
   const handleFormOk = () => {};
   const handleFormCancel = () => {};
@@ -66,11 +74,35 @@ function DealDetail() {
       items={[
         {
           key: "1",
-          label: <Button type="link">转移</Button>,
+          label: (
+            <Button
+              type="link"
+              onClick={() => {
+                setModalVis({
+                  ...modalVis,
+                  trans: true,
+                });
+              }}
+            >
+              转移
+            </Button>
+          ),
         },
         {
           key: "2",
-          label: <Button type="link">终止</Button>,
+          label: (
+            <Button
+              type="link"
+              onClick={() => {
+                setModalVis({
+                  ...modalVis,
+                  stop: true,
+                });
+              }}
+            >
+              终止
+            </Button>
+          ),
         },
       ]}
     />
@@ -83,12 +115,49 @@ function DealDetail() {
     });
   };
 
+  //表单回调
+  const closeModal = (flag) => {
+    // flag 确定还是取消
+    setModalVis({
+      lose: false,
+      stop: false,
+      trans: false,
+    });
+    if (flag) getPageData();
+  };
+  const handleWinDeal = () => {
+    confirm({
+      title: "确定赢单?",
+      icon: <ExclamationCircleOutlined style={{ color: "#F5222D" }} />,
+      content: "确认后无法撤销",
+      async onOk() {
+        return new Promise((resolve, reject) => {
+          dealwin({ id: pipelineId }).then((res) => {
+            if (res.success) {
+              resolve();
+              message.success("提交成功");
+            } else {
+              reject();
+              message.error(res.msg);
+            }
+          });
+        }).catch(() => console.log("Oops errors!"));
+      },
+      onCancel() {},
+    });
+  };
+
   return (
     <div className="detail-view-wrap">
       <div className="detail-view">
         <PageHeader
           className="site-page-header"
-          onBack={() => null}
+          onBack={() =>
+            navigate({
+              pathname: "/dealList",
+              replace: true,
+            })
+          }
           title="商机详情"
         />
         <div className="actions-content">
@@ -103,10 +172,19 @@ function DealDetail() {
                     height: "2em",
                   }}
                 />
-                <Button type="primary" danger>
+                <Button type="primary" danger onClick={handleWinDeal}>
                   赢单
                 </Button>
-                <Button type="primary" style={{ background: "#119143" }}>
+                <Button
+                  type="primary"
+                  style={{ background: "#119143" }}
+                  onClick={() => {
+                    setModalVis({
+                      ...modalVis,
+                      lose: true,
+                    });
+                  }}
+                >
                   丢单
                 </Button>
               </Space>
@@ -231,40 +309,21 @@ function DealDetail() {
       </div>
 
       {/* 弹窗 */}
-      <Modal
-        title={`${"xx"}目标`}
-        open={modalVisible}
-        onOk={handleFormOk}
-        onCancel={handleFormCancel}
-        destroyOnClose
-        maskClosable={false}
-      >
-        <div>
-          <Form
-            form={form}
-            preserve={false}
-            layout="vertical"
-            name="form_in_modal"
-            initialValues={{
-              modifier: "public",
-            }}
-          >
-            <Form.Item
-              name="content"
-              label="目标"
-              rules={[
-                {
-                  required: true,
-                  message: "请输入目标!",
-                },
-              ]}
-            ></Form.Item>
-            <Form.Item name="weight" label="权重">
-              <Input type="number" />
-            </Form.Item>
-          </Form>
-        </div>
-      </Modal>
+      <FormTrans
+        open={modalVis.trans}
+        closeModal={closeModal}
+        pipelineId={pipelineId}
+      />
+      <FormLose
+        open={modalVis.lose}
+        closeModal={closeModal}
+        pipelineId={pipelineId}
+      />
+      <FormSop
+        open={modalVis.stop}
+        closeModal={closeModal}
+        pipelineId={pipelineId}
+      />
     </div>
   );
 }

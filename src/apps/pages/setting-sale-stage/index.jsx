@@ -42,7 +42,6 @@ function SettingSaleStage() {
 
   const getPageData = async () => {
     setLoading(true);
-    console.log(pipelineId);
     let { data } = await saleStageList({ pipelineId });
     setData(data);
     setLoading(false);

@@ -6,19 +6,9 @@ import {
   useLocation,
 } from "react-router-dom";
 import {
-  Card,
-  Avatar,
-  Image,
   Button,
-  Dropdown,
-  Menu,
-  Divider,
-  Statistic,
   Form,
-  Modal,
   Input,
-  Descriptions,
-  Progress,
   PageHeader,
   Space,
   Select,
@@ -26,11 +16,10 @@ import {
   Col,
   message,
 } from "antd";
-import { EllipsisOutlined } from "@ant-design/icons";
 import IconFont from "@Components/IconFont";
 import { customerInfo } from "@Api/info_customer.js";
 import { saleList, saleStageList } from "@Api/set_sale.js";
-import { productList, productTypeList } from "@Api/product.js";
+import { productList } from "@Api/product.js";
 import LinkCustomer from "@Shared/LinkCustomer";
 import SelectCompany from "@Components/SelectCompany";
 import "./index.less";
@@ -44,23 +33,21 @@ import {
   dealChart,
   dealExport,
 } from "@Api/deal_list";
-import {
-  agentPersonInfo,
-  agentPersonDelete,
-  agentPersonUpdate,
-  agentPersonAdd,
-} from "@Api/info_agent.js";
-import {
-  cooperatePersonInfo,
-  cooperatePersonDelete,
-  cooperatePersonUpdate,
-  cooperatePersonAdd,
-} from "@Api/info_cooperate.js";
+import { agentPersonInfo } from "@Api/info_agent.js";
+import { cooperatePersonInfo } from "@Api/info_cooperate.js";
 import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons";
+
+const formItemLayout = {
+  labelCol: {
+    span: 8,
+  },
+  wrapperCol: {
+    span: 16,
+  },
+};
 
 function DealEdit() {
   const [loading, setLoading] = useState(false);
-  const params = useParams();
   const [getParams, setParam] = useSearchParams(); //第一个参数 getParams 获取 param 等 url  信息, 第二个参数 setParam 设置 url 等信息。
   const pipelineId = getParams.getAll("pipelineId")[0];
   const [form] = Form.useForm();
@@ -75,7 +62,12 @@ function DealEdit() {
   const [linkModalOpen, setLinkModalOpen] = useState(false);
   const [linkSelected, setLinkSelected] = useState({});
 
+  const navigate = useNavigate();
   useEffect(() => {
+    setFormData();
+  }, []);
+
+  const setFormData = () => {
     getCustomerLink();
     getAgentLink();
     getCooperateLink();
@@ -85,8 +77,6 @@ function DealEdit() {
       let { data } = await dealSingleGet({
         id: pipelineId ?? 2,
       });
-      console.log(data);
-      setPagedata(data);
       setLinkSelected(data.organization);
       handlePipelineChange(data.pipeline.id);
       form.setFieldsValue({
@@ -96,12 +86,13 @@ function DealEdit() {
         orgId: data.organization.id,
         personList: data.personList.map((item) => item.id),
         productList: data.productList.map((item) => item.id),
+        biddingAgencyId: data.biddingAgency.id,
+        biddingAgencyPersonId: data.biddingAgencyPerson.id,
       });
+      setPagedata(data);
     };
-    setTimeout(() => {
-      getPageData();
-    });
-  }, []);
+    getPageData();
+  };
 
   //获取客户.招标 合作公司 联系人
   const getCustomerLink = async () => {
@@ -128,14 +119,12 @@ function DealEdit() {
     setPipeline(data);
   };
   const handlePipelineChange = async (val) => {
-    console.log(val);
     let { data } = await saleStageList({ pipelineId: val });
     setPipelineStage(data);
   };
 
   const getRowSelected = (confirm, row) => {
     if (confirm) {
-      console.log("confirm");
       form.setFieldValue("orgId", row[0].id);
       setLinkSelected(row[0]);
     }
@@ -148,7 +137,6 @@ function DealEdit() {
     await form.validateFields();
     const values = form.getFieldsValue();
     values.id = pipelineId;
-    console.log(values);
     setLoading(true);
     let { success, message: msg } = await dealUpdate(values);
     if (success) {
@@ -161,18 +149,30 @@ function DealEdit() {
   return (
     pagedata && (
       <>
-        <div className="detail-view-wrap">
+        <div className="detail-edit-wrap">
           <div className="detail-view">
             <PageHeader
               className="site-page-header"
-              onBack={() => null}
+              onBack={() =>
+                navigate(-1, {
+                  replace: true,
+                })
+              }
               title="商机详情"
             />
             <div className=" actions-content">
               <div className="actions">
                 <div className="state-actions">
                   <Space>
-                    <Button>取消</Button>
+                    <Button
+                      onClick={() =>
+                        navigate(-1, {
+                          replace: true,
+                        })
+                      }
+                    >
+                      取消
+                    </Button>
                     <Button
                       type="primary"
                       onClick={handleFormSave}
@@ -185,13 +185,7 @@ function DealEdit() {
               </div>
             </div>
             <div className="main-block">
-              <Form
-                name="basic"
-                labelCol={{ span: 8 }}
-                wrapperCol={{ span: 15 }}
-                autoComplete="off"
-                form={form}
-              >
+              <Form name="deal-edit" {...formItemLayout} form={form}>
                 <div className="ant-descriptions-title">基本信息</div>
 
                 <Row gutter={24}>
@@ -325,10 +319,14 @@ function DealEdit() {
                     </Form.Item>
                   </Col>
                 </Row>
+
                 <Row gutter={24}>
                   <Col span={11}>
                     <Form.Item label="招标公司" name="biddingAgencyId">
-                      <SelectCompany url="zb" />
+                      <SelectCompany
+                        url="zb"
+                        text={pagedata?.biddingAgency.name}
+                      />
                     </Form.Item>
                   </Col>
                   <Col span={11}>
@@ -348,7 +346,7 @@ function DealEdit() {
                 <Form.List name="partnerList">
                   {(fields, { add, remove }) => (
                     <>
-                      {fields.map(({ key, name, ...restField }) => (
+                      {fields.map(({ key, name, ...restField }, idx) => (
                         <Row
                           gutter={24}
                           key={key}
@@ -361,7 +359,14 @@ function DealEdit() {
                               name={[name, "partnerId"]}
                               label="合作伙伴"
                             >
-                              <SelectCompany url="hz" />
+                              <SelectCompany
+                                url="hz"
+                                text={
+                                  pagedata.partnerList[idx]
+                                    ? pagedata.partnerList[idx].partnerName
+                                    : ""
+                                }
+                              />
                             </Form.Item>
                           </Col>
                           <Col span={11}>
@@ -407,7 +412,7 @@ function DealEdit() {
                 <Form.List name="competitorList">
                   {(fields, { add, remove }) => (
                     <>
-                      {fields.map(({ key, name, ...restField }) => (
+                      {fields.map(({ key, name, ...restField }, idx) => (
                         <Row gutter={24} key={key} align="baseline">
                           <Col span={11}>
                             <Form.Item
@@ -415,7 +420,15 @@ function DealEdit() {
                               name={[name, "competitorId"]}
                               label="竞争对手"
                             >
-                              <SelectCompany url="jz" />
+                              <SelectCompany
+                                url="jz"
+                                text={
+                                  pagedata.competitorList[idx]
+                                    ? pagedata.competitorList[idx]
+                                        .competitorName
+                                    : ""
+                                }
+                              />
                             </Form.Item>
                           </Col>
                           <Col span={11}>

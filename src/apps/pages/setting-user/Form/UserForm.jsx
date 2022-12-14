@@ -55,7 +55,6 @@ function UserForm({ isModalOpen, closeModal, treeData, userData }) {
   const getRoleList = async () => {
     let { data } = await rolelist();
     setRoleList(data);
-    console.log(userData);
     if (userData) {
       form.setFieldsValue({
         ...userData,

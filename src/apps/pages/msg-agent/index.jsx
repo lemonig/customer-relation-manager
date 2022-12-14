@@ -169,7 +169,6 @@ function MsgAgent() {
       ),
       onCell: (record) => ({
         onClick: (event) => {
-          console.log(record);
           gotoLink(record);
         },
       }),

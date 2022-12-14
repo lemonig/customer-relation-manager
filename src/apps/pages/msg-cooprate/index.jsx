@@ -160,7 +160,6 @@ function MsgCooprate() {
       ),
       onCell: (record) => ({
         onClick: (event) => {
-          console.log(record);
           gotoLinkPeople(record);
         },
       }),

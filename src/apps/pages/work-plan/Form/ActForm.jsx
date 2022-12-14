@@ -44,7 +44,6 @@ function ActForm({ isModalOpen, record, closeModal }) {
       //编辑
       record.endTimeDto.date = moment(record.endTimeDto.date);
       record.startTimeDto.date = moment(record.startTimeDto.date);
-      console.log(record);
 
       setLinkSelected({
         id: record.deal.id,
@@ -66,7 +65,6 @@ function ActForm({ isModalOpen, record, closeModal }) {
   //获取活动类型
   const getActiveList = async () => {
     let { data } = await activeList();
-    console.log(111);
     setActData(data);
   };
 
@@ -79,7 +77,6 @@ function ActForm({ isModalOpen, record, closeModal }) {
   //获取回调商机
   const getRowSelected = (confirm, row) => {
     if (confirm && row) {
-      console.log(row);
       setLinkSelected(row[0]);
       form.setFieldValue("dealId", row[0].id);
     }
@@ -87,8 +84,6 @@ function ActForm({ isModalOpen, record, closeModal }) {
   };
   //获取许诸南泽的客户公司
   const getRowSelected1 = (confirm, row) => {
-    console.log(row);
-
     if (confirm) {
       form.setFieldValue("orgId", row[0].id);
       setLinkSelected1(row[0]);
@@ -99,7 +94,6 @@ function ActForm({ isModalOpen, record, closeModal }) {
   const handleOk = async () => {
     await form.validateFields();
     const values = form.getFieldsValue();
-    console.log(values);
     values.startTime = moment(values.startTimeDto.date).format("YYYYMMDD");
     values.endTime = moment(values.endTimeDto.date).format("YYYYMMDD");
     values.endTimeDto.date = moment(values.endTimeDto.date).format("YYYYMMDD");
@@ -131,7 +125,6 @@ function ActForm({ isModalOpen, record, closeModal }) {
   };
   // 选择人
   const handleSelectPeople = (val) => {
-    console.log(val);
     let res = customLink.find((ele) => ele.id === val);
     if (res) {
       form.setFieldValue("phone", res.phone);
@@ -199,11 +192,7 @@ function ActForm({ isModalOpen, record, closeModal }) {
             <Input placeholder="请输入" />
           </Form.Item>
 
-          <Form.Item
-            label="参与人员"
-            name="participantList"
-          
-          >
+          <Form.Item label="参与人员" name="participantList">
             <Select
               mode="multiple"
               fieldNames={{

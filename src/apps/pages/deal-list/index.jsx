@@ -12,6 +12,7 @@ import {
   Row,
   Form,
   Select,
+  Checkbox,
 } from "antd";
 import { ExclamationCircleOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
@@ -40,8 +41,9 @@ function DealList() {
   const [loading, setLoading] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [data, setData] = useState([]);
-  const [chartdata, setChartdata] = useState({});
+  const [chartdata, setChartdata] = useState(null);
   const [pipeline, setPipeline] = useState([]); //销售流程
+  const [chartVis, setChartVis] = useState(false);
 
   const [pageMsg, setPagemsg] = useState({
     pagination: {
@@ -87,7 +89,6 @@ function DealList() {
       values.beginTime = moment(values.time[0]).format("YYYYMMDD");
       values.endTime = moment(values.time[1]).format("YYYYMMDD");
     }
-    console.log(values);
     if (values.valueList) {
       values.valueList = values.valueList.split(",");
     }
@@ -267,9 +268,10 @@ function DealList() {
           show: true,
           lineStyle: {
             type: "linner",
-            color: "rgba(255,255,255,0.15)",
+            color: "rgba(255,255,255,0.75)",
           },
         },
+        minInterval: 1,
         axisLine: {
           //x轴颜色
           lineStyle: {
@@ -303,6 +305,11 @@ function DealList() {
           // name: 'wu',
           type: "bar",
           data: yData,
+          label: {
+            show: true,
+            position: "outside",
+            formatter: " {@score}件",
+          },
           itemStyle: {
             normal: {
               color: "#0B49B0",
@@ -399,6 +406,11 @@ function DealList() {
       ],
     };
     return option;
+  };
+
+  const handleChartChange = (e) => {
+    console.log(`checked = ${e.target.checked}`);
+    setChartVis(e.target.checked);
   };
 
   return (
@@ -513,19 +525,29 @@ function DealList() {
             <Button onClick={handleAdd}>新建</Button>
           </Form.Item>
         </Form>
+        <Checkbox onChange={handleChartChange}>隐藏统计</Checkbox>
       </div>
-      <Row gutter={16}>
-        <Col span={10} offset={1}>
-          {Reflect.has(chartdata, "numCount") && (
-            <EChartsReact option={getOption()} lazyUpdate={true} />
-          )}
-        </Col>
-        <Col span={10} offset={3}>
-          {Reflect.has(chartdata, "totalCount") && (
-            <EChartsReact option={getOption1()} lazyUpdate={true} />
-          )}
-        </Col>
-      </Row>
+      {chartdata && (
+        <div className="data-msg">
+          商机: {chartdata.totalCount.total} 笔；预计: {chartdata.totalCount.pv}{" "}
+          元；预测: {chartdata.totalCount.prev} 元
+        </div>
+      )}
+      {chartdata && !chartVis && (
+        <Row gutter={16}>
+          <Col span={10} offset={1}>
+            {Reflect.has(chartdata, "numCount") && (
+              <EChartsReact option={getOption()} lazyUpdate={true} />
+            )}
+          </Col>
+          <Col span={10} offset={3}>
+            {Reflect.has(chartdata, "totalCount") && (
+              <EChartsReact option={getOption1()} lazyUpdate={true} />
+            )}
+          </Col>
+        </Row>
+      )}
+
       <div style={{ marginBottom: "20px" }}></div>
       <Table
         columns={columns}
@@ -536,7 +558,9 @@ function DealList() {
         onChange={handleTableChange}
       />
       {/* 表单 */}
-      <DealForm isModalOpen={isModalOpen} closeModal={closeModal} />
+      {isModalOpen && (
+        <DealForm isModalOpen={isModalOpen} closeModal={closeModal} />
+      )}
     </div>
   );
 }

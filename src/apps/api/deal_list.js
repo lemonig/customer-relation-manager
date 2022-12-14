@@ -58,42 +58,42 @@ export function dealExport(data, title) {
 }
 
 // 终止
-export function terminate(data) {
+export function dealterminate(data) {
   return _post({
     url: `/api/deal/action/terminate`,
     data,
   });
 }
 // 丢单
-export function lose(data) {
+export function deallose(data) {
   return _post({
     url: `/api/deal/action/lose`,
     data,
   });
 }
 // 赢单
-export function win(data) {
+export function dealwin(data) {
   return _post({
     url: `/api/deal/action/win`,
     data,
   });
 }
 // 转移
-export function transfer(data) {
+export function dealtransfer(data) {
   return _post({
     url: `/api/deal/action/transfer`,
     data,
   });
 }
 // 批准完成
-export function complete(data) {
+export function dealcomplete(data) {
   return _post({
     url: `/api/deal/approve/complete`,
     data,
   });
 }
 // 批准拒绝
-export function reject(data) {
+export function dealreject(data) {
   return _post({
     url: `/api/deal/approve/reject`,
     data,
@@ -107,7 +107,7 @@ export function approvalPage(data) {
   });
 }
 // 审批导出
-export function Approvalexport(data, title) {
+export function approvalexport(data, title) {
   return _post({
     url: `/api/deal/approve/export`,
     data,

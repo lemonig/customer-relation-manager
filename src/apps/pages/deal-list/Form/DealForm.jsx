@@ -56,7 +56,6 @@ function DealForm({ isModalOpen, closeModal, data }) {
   const handleOk = async () => {
     await form.validateFields();
     const values = form.getFieldsValue();
-    console.log(values);
     setLoading(true);
 
     let { success, message: msg } = await dealadd(values);
@@ -92,7 +91,6 @@ function DealForm({ isModalOpen, closeModal, data }) {
     }
   };
   const handlePipelineChange = async (val) => {
-    console.log(val);
     let { data } = await saleStageList({ pipelineId: val });
     setPipelineStage(data);
   };

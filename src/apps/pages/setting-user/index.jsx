@@ -145,10 +145,7 @@ function Staff() {
   };
 
   useEffect(() => {
-    console.log("获取table");
-    console.log(selectTreeId);
     if (selectTreeId.length > 0) getUserData();
-    console.log(pageMsg);
   }, [JSON.stringify(pageMsg), JSON.stringify(selectTreeId)]);
 
   // 获取用户
@@ -184,7 +181,6 @@ function Staff() {
 
   // 点击部门树
   const onTreeSelect = (selectedKeys, info) => {
-    console.log(info);
     // 因为树可取消，so 在选中&& 与上个选中的值不同时才刷新
     if (info.selected && info.node.id !== selectTreeId[0]) {
       setSelectTreeId(selectedKeys);

@@ -5,7 +5,6 @@ import { fullScreen, exitScreen, isFullScreen } from "../../core/fullScreen";
 import { NavLink, Link, Outlet, useNavigate } from "react-router-dom";
 import { Avatar, Image, Badge } from "antd";
 import User from "./use";
-import biaoti from "../../../assets/image/OKR.svg";
 import { _post } from "../../server/http";
 import store from "@Store";
 import logo from "../../../assets/image/logo.png";
@@ -139,7 +138,7 @@ const Header = ({ message }) => {
           {/* <img width={25} src={biaoti} alt="" /> */}
           {/* <div className="logo"> */}
           {/* <IconFont iconName="crm" size="24"></IconFont> */}
-          <img src={logo} alt="logo" height={50} />
+          {/* <img src={logo} alt="logo" height={50} /> */}
           {/* </div> */}
           <span style={{ fontSize: "22px", marginLeft: "8px" }}>
             杭州绿洁销售管理系统

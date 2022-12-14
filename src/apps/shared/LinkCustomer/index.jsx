@@ -58,7 +58,6 @@ function LinkCustomer({ open, getRowSelected, defaultId, url }) {
         });
         // 默认第一条
         setRowSelected([res.data[0]]);
-        console.log(defaultId);
         if (!defaultId) {
           setRowKey([res.data[0].id]);
         }
@@ -165,8 +164,7 @@ function LinkCustomer({ open, getRowSelected, defaultId, url }) {
   const rowSelection = {
     onChange: (selectedRowKeys, selectedRows) => {
       setRowSelected(selectedRows);
-      console.log(selectedRows);
-      console.log(selectedRowKeys);
+
       setRowKey(selectedRowKeys);
     },
     getCheckboxProps: (record) => ({
@@ -232,8 +230,6 @@ function LinkCustomer({ open, getRowSelected, defaultId, url }) {
               onRow={(record) => {
                 return {
                   onClick: (event) => {
-                    console.log(event);
-                    console.log(record);
                     setRowSelected([record]);
 
                     setRowKey([record.id]);

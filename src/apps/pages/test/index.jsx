@@ -8,6 +8,8 @@ import {
   Form,
   Input,
   DatePicker,
+  Row,
+  Col,
 } from "antd";
 import EChartsReact from "echarts-for-react";
 import * as ReactDOM from "react-dom";
@@ -93,6 +95,14 @@ const ImgItem = ({ id, waitRender }) => (
     列表{id}
   </div>
 );
+const formItemLayout = {
+  labelCol: {
+    span: 8,
+  },
+  wrapperCol: {
+    span: 16,
+  },
+};
 
 function Test() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -223,6 +233,24 @@ function Test() {
         }}
       />
       {React.createElement("div", { className: "sidebar" }, "Click Me")}
+
+      <Form name="deal-edit" {...formItemLayout} form={form}>
+        {/* <div className="ant-descriptions-title">基本信息</div> */}
+
+        <Row gutter={24}>
+          <Col span={11}>
+            <Form.Item name="code" label="商机编号">
+              <Input placeholder="请输入" />
+            </Form.Item>
+          </Col>
+          <Col span={11}>
+            <Form.Item label="项目名称" name="title">
+              <Input placeholder="请输入" />
+            </Form.Item>
+          </Col>
+        </Row>
+      </Form>
+
       <Button
         onClick={async () => {
           let arr = [];

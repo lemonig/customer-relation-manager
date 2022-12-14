@@ -7,11 +7,8 @@ function MyTimePicker({ value = {}, onChange }) {
   const [date, setDate] = useState();
   const [time, setTime] = useState("0000");
   // TODO日期填充报错 因change 所以产生了 受控组件，triger的时候 格式变化了，所以导致datepicker返回的时候不是时间了，加个时间格式化就可
-  console.log(moment().minutes());
-  console.log(moment().hours());
-  console.log(moment().format("HHmm"));
+
   useEffect(() => {
-    console.log(value);
     if (Reflect.has(value, "date")) {
       setDate(moment(value.date));
       setTime(value.time);
@@ -40,7 +37,6 @@ function MyTimePicker({ value = {}, onChange }) {
   };
 
   const onDateChange = (date, dateString) => {
-    console.log(date, dateString);
     // if (Number.isNaN(date)) {
     //   return;
     // }
@@ -53,7 +49,6 @@ function MyTimePicker({ value = {}, onChange }) {
   };
 
   const handleTimeChange = (val) => {
-    console.log(val);
     if (!("time" in value)) {
       setTime(val);
     }
