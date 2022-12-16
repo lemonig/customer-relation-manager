@@ -8,7 +8,7 @@ function StageBlock({ title, msgPre, msgAft }) {
         <div className="content">
           <div>{title}</div>
           <div>
-            <span>预测：{msgPre}</span>
+            <span>预测：{msgPre}元</span>
 
             <span style={{ marginLeft: "16px" }}>{msgAft}笔</span>
           </div>

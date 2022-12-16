@@ -151,12 +151,40 @@ function DealDetail() {
     });
   };
 
+  // 活得丢单赢单时间
+  const getDealStatus = ({
+    status,
+    lostTime,
+    terminationTime,
+    wonTime,
+    statusName,
+  }) => {
+    if (!status || status == 1) {
+      return null;
+    }
+    let label = "",
+      time = "";
+    if (status == 2) {
+      label = "赢单";
+      time = wonTime;
+    } else if (status == 3) {
+      label = "";
+      time = lostTime;
+    } else if (status == 4) {
+      label = "";
+      time = terminationTime;
+    }
+    return (
+      <Descriptions.Item label={statusName + "时间"}>{time}</Descriptions.Item>
+    );
+  };
+
   return (
     <div className="detail-view-wrap">
       <div className="detail-view">
         <PageHeader
           className="site-page-header"
-          style={{ paddingLeft: "24px" }}
+          style={{ padding: "0 24px" }}
           onBack={() =>
             navigate({
               pathname: "/dealList",
@@ -164,6 +192,11 @@ function DealDetail() {
             })
           }
           title="商机详情"
+          extra={[
+            <Button key="3" type="link">
+              变更日志
+            </Button>,
+          ]}
         />
         <div className="actions-content">
           <div className="actions">
@@ -243,10 +276,16 @@ function DealDetail() {
                     {data.ownerUserName}
                   </Descriptions.Item>
                   <Descriptions.Item label="预计金额（元）">
-                    {data.value}
+                    <Statistic
+                      value={data.value}
+                      valueStyle={{ fontSize: "12px" }}
+                    />
                   </Descriptions.Item>
-                  <Descriptions.Item label="产品信息" span={2}>
+                  <Descriptions.Item label="产品信息">
                     {data.productList.map((item) => item.name + ", ")}
+                  </Descriptions.Item>
+                  <Descriptions.Item label="创建时间">
+                    {data.createTime}
                   </Descriptions.Item>
                   <Descriptions.Item label="备注" span={2}>
                     {data.description}
@@ -264,15 +303,10 @@ function DealDetail() {
                       strokeWidth={20}
                     />
                   </Descriptions.Item>
-                  <Descriptions.Item label="商机状态" span={2}>
+                  <Descriptions.Item label="商机状态">
                     {data.statusName}
                   </Descriptions.Item>
-                  <Descriptions.Item label="商机状态" span={2}>
-                    {data.statusName}
-                  </Descriptions.Item>
-                  <Descriptions.Item label="商机状态" span={2}>
-                    {data.statusName}
-                  </Descriptions.Item>
+                  {getDealStatus(data)}
                 </Descriptions>
                 {/* 信息维护 */}
                 <Descriptions title="信息维护" column={2}>

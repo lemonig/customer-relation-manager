@@ -10,10 +10,13 @@ import {
   DatePicker,
   Row,
   Col,
+  Statistic,
+  Tooltip,
 } from "antd";
 import EChartsReact from "echarts-for-react";
 import * as ReactDOM from "react-dom";
 import MyTimePicker from "@Components/MyTimePicker";
+import IconFont from "@Components/IconFont";
 
 const columns = [
   {
@@ -233,9 +236,21 @@ function Test() {
         }}
       />
       {React.createElement("div", { className: "sidebar" }, "Click Me")}
-
+      <IconFont iconName="ren" size={18}></IconFont>
+      <IconFont iconName="icon-test " size="32" />;
+      <IconFont iconName="huodong" color="#87d068" size="32" />
+      <IconFont iconName="renminbi" color="#d48806" size="32"></IconFont>
       <Form name="deal-edit" {...formItemLayout} form={form}>
         {/* <div className="ant-descriptions-title">基本信息</div> */}
+
+        <Statistic
+          prefix={
+            <Tooltip title="prompt text">
+              <span>Active Users</span>
+            </Tooltip>
+          }
+          value={112893}
+        />
 
         <Row gutter={24}>
           <Col span={11}>
@@ -250,7 +265,6 @@ function Test() {
           </Col>
         </Row>
       </Form>
-
       <Button
         onClick={async () => {
           let arr = [];

@@ -14,6 +14,7 @@ import {
   Select,
   Checkbox,
   Tooltip,
+  Statistic,
 } from "antd";
 import { ExclamationCircleOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
@@ -116,7 +117,10 @@ function DealList() {
       title: "序号",
       key: "index",
       width: 60,
-      render: (_, record, index) => index + 1,
+      render: (_, record, index) =>
+        pageMsg.pagination.pageSize * (pageMsg.pagination.current - 1) +
+        index +
+        1,
     },
 
     {
@@ -143,6 +147,9 @@ function DealList() {
       title: "预计金额",
       dataIndex: "value",
       key: "value",
+      render: (value, record) => (
+        <Statistic value={value} valueStyle={{ fontSize: "12px" }} />
+      ),
     },
     {
       title: "客户公司",
@@ -386,13 +393,12 @@ function DealList() {
       },
       series: [
         {
-          name: "预测金额",
-          barGap: 0,
+          name: "预计金额",
           type: "bar",
-          data: yData1,
+          data: yData2,
           itemStyle: {
             normal: {
-              color: "#1C47BF",
+              color: "#DA4688",
             },
           },
           label: {
@@ -403,12 +409,13 @@ function DealList() {
           barMaxWidth: "20",
         },
         {
-          name: "预计金额",
+          name: "预测金额",
+          barGap: 0,
           type: "bar",
-          data: yData2,
+          data: yData1,
           itemStyle: {
             normal: {
-              color: "#DA4688",
+              color: "#1C47BF",
             },
           },
           label: {
@@ -527,7 +534,7 @@ function DealList() {
                 },
               ]}
               placeholder="商机状态"
-              allowClear
+              mode="multiple"
             />
           </Form.Item>
           <Form.Item>
@@ -547,11 +554,21 @@ function DealList() {
           <Tooltip title="预计：商机预计金额累加和">
             <span className="blue">预计</span>
           </Tooltip>
-          : {chartdata.totalCount.pv} 元；
+          :{" "}
+          <Statistic
+            value={chartdata.totalCount.pv}
+            valueStyle={{ fontSize: "12px" }}
+          />{" "}
+          元；
           <Tooltip title="预测：上家预计金额加权和；加权由阶段机率、信心指数确定">
             <span className="blue"> 预测</span>
           </Tooltip>
-          : {chartdata.totalCount.prev} 元
+          :{" "}
+          <Statistic
+            value={chartdata.totalCount.prev}
+            valueStyle={{ fontSize: "12px" }}
+          />{" "}
+          元
         </div>
       )}
       {chartdata && !chartVis && (
