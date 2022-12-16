@@ -2,12 +2,12 @@
 // 阶段
 .pipeline-stage {
   position: relative;
-  display: table;
+  // display: table;
+  display: flex;
   height: 24px;
   overflow: visible;
-
+  width: 100%;
   ul {
-    width: 100%;
     display: table;
     border-collapse: collapse;
     table-layout: fixed;
@@ -16,6 +16,7 @@
     -o-box-sizing: border-box;
     box-sizing: border-box;
     overflow: hidden;
+    flex: 1;
     li {
       position: relative;
       background: #dadde1;

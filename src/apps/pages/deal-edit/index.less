@@ -4,85 +4,85 @@
   height: 100%;
   overflow: auto;
   // background: @--pd-global-color-neutral-40;
-}
-.detail-view {
-  position: relative;
-  max-width: 1440px;
-  margin: 0 auto;
-  height: 100%;
+  .detail-view {
+    position: relative;
+    max-width: 1440px;
+    margin: 0 auto;
+    height: 100%;
 
-  .actions-content {
-    display: inline-block;
-    vertical-align: top;
-    width: 100%;
-    .actions {
-      text-align: right;
-      display: block;
-      white-space: nowrap;
-      float: right;
-      -webkit-touch-callout: none;
-      -webkit-user-select: none;
-      -ms-user-select: none;
-      user-select: none;
-      background-color: #eee;
-      width: calc(100% - 48px);
-      margin: 0px 24px;
-      padding: 8px 0;
+    .actions-content {
+      display: inline-block;
+      vertical-align: top;
+      width: 100%;
+      .actions {
+        text-align: right;
+        display: block;
+        white-space: nowrap;
+        float: right;
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        background-color: #eee;
+        width: calc(100% - 48px);
+        margin: 0px 24px;
+        padding: 8px 0;
 
-      // 头像
+        // 头像
 
-      .state-actions {
-        display: inline-block;
-        vertical-align: top;
-        margin: 0 8px 0 16px;
+        .state-actions {
+          display: inline-block;
+          vertical-align: top;
+          margin: 0 8px 0 16px;
+        }
+      }
+    }
+    .value-related-itemsc-content {
+      display: inline-block;
+      padding-top: 12px;
+    }
+    .description-head {
+      h1 {
+        display: inline;
+        font: @--pd-font-title-xxl-font;
+        color: #192435;
+        word-break: break-word;
+        .title {
+          word-wrap: break-word;
+          word-break: normal;
+          line-height: 32px;
+        }
       }
     }
   }
-  .value-related-itemsc-content {
-    display: inline-block;
-    padding-top: 12px;
-  }
-  .description-head {
-    h1 {
-      display: inline;
-      font: @--pd-font-title-xxl-font;
-      color: #192435;
-      word-break: break-word;
-      .title {
-        word-wrap: break-word;
-        word-break: normal;
-        line-height: 32px;
-      }
+  // 下面块主要内容
+  .detail-edit-wrap .main-block {
+    position: relative;
+    min-height: 100%;
+    margin: 24px;
+    background-color: #fff;
+
+    .content {
+      min-width: 0;
+      margin: 24px 24px 24px 0;
     }
   }
-}
-// 下面块主要内容
-.detail-edit-wrap .main-block {
-  position: relative;
-  min-height: 100%;
-  margin: 24px;
-  background-color: #fff;
 
-  .content {
-    min-width: 0;
-    margin: 24px 24px 24px 0;
+  // 表单操作
+  .dynamic-delete-button {
+    position: relative;
+    top: 4px;
+    margin: 0 8px;
+    color: #999;
+    font-size: 24px;
+    cursor: pointer;
+    transition: all 0.3s;
   }
-}
-
-// 表单操作
-.dynamic-delete-button {
-  position: relative;
-  top: 4px;
-  margin: 0 8px;
-  color: #999;
-  font-size: 24px;
-  cursor: pointer;
-  transition: all 0.3s;
-}
-.dynamic-delete-button:hover {
-  color: #777;
-}
-.dynamic-delete-button[disabled] {
-  cursor: not-allowed;
-  opacity: 0.5;
+  .dynamic-delete-button:hover {
+    color: #777;
+  }
+  .dynamic-delete-button[disabled] {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
 }

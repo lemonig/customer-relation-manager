@@ -13,6 +13,7 @@ import {
   Form,
   Select,
   Checkbox,
+  Tooltip,
 } from "antd";
 import { ExclamationCircleOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
@@ -55,17 +56,16 @@ function DealList() {
     //销售流程
     const getPlpeline = async () => {
       let { data } = await saleList();
+      searchForm.setFieldValue("pipelineId", data[0]?.id);
       setPipeline(data);
     };
     getPlpeline();
   }, []);
   useEffect(() => {
-    getPageData();
-    JSON.stringify(pageMsg);
-  }, [JSON.stringify(pageMsg)]);
-  const showModal = () => {
-    setIsModalOpen(true);
-  };
+    if (pipeline.length > 0) {
+      getPageData();
+    }
+  }, [JSON.stringify(pageMsg), pipeline]);
 
   // 查询
   const search = () => {
@@ -156,8 +156,13 @@ function DealList() {
     },
     {
       title: "下一项工作计划",
-      dataIndex: "nextActivityName",
-      key: "dealProbability",
+      dataIndex: "nextActivity",
+      key: "nextActivity",
+      render: (value, record) => (
+        <span style={value.isOver ? { color: "#fa4839" } : {}}>
+          {value.value}
+        </span>
+      ),
     },
     {
       title: "客户联系人",
@@ -169,11 +174,11 @@ function DealList() {
       dataIndex: "competitorNum",
       key: "competitorNum",
     },
-    {
-      title: "销售流程",
-      dataIndex: "pipelineName",
-      key: "pipelineName",
-    },
+    // {
+    //   title: "销售流程",
+    //   dataIndex: "pipelineName",
+    //   key: "pipelineName",
+    // },
     {
       title: "销售流程阶段",
       dataIndex: "pipelineStageName",
@@ -183,11 +188,21 @@ function DealList() {
       title: "此阶段停留(天)",
       dataIndex: "stayDays",
       key: "stayDays",
+      render: (value, record) => (
+        <span style={value.isOver ? { color: "#fa4839" } : {}}>
+          {value.value}
+        </span>
+      ),
     },
     {
-      title: "商机状态(天)",
-      dataIndex: "status",
-      key: "status",
+      title: "商机状态",
+      dataIndex: "statusName",
+      key: "statusName",
+    },
+    {
+      title: "销售人员",
+      dataIndex: "ownerUserName",
+      key: "ownerUserName",
     },
     {
       title: "创建时间",
@@ -236,13 +251,13 @@ function DealList() {
     let yData = [];
     let xData = [];
     numCount.forEach((ele) => {
-      xData.push(ele.name);
-      yData.push(ele.num);
+      xData.unshift(ele.name);
+      yData.unshift(ele.num);
     });
 
     const option = {
       title: {
-        text: "商品数量统计",
+        text: "商机数量统计",
         left: "center",
       },
       legend: {},
@@ -308,7 +323,7 @@ function DealList() {
           label: {
             show: true,
             position: "outside",
-            formatter: " {@score}件",
+            formatter: " {@score}笔",
           },
           itemStyle: {
             normal: {
@@ -326,9 +341,9 @@ function DealList() {
     let yData1 = [];
     let yData2 = [];
     valueCount.forEach((ele) => {
-      xData.push(ele.name);
-      yData1.push(ele.prev / 10000); //预测值
-      yData2.push(ele.pv / 10000); //预计值
+      xData.unshift(ele.name);
+      yData1.unshift(ele.prev / 10000); //预测值
+      yData2.unshift(ele.pv / 10000); //预计值
     });
 
     const option = {
@@ -339,7 +354,7 @@ function DealList() {
       },
       legend: {
         right: "center",
-        top: "7%",
+        top: "10%",
       },
       tooltip: {
         trigger: "axis",
@@ -416,7 +431,7 @@ function DealList() {
   return (
     <div className="deal-page">
       <PageHeader className="site-page-header" title="商机列表" />
-      <div className="search">
+      <div className="search" style={{ marginBottom: "0px" }}>
         <Form layout="inline" form={searchForm} onFinish={search}>
           <Form.Item label="" name="name">
             <Input
@@ -437,7 +452,6 @@ function DealList() {
                 value: "id",
               }}
               options={pipeline}
-              allowClear
             />
           </Form.Item>
           <Form.Item label="" name="deparment">
@@ -529,26 +543,35 @@ function DealList() {
       </div>
       {chartdata && (
         <div className="data-msg">
-          商机: {chartdata.totalCount.total} 笔；预计: {chartdata.totalCount.pv}{" "}
-          元；预测: {chartdata.totalCount.prev} 元
+          商机: {chartdata.totalCount.total} 笔；
+          <Tooltip title="预计：商机预计金额累加和">
+            <span className="blue">预计</span>
+          </Tooltip>
+          : {chartdata.totalCount.pv} 元；
+          <Tooltip title="预测：上家预计金额加权和；加权由阶段机率、信心指数确定">
+            <span className="blue"> 预测</span>
+          </Tooltip>
+          : {chartdata.totalCount.prev} 元
         </div>
       )}
       {chartdata && !chartVis && (
-        <Row gutter={16}>
-          <Col span={10} offset={1}>
-            {Reflect.has(chartdata, "numCount") && (
-              <EChartsReact option={getOption()} lazyUpdate={true} />
-            )}
-          </Col>
-          <Col span={10} offset={3}>
-            {Reflect.has(chartdata, "totalCount") && (
-              <EChartsReact option={getOption1()} lazyUpdate={true} />
-            )}
-          </Col>
-        </Row>
+        <>
+          <Row gutter={16}>
+            <Col span={10} offset={1}>
+              {Reflect.has(chartdata, "numCount") && (
+                <EChartsReact option={getOption()} lazyUpdate={true} />
+              )}
+            </Col>
+            <Col span={10} offset={3}>
+              {Reflect.has(chartdata, "totalCount") && (
+                <EChartsReact option={getOption1()} lazyUpdate={true} />
+              )}
+            </Col>
+          </Row>
+          <div style={{ marginBottom: "20px" }}></div>
+        </>
       )}
 
-      <div style={{ marginBottom: "20px" }}></div>
       <Table
         columns={columns}
         dataSource={data}

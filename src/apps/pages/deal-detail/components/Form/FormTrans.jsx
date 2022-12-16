@@ -3,14 +3,23 @@ import React, { useState, useEffect } from "react";
 import { Select, Modal, Form, message } from "antd";
 import { dealterminate, deallose, dealwin, dealtransfer } from "@Api/deal_list";
 import { userList } from "@Api/set_user.js";
+import {
+  useParams,
+  useSearchParams,
+  useNavigate,
+  useLocation,
+} from "react-router-dom";
 
 function FormTrans({ open, closeModal, pipelineId }) {
+  let navigate = useNavigate();
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
   const [user, setUser] = useState([]);
   useEffect(() => {
     const getUser = async () => {
-      let { data } = await userList();
+      let { data } = await userList({
+        roleIdList: [3],
+      });
       setUser(data);
     };
     getUser();
@@ -24,7 +33,11 @@ function FormTrans({ open, closeModal, pipelineId }) {
     let { success, message: msg } = await dealtransfer(values);
     if (success) {
       message.success("提交成功");
-      closeModal(true);
+      closeModal(true, "trans");
+      navigate({
+        pathname: "/dealList",
+        replace: true,
+      });
     } else {
       message.error(msg);
     }

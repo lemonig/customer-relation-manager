@@ -15,6 +15,7 @@ import {
   Row,
   Col,
   message,
+  InputNumber,
 } from "antd";
 import IconFont from "@Components/IconFont";
 import { customerInfo } from "@Api/info_customer.js";
@@ -137,10 +138,14 @@ function DealEdit() {
     await form.validateFields();
     const values = form.getFieldsValue();
     values.id = pipelineId;
+    // 处理表单null 数据
+    values.competitorList = values.competitorList.filter(Boolean);
+    values.partnerList = values.partnerList.filter(Boolean);
     setLoading(true);
     let { success, message: msg } = await dealUpdate(values);
     if (success) {
       message.success("提交成功");
+      navigate(-1);
     } else {
       message.error(msg);
     }
@@ -153,6 +158,7 @@ function DealEdit() {
           <div className="detail-view">
             <PageHeader
               className="site-page-header"
+              style={{ paddingLeft: "24px" }}
               onBack={() =>
                 navigate(-1, {
                   replace: true,
@@ -190,12 +196,20 @@ function DealEdit() {
 
                 <Row gutter={24}>
                   <Col span={11}>
-                    <Form.Item name="code" label="商机编号">
-                      <Input placeholder="请输入" />
+                    <Form.Item
+                      name="code"
+                      label="商机编号"
+                      rules={[{ required: true, message: "请输入商机编号!" }]}
+                    >
+                      <Input placeholder="请输入" disabled />
                     </Form.Item>
                   </Col>
                   <Col span={11}>
-                    <Form.Item label="项目名称" name="title">
+                    <Form.Item
+                      label="商机名称"
+                      name="title"
+                      rules={[{ required: true, message: "请输入商机名称!" }]}
+                    >
                       <Input placeholder="请输入" />
                     </Form.Item>
                   </Col>
@@ -218,13 +232,17 @@ function DealEdit() {
                   </Col>
                   <Col span={11}>
                     <Form.Item label="预计金额(元)" name="value">
-                      <Input placeholder="请输入" />
+                      <InputNumber placeholder="请输入" addonAfter="￥" />
                     </Form.Item>
                   </Col>
                 </Row>
                 <Row gutter={24}>
                   <Col span={11}>
-                    <Form.Item label="销售流程" name="pipelineId">
+                    <Form.Item
+                      label="销售流程"
+                      name="pipelineId"
+                      rules={[{ required: true, message: "请选择销售流程!" }]}
+                    >
                       <Select
                         placeholder="请选择"
                         fieldNames={{
@@ -237,7 +255,11 @@ function DealEdit() {
                     </Form.Item>
                   </Col>
                   <Col span={11}>
-                    <Form.Item label="销售流程阶段" name="pipelineStageId">
+                    <Form.Item
+                      label="销售阶段"
+                      name="pipelineStageId"
+                      rules={[{ required: true, message: "请选择销售阶段!" }]}
+                    >
                       <Select
                         placeholder="请选择"
                         fieldNames={{
@@ -252,7 +274,7 @@ function DealEdit() {
                 <Row gutter={24}>
                   <Col span={11}>
                     <Form.Item label="信心指数" name="probability">
-                      <Input placeholder="请输入" />
+                      <InputNumber placeholder="请输入" addonAfter="%" />
                     </Form.Item>
                   </Col>
                 </Row>
@@ -267,7 +289,11 @@ function DealEdit() {
 
                 <Row gutter={24}>
                   <Col span={11}>
-                    <Form.Item label="客户名称" name="orgId">
+                    <Form.Item
+                      label="客户名称"
+                      name="orgId"
+                      rules={[{ required: true, message: "请选择客户名称!" }]}
+                    >
                       <Select
                         placeholder="请选择"
                         onClick={() => setLinkModalOpen(true)}
@@ -285,7 +311,11 @@ function DealEdit() {
                     </Form.Item>
                   </Col>
                   <Col span={11}>
-                    <Form.Item label="最终用户" name="isFinalOrg">
+                    <Form.Item
+                      label="最终用户"
+                      name="isFinalOrg"
+                      rules={[{ required: true, message: "请选择最终用户!" }]}
+                    >
                       <Select
                         placeholder="请选择"
                         options={[
@@ -357,7 +387,7 @@ function DealEdit() {
                             <Form.Item
                               {...restField}
                               name={[name, "partnerId"]}
-                              label="合作伙伴"
+                              label={`合作伙伴${idx + 1}`}
                             >
                               <SelectCompany
                                 url="hz"
@@ -418,7 +448,7 @@ function DealEdit() {
                             <Form.Item
                               {...restField}
                               name={[name, "competitorId"]}
-                              label="竞争对手"
+                              label={`竞争对手${idx + 1}`}
                             >
                               <SelectCompany
                                 url="jz"
@@ -463,13 +493,13 @@ function DealEdit() {
                     </>
                   )}
                 </Form.List>
-                <Row gutter={24}>
+                {/* <Row gutter={24}>
                   <Col span={11}>
                     <Form.Item label="备注" name="description">
                       <Input.TextArea placeholder="请输入" />
                     </Form.Item>
                   </Col>
-                </Row>
+                </Row> */}
               </Form>
             </div>
           </div>

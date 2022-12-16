@@ -51,7 +51,7 @@ function ProductManage() {
   const getProducttTypelist = async () => {
     let { data } = await productTypeList();
 
-    await setTypelist(data);
+    await setTypelist((data) => data);
 
     getPageData();
   };
@@ -260,16 +260,14 @@ function ProductManage() {
           <Button onClick={handleAdd}>新建</Button>
         </Space>
       </div>
-      {typelist.length ? (
-        <Table
-          columns={columns}
-          dataSource={data}
-          loading={loading}
-          pagination={pageMsg.pagination}
-          rowKey={(record) => record.id}
-          onChange={handleTableChange}
-        />
-      ) : null}
+      <Table
+        columns={columns}
+        dataSource={data}
+        loading={loading}
+        pagination={pageMsg.pagination}
+        rowKey={(record) => record.id}
+        onChange={handleTableChange}
+      />
 
       {/* 弹出表单 */}
       <Modal

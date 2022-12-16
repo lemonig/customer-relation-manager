@@ -29,7 +29,7 @@ function FormSop({ open, closeModal, pipelineId }) {
     let { success, message: msg } = await dealterminate(values);
     if (success) {
       message.success("提交成功");
-      closeModal(true);
+      closeModal(true, "stop");
     } else {
       message.error(msg);
     }

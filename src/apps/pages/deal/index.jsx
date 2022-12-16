@@ -5,30 +5,28 @@ import { Dustbin } from "./components/Dustbin";
 import StageBlock from "@Components/StageBlock";
 import "./index.less";
 import { reqD } from "./test";
+import { dealFunnel } from "@Api/deal_list";
 
 function Deal() {
-  let [stageArr, setstageArr] = useState([
-    {
-      id: 1,
-      data: [],
-    },
-    {
-      id: 2,
-      data: [],
-    },
-    {
-      id: 3,
-      data: [],
-    },
-    {
-      id: 4,
-      data: [],
-    },
-  ]);
+  let [stageArr, setstageArr] = useState([]);
+  const [stageMsg, setStageMsg] = useState({});
 
+  useEffect(() => {
+    getPageData();
+  }, []);
+
+  const getPageData = async () => {
+    let params = {
+      pipelineId: 1,
+    };
+    let { data } = await dealFunnel(params);
+    console.log(data);
+    setstageArr(data.detailCount);
+    setStageMsg(data.totalCount);
+  };
   useLayoutEffect(() => {
     const abortController = new AbortController();
-    hadleData();
+    // hadleData();
     // return () => abortController.abort();
   }, []);
 
@@ -43,18 +41,23 @@ function Deal() {
     <div className="deal-wrap">
       <div className="deal-stage-scroll">
         <div className="deal-stage">
-          {stageArr.map((item, idx) => (
-            <React.Fragment key={idx}>
-              <div className="deal-stage-item">
-                <StageBlock />
-                <DndProvider backend={HTML5Backend}>
-                  <div className="deal-main">
-                    <Dustbin data={item} />
-                  </div>
-                </DndProvider>
-              </div>
-            </React.Fragment>
-          ))}
+          {stageArr.length &&
+            stageArr.map((item, idx) => (
+              <React.Fragment key={idx}>
+                <div className="deal-stage-item">
+                  <StageBlock
+                    title={item.name}
+                    msgPre={item.prev}
+                    msgAft={item.num}
+                  />
+                  <DndProvider backend={HTML5Backend}>
+                    <div className="deal-main">
+                      <Dustbin data={item} />
+                    </div>
+                  </DndProvider>
+                </div>
+              </React.Fragment>
+            ))}
         </div>
       </div>
     </div>

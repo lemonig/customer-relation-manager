@@ -28,3 +28,10 @@ export function activeDelete(data) {
     data,
   });
 }
+// 活动计划
+export function activeCalendar(data) {
+  return _post({
+    url: `/api/activity/calendar`,
+    data,
+  });
+}

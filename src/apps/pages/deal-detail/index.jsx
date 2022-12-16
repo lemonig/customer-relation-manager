@@ -116,14 +116,17 @@ function DealDetail() {
   };
 
   //表单回调
-  const closeModal = (flag) => {
+  const closeModal = (flag, page) => {
     // flag 确定还是取消
     setModalVis({
       lose: false,
       stop: false,
       trans: false,
     });
-    if (flag) getPageData();
+    if (flag) {
+      console.log(flag);
+      getPageData();
+    }
   };
   const handleWinDeal = () => {
     confirm({
@@ -136,6 +139,7 @@ function DealDetail() {
             if (res.success) {
               resolve();
               message.success("提交成功");
+              getPageData();
             } else {
               reject();
               message.error(res.msg);
@@ -152,6 +156,7 @@ function DealDetail() {
       <div className="detail-view">
         <PageHeader
           className="site-page-header"
+          style={{ paddingLeft: "24px" }}
           onBack={() =>
             navigate({
               pathname: "/dealList",
@@ -187,11 +192,30 @@ function DealDetail() {
                 >
                   丢单
                 </Button>
+
+                <Button
+                  onClick={() => {
+                    setModalVis({
+                      ...modalVis,
+                      trans: true,
+                    });
+                  }}
+                >
+                  转移
+                </Button>
+
+                <Button
+                  onClick={() => {
+                    setModalVis({
+                      ...modalVis,
+                      stop: true,
+                    });
+                  }}
+                >
+                  终止
+                </Button>
               </Space>
             </div>
-            <Dropdown trigger={["click"]} overlay={menu}>
-              <Button icon={<EllipsisOutlined />}></Button>
-            </Dropdown>
           </div>
         </div>
         <div className="main-block">
@@ -228,7 +252,10 @@ function DealDetail() {
                     {data.description}
                   </Descriptions.Item>
                   <Descriptions.Item label="销售阶段" span={2}>
-                    <Stage msg={data.pipelineDetailList} />
+                    <Stage
+                      msg={data.pipelineDetailList}
+                      detail={data.pipelineStage}
+                    />
                   </Descriptions.Item>
                   <Descriptions.Item label="信心指数" span={2}>
                     <Progress
@@ -238,7 +265,13 @@ function DealDetail() {
                     />
                   </Descriptions.Item>
                   <Descriptions.Item label="商机状态" span={2}>
-                    {data.status}
+                    {data.statusName}
+                  </Descriptions.Item>
+                  <Descriptions.Item label="商机状态" span={2}>
+                    {data.statusName}
+                  </Descriptions.Item>
+                  <Descriptions.Item label="商机状态" span={2}>
+                    {data.statusName}
                   </Descriptions.Item>
                 </Descriptions>
                 {/* 信息维护 */}

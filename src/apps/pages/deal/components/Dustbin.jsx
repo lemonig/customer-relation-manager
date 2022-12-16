@@ -6,6 +6,7 @@ import { reqD } from "../test";
 
 const style = {};
 export const Dustbin = ({ data }) => {
+  console.log(data);
   const [{ canDrop, isOver }, drop] = useDrop(() => ({
     accept: ItemTypes.BOX,
     drop: () => ({ name: "Dustbin" }),
@@ -32,7 +33,7 @@ export const Dustbin = ({ data }) => {
        */}
       <div className="dustin-inner">
         <div style={{ padding: "8px" }}>
-          {data.data.map((item, idx) => (
+          {data.list.map((item, idx) => (
             <Box key={idx} data={item} />
           ))}
         </div>

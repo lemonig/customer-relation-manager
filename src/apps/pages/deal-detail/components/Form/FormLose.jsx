@@ -21,10 +21,10 @@ function FormLose({ open, closeModal, pipelineId }) {
     const values = form.getFieldsValue();
     values.id = pipelineId;
     setLoading(true);
-    let { success, message: msg } = await dealterminate(values);
+    let { success, message: msg } = await deallose(values);
     if (success) {
       message.success("提交成功");
-      closeModal(true);
+      closeModal(true, "lose");
     } else {
       message.error(msg);
     }
@@ -64,7 +64,7 @@ function FormLose({ open, closeModal, pipelineId }) {
             }}
           ></Select>
         </Form.Item>
-        <Form.Item label="终止原因" name="description">
+        <Form.Item label="丢单原因" name="description">
           <Input.TextArea placeholder="请输入" />
         </Form.Item>
       </Form>

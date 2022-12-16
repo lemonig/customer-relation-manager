@@ -25,6 +25,7 @@ function SelectCompany({ value = {}, onChange, url, text }) {
   }, [text]);
 
   const triggerChange = (changedValue) => {
+    console.log(changedValue);
     onChange?.(changedValue.data.id);
   };
   const getRowSelected = (flag, row) => {

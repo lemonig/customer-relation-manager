@@ -12,6 +12,7 @@ import {
   Typography,
   Tooltip,
   PageHeader,
+  InputNumber,
 } from "antd";
 import { dealadd, dealCodeGet } from "@Api/deal_list";
 import { customerInfo } from "@Api/info_customer.js";
@@ -51,6 +52,10 @@ function DealForm({ isModalOpen, closeModal, data }) {
   const getPlpeline = async () => {
     let { data } = await saleList();
     setPipeline(data);
+    form.setFieldValue("pipelineId", data[0].id);
+    if (data[0]?.id) {
+      handlePipelineChange(data[0].id);
+    }
   };
   // 新建
   const handleOk = async () => {
@@ -93,6 +98,9 @@ function DealForm({ isModalOpen, closeModal, data }) {
   const handlePipelineChange = async (val) => {
     let { data } = await saleStageList({ pipelineId: val });
     setPipelineStage(data);
+    if (data[0]?.id) {
+      form.setFieldValue("pipelineStageId", data[0].id);
+    }
   };
   return (
     <>
@@ -105,12 +113,12 @@ function DealForm({ isModalOpen, closeModal, data }) {
         destroyOnClose
       >
         <Form
-          name="basic"
+          name="deal-list"
           labelCol={{ span: 6 }}
           wrapperCol={{ span: 18 }}
           autoComplete="off"
           initialValues={{
-            orgType: "1",
+            isFinalOrg: true,
           }}
           form={form}
         >
@@ -209,7 +217,7 @@ function DealForm({ isModalOpen, closeModal, data }) {
           </Form.Item>
 
           <Form.Item label="预计金额(元)" name="value">
-            <Input placeholder="请输入" />
+            <InputNumber placeholder="请输入" addonAfter="￥" />
           </Form.Item>
           <Form.Item label="产品信息" name="productList">
             <Select

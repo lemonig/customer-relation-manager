@@ -1,11 +1,18 @@
 import React from "react";
 import "./index.less";
 
-function StageBlock() {
+function StageBlock({ title, msgPre, msgAft }) {
   return (
     <div className="stage-block">
       <div className="inner">
-        <div className="content">sss</div>
+        <div className="content">
+          <div>{title}</div>
+          <div>
+            <span>预测：{msgPre}</span>
+
+            <span style={{ marginLeft: "16px" }}>{msgAft}笔</span>
+          </div>
+        </div>
         <svg
           className="arrow"
           width="16"

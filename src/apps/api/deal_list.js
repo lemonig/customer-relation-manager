@@ -108,9 +108,16 @@ export function approvalPage(data) {
 }
 // 审批导出
 export function approvalexport(data, title) {
-  return _post({
+  return _download({
     url: `/api/deal/approve/export`,
     data,
     title,
+  });
+}
+// 审批漏斗
+export function dealFunnel(data, title) {
+  return _post({
+    url: `/api/deal/funnel`,
+    data,
   });
 }
