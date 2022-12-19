@@ -1,11 +1,14 @@
 import { useDrag } from "react-dnd";
 import { ItemTypes } from "./ItemTypes.js";
 import IconFont from "@Components/IconFont";
-import { Avatar, Image, Tag } from "antd";
+import { Avatar, Image, Tag, Statistic } from "antd";
+import { useNavigate } from "react-router-dom";
 import "./index.less";
 const style = {};
 
 export const Box = function Box({ data }) {
+  console.log(data);
+  let navigate = useNavigate();
   // const [{ isDragging }, drag] = useDrag(() => ({
   //   type: ItemTypes.BOX,
   //   item: data,
@@ -81,6 +84,12 @@ export const Box = function Box({ data }) {
     }
   };
 
+  const gotoDealDetail = () => {
+    navigate({
+      pathname: "/pipeline",
+      search: `?pipelineId=${data.id}`,
+    });
+  };
   return (
     <div
       // ref={drag}
@@ -90,6 +99,7 @@ export const Box = function Box({ data }) {
         backgroundColor: getbgColor(),
       }}
       data-testid={`box`}
+      onClick={gotoDealDetail}
     >
       <div className="box-warp">
         <div className="box-inner flex-row-base">
@@ -123,7 +133,11 @@ export const Box = function Box({ data }) {
                 size={18}
                 color="#d48806"
               ></IconFont>
-              {data?.value} 元
+              <Statistic
+                value={data?.value}
+                valueStyle={{ fontSize: "12px" }}
+              />{" "}
+              元
             </div>
           </div>
           <div className="flex-colum-base flex-align-center right">

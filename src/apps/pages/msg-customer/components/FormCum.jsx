@@ -159,7 +159,7 @@ function FormCum({ record, open, closeModal }) {
             <Input placeholder="请输入" />
           </Form.Item>
 
-          <Form.Item label="职位" name="jotTitle">
+          <Form.Item label="职位" name="jobTitle">
             <Input placeholder="请输入" />
           </Form.Item>
 

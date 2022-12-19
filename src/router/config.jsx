@@ -26,6 +26,7 @@ const fouterFilter = () => {
                   )}
                 </React.Suspense>
               ),
+              index: !!item.index,
             }
           : null;
       })

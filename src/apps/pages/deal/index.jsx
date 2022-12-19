@@ -69,7 +69,7 @@ function Deal() {
 
   return (
     <Spin spinning={loading} delay={500}>
-      <div className="search">
+      <div className="search" style={{ marginBottom: "0px" }}>
         <Form layout="inline" form={searchForm} onFinish={getPageData}>
           <Form.Item label="" name="name">
             <Input

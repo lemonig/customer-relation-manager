@@ -185,11 +185,12 @@ function DealDetail() {
         <PageHeader
           className="site-page-header"
           style={{ padding: "0 24px" }}
-          onBack={() =>
-            navigate({
-              pathname: "/dealList",
-              replace: true,
-            })
+          onBack={
+            () => navigate(-1, {})
+            // navigate({
+            //   pathname: "/dealList",
+            //   replace: true,
+            // })
           }
           title="商机详情"
           extra={[

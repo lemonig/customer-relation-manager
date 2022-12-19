@@ -1,7 +1,7 @@
 import axios from "axios";
 import { message } from "antd";
 import { useSelector, useDispatch } from "react-redux";
-import { PUSH_LOADING, SHIFT_LOADING } from "@Store/festures/loadSlice";
+import { PUSH_LOADING, SHIFT_LOADING } from "@Store/features/loadSlice";
 
 axios.defaults.timeout = 10000;
 axios.interceptors.request.use(

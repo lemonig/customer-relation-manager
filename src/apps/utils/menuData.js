@@ -3,13 +3,13 @@ const menu = [
     id: 1,
     pid: 0,
     key: 1,
-    path: "/workCalendar",
     name: "workCalendar",
     component: "work-calendar",
     auth: true,
     label: "工作台历",
     icon: "V",
     isleaf: true,
+    index: true,
   },
 
   {

@@ -141,7 +141,16 @@ function DealList() {
     {
       title: "商机名称",
       dataIndex: "title",
+      width: "300",
       key: "title",
+      // ellipsis: {
+      //   showTitle: false,
+      // },
+      // render: (title) => (
+      //   <Tooltip placement="topLeft" title={title}>
+      //     {title}
+      //   </Tooltip>
+      // ),
     },
     {
       title: "预计金额",

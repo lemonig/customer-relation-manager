@@ -1,4 +1,5 @@
 import React from "react";
+import { Statistic } from "antd";
 import "./index.less";
 
 function StageBlock({ title, msgPre, msgAft }) {
@@ -8,7 +9,10 @@ function StageBlock({ title, msgPre, msgAft }) {
         <div className="content">
           <div>{title}</div>
           <div>
-            <span>预测：{msgPre}元</span>
+            <span>
+              预测：
+              <Statistic value={msgPre} valueStyle={{ fontSize: "12px" }} />元
+            </span>
 
             <span style={{ marginLeft: "16px" }}>{msgAft}笔</span>
           </div>

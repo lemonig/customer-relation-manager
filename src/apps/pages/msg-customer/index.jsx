@@ -153,13 +153,14 @@ function MsgCustomer() {
     },
     {
       title: "职位",
-      dataIndex: "jotTitle",
-      key: "jotTitle",
+      dataIndex: "jobTitle",
+      key: "jobTitle",
     },
     {
       title: "关键决策人",
       dataIndex: "isKdm",
       key: "isKdm",
+      render: (val) => (val ? "是" : "否"),
     },
     {
       title: "地址",

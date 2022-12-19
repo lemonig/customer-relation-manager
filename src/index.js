@@ -9,7 +9,7 @@ import reportWebVitals from "./reportWebVitals";
 import { ConfigProvider } from "antd";
 import zhCN from "antd/lib/locale/zh_CN";
 import { Provider } from "react-redux";
-import store from "./store/index";
+import { store } from "./store/index";
 import moment from "moment";
 import "moment/locale/zh-cn";
 moment.locale("zh-cn");
