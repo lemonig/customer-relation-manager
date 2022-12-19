@@ -32,7 +32,6 @@ function LayMenu() {
   const navigate = useNavigate();
   const treeKey = useSelector((state) => state.menuKey.key);
   const openKey = useSelector((state) => state.menuKey.openKey);
-  console.log(openKey);
   const menu = handleMenu();
   const handleMenuClick = ({ item, key, keyPath }) => {
     // console.log(key);
@@ -41,7 +40,6 @@ function LayMenu() {
     dispatch(SELECT_MENU(key));
   };
   const handleOpen = (openKeys) => {
-    console.log(openKeys);
     // open keys数组集合
     dispatch(OPEN_EKY(openKeys));
   };

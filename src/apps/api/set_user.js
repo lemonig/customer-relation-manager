@@ -62,3 +62,10 @@ export function userSearch(data) {
     data,
   });
 }
+// 销售人员
+export function salesmanList(data) {
+  return _post({
+    url: `/api/user/salesman/list`,
+    data,
+  });
+}

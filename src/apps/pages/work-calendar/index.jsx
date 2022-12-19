@@ -35,7 +35,6 @@ function WorkCalender() {
   const [datese, setDatese] = useState(moment().format());
   const [activeData, setActiveData] = useState([]);
   useEffect(() => {
-    console.log(JSON.stringify(datese));
     getPageData();
   }, [JSON.stringify(datese)]);
 
@@ -53,7 +52,6 @@ function WorkCalender() {
     values.month = moment(datese).month() + 1;
 
     let { data } = await activeCalendar(values);
-    console.log(data);
     setData(data);
   };
 
@@ -75,7 +73,6 @@ function WorkCalender() {
   };
 
   const getListData = (value) => {
-    console.log(value.format("YYYY-MM-DD "));
     let res = data[value.format("YYYY-MM-DD")];
     if (res) {
       return res.map((item) => ({

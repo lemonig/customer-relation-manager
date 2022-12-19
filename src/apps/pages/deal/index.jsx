@@ -6,6 +6,8 @@ import StageBlock from "@Components/StageBlock";
 import "./index.less";
 import { reqD } from "./test";
 import { dealFunnel } from "@Api/deal_list";
+import { salesmanList } from "@Api/set_user";
+import { deptList as deptListApi } from "@Api/set_dept.js";
 import {
   Input,
   Button,
@@ -25,19 +27,36 @@ function Deal() {
   const [stageMsg, setStageMsg] = useState(null);
   const [searchForm] = Form.useForm();
   const [pipeline, setPipeline] = useState([]); //销售流程
+  const [salerList, setSalerList] = useState([]);
+  const [deptList, setDeptList] = useState([]);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    setLoading(true);
+    getSalesmanList();
+    getDeptList();
     getPlpeline().then((_) => {
       getPageData();
     });
   }, []);
   const getPlpeline = async () => {
+    setLoading(true);
     let { data } = await saleList();
     searchForm.setFieldValue("pipelineId", data[0]?.id);
     setPipeline(data);
   };
+
+  //销售人员
+  const getSalesmanList = async () => {
+    let { data } = await salesmanList();
+
+    setSalerList(data);
+  };
+  //部门
+  const getDeptList = async () => {
+    let { data } = await deptListApi();
+    setDeptList(data);
+  };
+
   const getPageData = async () => {
     setLoading(true);
     let values = searchForm.getFieldsValue();
@@ -92,30 +111,30 @@ function Deal() {
               options={pipeline}
             />
           </Form.Item>
-          <Form.Item label="" name="deparment">
+          <Form.Item label="" name="deptIdList">
             <Select
               style={{ width: 120 }}
-              options={[
-                {
-                  label: "1",
-                  value: "1",
-                },
-              ]}
+              options={deptList}
               placeholder="选择部门"
-              allowClear
+              fieldNames={{
+                label: "name",
+                value: "id",
+              }}
+              mode="multiple"
+              maxTagCount="responsive"
             />
           </Form.Item>
-          <Form.Item label="" name="staff">
+          <Form.Item label="" name="userIdList">
             <Select
               style={{ width: 120 }}
-              options={[
-                {
-                  label: "1",
-                  value: "1",
-                },
-              ]}
+              options={salerList}
               placeholder="销售人员"
-              allowClear
+              fieldNames={{
+                label: "name",
+                value: "id",
+              }}
+              mode="multiple"
+              maxTagCount="responsive"
             />
           </Form.Item>
           <Form.Item label="" name="valueList">

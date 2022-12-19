@@ -75,7 +75,6 @@ function DealForm({ isModalOpen, closeModal, data }) {
 
   const getRowSelected = (confirm, row) => {
     if (confirm) {
-      console.log("confirm");
       form.setFieldValue("orgId", row[0].id);
       setLinkSelected(row[0]);
     }

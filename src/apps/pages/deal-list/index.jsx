@@ -4,8 +4,6 @@ import {
   Button,
   Space,
   Table,
-  Modal,
-  message,
   PageHeader,
   DatePicker,
   Col,
@@ -16,21 +14,12 @@ import {
   Tooltip,
   Statistic,
 } from "antd";
-import { ExclamationCircleOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 import moment from "moment";
-import {
-  dealPage,
-  dealSingleGet,
-  dealList,
-  dealadd,
-  dealUpdate,
-  dealCodeGet,
-  dealChart,
-  dealExport,
-} from "@Api/deal_list";
+import { dealPage } from "@Api/deal_list";
 import { saleList } from "@Api/set_sale";
-import IconFont from "@Components/IconFont";
+import { salesmanList } from "@Api/set_user";
+import { deptList as deptListApi } from "@Api/set_dept.js";
 import EChartsReact from "echarts-for-react";
 import DealForm from "./Form/DealForm";
 
@@ -45,6 +34,8 @@ function DealList() {
   const [data, setData] = useState([]);
   const [chartdata, setChartdata] = useState(null);
   const [pipeline, setPipeline] = useState([]); //销售流程
+  const [salerList, setSalerList] = useState([]);
+  const [deptList, setDeptList] = useState([]);
   const [chartVis, setChartVis] = useState(false);
 
   const [pageMsg, setPagemsg] = useState({
@@ -54,19 +45,34 @@ function DealList() {
     },
   });
   useEffect(() => {
-    //销售流程
-    const getPlpeline = async () => {
-      let { data } = await saleList();
-      searchForm.setFieldValue("pipelineId", data[0]?.id);
-      setPipeline(data);
-    };
     getPlpeline();
+    getSalesmanList();
+    getDeptList();
   }, []);
+
   useEffect(() => {
     if (pipeline.length > 0) {
       getPageData();
     }
   }, [JSON.stringify(pageMsg), pipeline]);
+
+  //销售流程
+  const getPlpeline = async () => {
+    let { data } = await saleList();
+    searchForm.setFieldValue("pipelineId", data[0]?.id);
+    setPipeline(data);
+  };
+  //销售人员
+  const getSalesmanList = async () => {
+    let { data } = await salesmanList();
+
+    setSalerList(data);
+  };
+  //部门
+  const getDeptList = async () => {
+    let { data } = await deptListApi();
+    setDeptList(data);
+  };
 
   // 查询
   const search = () => {
@@ -440,7 +446,6 @@ function DealList() {
   };
 
   const handleChartChange = (e) => {
-    console.log(`checked = ${e.target.checked}`);
     setChartVis(e.target.checked);
   };
 
@@ -470,30 +475,30 @@ function DealList() {
               options={pipeline}
             />
           </Form.Item>
-          <Form.Item label="" name="deparment">
+          <Form.Item label="" name="deptIdList">
             <Select
               style={{ width: 120 }}
-              options={[
-                {
-                  label: "1",
-                  value: "1",
-                },
-              ]}
+              options={deptList}
               placeholder="选择部门"
-              allowClear
+              fieldNames={{
+                label: "name",
+                value: "id",
+              }}
+              mode="multiple"
+              maxTagCount="responsive"
             />
           </Form.Item>
-          <Form.Item label="" name="staff">
+          <Form.Item label="" name="userIdList">
             <Select
               style={{ width: 120 }}
-              options={[
-                {
-                  label: "1",
-                  value: "1",
-                },
-              ]}
+              options={salerList}
               placeholder="销售人员"
-              allowClear
+              fieldNames={{
+                label: "name",
+                value: "id",
+              }}
+              mode="multiple"
+              maxTagCount="responsive"
             />
           </Form.Item>
           <Form.Item label="" name="valueList">
@@ -544,6 +549,7 @@ function DealList() {
               ]}
               placeholder="商机状态"
               mode="multiple"
+              maxTagCount="responsive"
             />
           </Form.Item>
           <Form.Item>

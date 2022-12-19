@@ -7,7 +7,6 @@ import "./index.less";
 const style = {};
 
 export const Box = function Box({ data }) {
-  console.log(data);
   let navigate = useNavigate();
   // const [{ isDragging }, drag] = useDrag(() => ({
   //   type: ItemTypes.BOX,

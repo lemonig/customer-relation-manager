@@ -75,7 +75,6 @@ function FormCum({ record, open, closeModal }) {
   //获取许诸南泽的客户公司
   const getRowSelected = (confirm, row) => {
     if (confirm) {
-      console.log("confirm");
       form.setFieldValue("orgId", row[0].id);
       setLinkSelected(row[0]);
     }

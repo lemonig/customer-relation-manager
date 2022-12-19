@@ -9,5 +9,5 @@ export function handleMenu() {
 
 export function handleRouter() {
   let copy = JSON.parse(JSON.stringify(menuData));
-  return copy.filter((item) => !!item.path);
+  return copy.filter((item) => !!item.name);
 }

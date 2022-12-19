@@ -14,23 +14,40 @@ const LoadPage = React.lazy(() => import("@Pages/load-page"));
 const fouterFilter = () => {
   return (
     handleRouter().length &&
-    handleRouter()
-      .map((item) => {
-        return item.auth
-          ? {
-              path: item.path,
-              element: (
-                <React.Suspense fallback={<>...</>}>
-                  {React.createElement(
-                    React.lazy(() => import(`@Pages/${item.component}`))
-                  )}
-                </React.Suspense>
-              ),
-              index: !!item.index,
-            }
-          : null;
-      })
-      .filter(Boolean)
+    handleRouter().map((item) => {
+      let obj = {};
+      if (item.auth) {
+        Reflect.set(
+          obj,
+          "element",
+          <React.Suspense fallback={<>...</>}>
+            {React.createElement(
+              React.lazy(() => import(`@Pages/${item.component}`))
+            )}
+          </React.Suspense>
+        );
+
+        if (item.index) {
+          Reflect.set(obj, "index", item.index);
+        } else {
+          Reflect.set(obj, "path", item.path);
+        }
+        return obj;
+      }
+      // return item.auth
+      //   ? {
+      //       path: item.path,
+      //       element: (
+      //         <React.Suspense fallback={<>...</>}>
+      //           {React.createElement(
+      //             React.lazy(() => import(`@Pages/${item.component}`))
+      //           )}
+      //         </React.Suspense>
+      //       ),
+      //       index: !!item.index,
+      //     }
+      //   : null;
+    })
   );
 };
 
@@ -70,5 +87,4 @@ const config = [
     children: fouterFilter(),
   },
 ];
-
 export default config;

@@ -124,7 +124,6 @@ function DealDetail() {
       trans: false,
     });
     if (flag) {
-      console.log(flag);
       getPageData();
     }
   };
