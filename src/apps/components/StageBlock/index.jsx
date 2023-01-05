@@ -7,11 +7,16 @@ function StageBlock({ title, msgPre, msgAft }) {
     <div className="stage-block">
       <div className="inner">
         <div className="content">
-          <div>{title}</div>
+          <div className="title">{title}</div>
           <div>
             <span>
               预测：
-              <Statistic value={msgPre} valueStyle={{ fontSize: "12px" }} />元
+              <Statistic
+                value={msgPre}
+                valueStyle={{ fontSize: "12px" }}
+                prefix={"￥"}
+              />
+              元
             </span>
 
             <span style={{ marginLeft: "16px" }}>{msgAft}笔</span>

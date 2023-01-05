@@ -6,7 +6,9 @@ const Noauthory = React.lazy(() => import("@App/pages-status/403")); // 403
 
 const Login = React.lazy(() => import("@Pages/login"));
 const LoadPage = React.lazy(() => import("@Pages/load-page"));
-
+const WorkReportDownload = React.lazy(() =>
+  import("@Pages/work-report-download")
+);
 /**
  * index: true 默认主路由不需要path
  * **/
@@ -71,6 +73,10 @@ const config = [
   {
     path: "*",
     element: <NotFound />,
+  },
+  {
+    path: "workReportDetail1",
+    element: <WorkReportDownload />,
   },
   {
     path: "403",

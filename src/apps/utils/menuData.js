@@ -80,6 +80,19 @@ const menu = [
     label: "商机编辑",
     isleaf: true,
   },
+
+  {
+    key: 996,
+    id: 996,
+    pid: 2,
+    path: "dealConfirm",
+    name: "deal-confirm",
+    component: "deal-confirm",
+    auth: true,
+    label: "商机确认",
+    isleaf: true,
+  },
+
   {
     key: 6,
     id: 6,
@@ -100,6 +113,28 @@ const menu = [
     component: "work-report",
     auth: true,
     label: "工作报告",
+    isleaf: true,
+  },
+  {
+    key: 995,
+    id: 995,
+    path: "WorkReportDetail",
+    name: "WorkReportDetail",
+    component: "work-report-detail",
+    auth: true,
+    label: "工作报告详情",
+    isleaf: true,
+  },
+  {
+    key: 997,
+    id: 997,
+    pid: 0,
+    path: "Contract",
+    name: "contract",
+    component: "contract",
+    auth: true,
+    label: "合同管理",
+    icon: "hetong",
     isleaf: true,
   },
   {
@@ -305,18 +340,18 @@ const menu = [
     isleaf: true,
   },
 
-  {
-    key: 99,
-    id: 99,
-    pid: 0,
-    path: "test",
-    name: "test",
-    component: "test",
-    auth: true,
-    label: "测试",
-    icon: "feiyong",
-    isleaf: true,
-  },
+  // {
+  //   key: 99,
+  //   id: 99,
+  //   pid: 0,
+  //   path: "test",
+  //   name: "test",
+  //   component: "test",
+  //   auth: true,
+  //   label: "测试",
+  //   icon: "feiyong",
+  //   isleaf: true,
+  // },
 ];
 
 export default menu;

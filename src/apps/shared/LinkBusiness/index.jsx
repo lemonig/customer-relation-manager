@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Input, Select, Space, Table, Modal, Form, Tooltip } from "antd";
-import { dealPage } from "@Api/deal.js";
+import { dealPage } from "@Api/deal_list.js";
 import { organize } from "@Utils/data";
 
 function LinkBusiness({ open, getRowSelected, defaultId }) {
@@ -194,7 +194,7 @@ function LinkBusiness({ open, getRowSelected, defaultId }) {
       open={open}
       onOk={() => getRowSelected(true, rowSelected)}
       onCancel={() => getRowSelected(false)}
-      width={800}
+      width={1000}
       destroyOnClose
       bodyStyle={{
         padding: "8px",

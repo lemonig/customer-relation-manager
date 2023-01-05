@@ -18,6 +18,23 @@
     .content {
       width: 100%;
       overflow: hidden;
+      .title {
+        font-size: 16px;
+        line-height: 24px;
+        color: @--pd-color-text-primary;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        font-weight: 600;
+      }
+      & > div:last-child {
+        color: @--pd-color-text-secondary;
+        min-height: 16px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        margin: 4px 0 1px;
+      }
     }
     .arrow {
       position: absolute;

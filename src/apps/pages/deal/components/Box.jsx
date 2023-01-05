@@ -103,40 +103,47 @@ export const Box = function Box({ data }) {
       <div className="box-warp">
         <div className="box-inner flex-row-base">
           <div className="left">
-            <div>{data?.title}</div>
+            <span className="title">{data?.title}</span>
             <div>{data?.orgName}</div>
             <div>
-              {data.avatar ? (
-                <Avatar
-                  shape="square"
-                  src={
-                    <Image
-                      src={data.avatar}
-                      style={{
-                        width: 32,
-                      }}
-                    />
-                  }
-                />
-              ) : (
-                <IconFont iconName="ren" size={18}></IconFont>
-              )}
+              <span style={{ marginRight: "4px" }}>
+                {data.avatar ? (
+                  <Avatar
+                    shape="square"
+                    src={
+                      <Image
+                        src={data.avatar}
+                        style={{
+                          width: 32,
+                        }}
+                      />
+                    }
+                  />
+                ) : (
+                  <IconFont iconName="ren" size={18}></IconFont>
+                )}
+              </span>
+
               {data.ownerUserName}
               {data.status == "1" || !data.status ? null : (
-                <Tag color={getColor()} style={{ margin: "0 4px" }}>
+                <Tag
+                  color={getColor()}
+                  style={{ margin: "0 4px", borderRadius: "8px" }}
+                >
                   {data.statusName}{" "}
                 </Tag>
               )}
-              <IconFont
+              {/* <IconFont
                 iconName="renminbi"
                 size={18}
                 color="#d48806"
-              ></IconFont>
+              ></IconFont> */}
               <Statistic
                 value={data?.value}
                 valueStyle={{ fontSize: "12px" }}
-              />{" "}
-              元
+                prefix={"￥"}
+                // suffix="元"
+              />
             </div>
           </div>
           <div className="flex-colum-base flex-align-center right">

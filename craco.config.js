@@ -12,6 +12,7 @@ const webpackBundleAnalyzer =
   require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
 const compressionWebpackPlugin = require("compression-webpack-plugin");
 const TerserPlugin = require("terser-webpack-plugin");
+const MomentLocalesPlugin = require("moment-locales-webpack-plugin");
 const path = require("path");
 
 const isPro = (dev) => dev === "production";
@@ -39,6 +40,11 @@ module.exports = {
       if (isPro(env)) {
         webpackConfig.mode = "production";
         webpackConfig.devtool = "source-map";
+        // webpackConfig.output = {
+        //   ...webpackConfig.output,
+        //   path: path.resolve(__dirname, "dist"),
+        //   publicPath: "/ ",
+        // };
 
         webpackConfig.optimization = {
           flagIncludedChunks: true,
@@ -57,6 +63,30 @@ module.exports = {
               },
             }),
           ],
+          splitChunks: {
+            ...webpackConfig.optimization.splitChunks,
+
+            chunks: "async",
+            minSize: 20000,
+            minRemainingSize: 0,
+            minChunks: 4,
+            maxAsyncRequests: 30,
+            maxInitialRequests: 30,
+            enforceSizeThreshold: 50000,
+            cacheGroups: {
+              defaultVendors: {
+                test: /[\\/]node_modules[\\/]/,
+                priority: -10,
+                reuseExistingChunk: true,
+              },
+              default: {
+                minChunks: 2,
+                priority: -20,
+                // 当前 chunk 包含已从主 bundle 中拆分出的模块，则它将被重用，而不是生成新的模块
+                reuseExistingChunk: true,
+              },
+            },
+          },
         };
       }
 
@@ -76,5 +106,20 @@ module.exports = {
       "@Server": pathResolve("src/apps/server"),
       "@Api": pathResolve("src/apps/api"),
     },
+    plugins: [
+      ...whenProd(
+        () => [
+          new webpackBundleAnalyzer(),
+          new MomentLocalesPlugin({
+            localesToKeep: ["zh-cn"],
+          }),
+          new compressionWebpackPlugin({
+            test: /\.js$|\.html$|\.css$/u,
+            threshold: 8192, // 超过 4kb 压缩
+          }),
+        ],
+        []
+      ),
+    ],
   },
 };

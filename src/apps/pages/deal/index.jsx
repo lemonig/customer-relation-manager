@@ -64,14 +64,14 @@ function Deal() {
       values.beginTime = moment(values.time[0]).format("YYYYMMDD");
       values.endTime = moment(values.time[1]).format("YYYYMMDD");
     }
-    if (values.valueList) {
-      values.valueList = values.valueList.split(",");
-    }
+    if (values.deptIdList) values.deptIdList = [values.deptIdList];
+    if (values.userIdList) values.userIdList = [values.userIdList];
+    if (values.valueList) values.valueList = values.valueList.split(",");
 
     let { data } = await dealFunnel(values);
-    setLoading(false);
     setstageArr(data.detailCount);
     setStageMsg(data.totalCount);
+    setLoading(false);
   };
   useLayoutEffect(() => {
     const abortController = new AbortController();
@@ -87,9 +87,16 @@ function Deal() {
   };
 
   return (
-    <Spin spinning={loading} delay={500}>
+    <Spin spinning={loading}>
       <div className="search" style={{ marginBottom: "0px" }}>
-        <Form layout="inline" form={searchForm} onFinish={getPageData}>
+        <Form
+          layout="inline"
+          form={searchForm}
+          onFinish={getPageData}
+          initialValues={{
+            statusList: ["1"],
+          }}
+        >
           <Form.Item label="" name="name">
             <Input
               placeholder="请输入商机名称、商机编号、客户公司"
@@ -120,8 +127,7 @@ function Deal() {
                 label: "name",
                 value: "id",
               }}
-              mode="multiple"
-              maxTagCount="responsive"
+              allowClear
             />
           </Form.Item>
           <Form.Item label="" name="userIdList">
@@ -133,8 +139,7 @@ function Deal() {
                 label: "name",
                 value: "id",
               }}
-              mode="multiple"
-              maxTagCount="responsive"
+              allowClear
             />
           </Form.Item>
           <Form.Item label="" name="valueList">
@@ -164,7 +169,7 @@ function Deal() {
           </Form.Item>
           <Form.Item label="" name="statusList">
             <Select
-              style={{ width: 120 }}
+              style={{ width: 180 }}
               options={[
                 {
                   label: "进行中",
@@ -185,6 +190,7 @@ function Deal() {
               ]}
               placeholder="商机状态"
               mode="multiple"
+              maxTagCount="responsive"
             />
           </Form.Item>
           <Form.Item>

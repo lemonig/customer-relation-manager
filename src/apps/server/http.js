@@ -140,3 +140,28 @@ export const _download = ({ url, data, title }) => {
     URL.revokeObjectURL(objectUrl);
   });
 };
+export const _downloadPdf = ({ url, data, title }) => {
+  let nowDate = new Date();
+  let day = nowDate.getDate();
+  let month = nowDate.getMonth() + 1;
+  let year = nowDate.getFullYear();
+  return axios({
+    method: "post",
+    url: url,
+    data: data,
+    responseType: "blob",
+  }).then((res) => {
+    let result = res.data;
+    var blob = new Blob([result], {
+      type: "application/pdf",
+    });
+    var objectUrl = URL.createObjectURL(blob);
+    var a = document.createElement("a");
+    document.body.appendChild(a);
+    a.setAttribute("style", "display:none");
+    a.setAttribute("href", objectUrl);
+    a.setAttribute("download", `${title}-${year}-${month}-${day}.pdf`);
+    a.click();
+    URL.revokeObjectURL(objectUrl);
+  });
+};

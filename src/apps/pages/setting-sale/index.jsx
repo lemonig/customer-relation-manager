@@ -134,18 +134,18 @@ function SettingSale() {
         },
       }),
     },
-    {
-      title: "预测权重",
-      // dataIndex: "dealProbability",
-      key: "dealProbability",
-      render: (_, record) => (
-        <Switch
-          checked={record.dealProbability}
-          onChange={(checked) => onSwitchChange(checked, record)}
-          size="small"
-        />
-      ),
-    },
+    // {
+    //   title: "预测权重",
+    //   // dataIndex: "dealProbability",
+    //   key: "dealProbability",
+    //   render: (_, record) => (
+    //     <Switch
+    //       checked={record.dealProbability}
+    //       onChange={(checked) => onSwitchChange(checked, record)}
+    //       size="small"
+    //     />
+    //   ),
+    // },
     {
       title: "创建时间",
       dataIndex: "createTime",

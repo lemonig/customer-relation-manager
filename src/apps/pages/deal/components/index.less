@@ -25,6 +25,28 @@
   }
   .left {
     width: 100%;
+
+    & > div {
+      color: @--pd-color-text-secondary;
+      min-height: 16px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    & > span {
+      color: @--pd-color-text-primary;
+      font-size: 14px;
+      font-weight: 600;
+    }
+    & > div:last-child {
+      height: 24px;
+      margin-top: 4px;
+      display: flex;
+      flex: 1 1 0%;
+      -webkit-box-align: center;
+      align-items: center;
+      margin-top: 4px;
+    }
   }
   .right {
     flex-direction: column;

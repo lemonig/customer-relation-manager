@@ -86,19 +86,13 @@ export function dealtransfer(data) {
   });
 }
 // 批准完成
-export function dealcomplete(data) {
+export function approveOperate(data) {
   return _post({
-    url: `/api/deal/approve/complete`,
+    url: `/api/deal/approve/operate`,
     data,
   });
 }
-// 批准拒绝
-export function dealreject(data) {
-  return _post({
-    url: `/api/deal/approve/reject`,
-    data,
-  });
-}
+
 // 审批分页获取
 export function approvalPage(data) {
   return _post({
@@ -118,6 +112,14 @@ export function approvalexport(data, title) {
 export function dealFunnel(data, title) {
   return _post({
     url: `/api/deal/funnel`,
+    data,
+  });
+}
+
+// 变更日志
+export function dealLogs(data) {
+  return _post({
+    url: `/api/deal/history/page`,
     data,
   });
 }

@@ -1,46 +1,27 @@
 import React, { useEffect, useState } from "react";
-import {
-  useParams,
-  useSearchParams,
-  useNavigate,
-  useLocation,
-} from "react-router-dom";
+import { useParams, useSearchParams, useNavigate } from "react-router-dom";
 import {
   Card,
-  Avatar,
-  Image,
   Button,
-  Dropdown,
   Menu,
   Divider,
   Statistic,
   Form,
   Modal,
-  Input,
   Descriptions,
   Progress,
   PageHeader,
   Space,
   message,
 } from "antd";
-import { ExclamationCircleOutlined, EllipsisOutlined } from "@ant-design/icons";
-import IconFont from "@Components/IconFont";
+import { ExclamationCircleOutlined } from "@ant-design/icons";
 import Stage from "./components/Stage/index";
 import "./index.less";
-import {
-  dealPage,
-  dealSingleGet,
-  dealList,
-  dealadd,
-  dealUpdate,
-  dealCodeGet,
-  dealChart,
-  dealExport,
-  dealwin,
-} from "@Api/deal_list";
+import { dealSingleGet, dealwin } from "@Api/deal_list";
 import FormTrans from "./components/Form/FormTrans";
 import FormLose from "./components/Form/FormLose";
 import FormSop from "./components/Form/FormSop";
+import Logs from "./components/Logs";
 const { confirm } = Modal;
 
 function DealDetail() {
@@ -48,13 +29,12 @@ function DealDetail() {
   let navigate = useNavigate();
   const [getParams, setParam] = useSearchParams(); //第一个参数 getParams 获取 param 等 url  信息, 第二个参数 setParam 设置 url 等信息。
   const pipelineId = getParams.getAll("pipelineId")[0];
-  const [form] = Form.useForm();
-  const [modalVisible, setModalVisible] = useState(false);
   const [data, setData] = useState(null);
   const [modalVis, setModalVis] = useState({
     lose: false,
     stop: false,
     trans: false,
+    logs: false,
   });
 
   useEffect(() => {
@@ -193,7 +173,16 @@ function DealDetail() {
           }
           title="商机详情"
           extra={[
-            <Button key="3" type="link">
+            <Button
+              key="3"
+              type="link"
+              onClick={() => {
+                setModalVis({
+                  ...modalVis,
+                  logs: true,
+                });
+              }}
+            >
               变更日志
             </Button>,
           ]}
@@ -391,6 +380,13 @@ function DealDetail() {
         closeModal={closeModal}
         pipelineId={pipelineId}
       />
+      {modalVis.logs ? (
+        <Logs
+          open={modalVis.logs}
+          closeModal={closeModal}
+          pipelineId={pipelineId}
+        />
+      ) : null}
     </div>
   );
 }

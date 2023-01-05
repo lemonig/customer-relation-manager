@@ -20,12 +20,58 @@ import { dealPage } from "@Api/deal_list";
 import { saleList } from "@Api/set_sale";
 import { salesmanList } from "@Api/set_user";
 import { deptList as deptListApi } from "@Api/set_dept.js";
-import EChartsReact from "echarts-for-react";
 import DealForm from "./Form/DealForm";
+
+import ReactEChartsCore from "echarts-for-react/lib/core";
+import * as echarts from "echarts/core";
+import { BarChart } from "echarts/charts";
+import {
+  // GridSimpleComponent,
+  GridComponent,
+  // PolarComponent,
+  // RadarComponent,
+  // GeoComponent,
+  // SingleAxisComponent,
+  // ParallelComponent,
+  // CalendarComponent,
+  // GraphicComponent,
+  // ToolboxComponent,
+  TooltipComponent,
+  // AxisPointerComponent,
+  // BrushComponent,
+  TitleComponent,
+  // TimelineComponent,
+  // MarkPointComponent,
+  // MarkLineComponent,
+  // MarkAreaComponent,
+  // LegendComponent,
+  // LegendScrollComponent,
+  // LegendPlainComponent,
+  // DataZoomComponent,
+  // DataZoomInsideComponent,
+  // DataZoomSliderComponent,
+  // VisualMapComponent,
+  // VisualMapContinuousComponent,
+  // VisualMapPiecewiseComponent,
+  // AriaComponent,
+  // TransformComponent,
+  // DatasetComponent,
+} from "echarts/components";
+// Import renderer, note that introducing the CanvasRenderer or SVGRenderer is a required step
+import {
+  CanvasRenderer,
+  // SVGRenderer,
+} from "echarts/renderers";
 
 import "./index.less";
 const { RangePicker } = DatePicker;
-
+echarts.use([
+  TitleComponent,
+  TooltipComponent,
+  GridComponent,
+  BarChart,
+  CanvasRenderer,
+]);
 function DealList() {
   let navigate = useNavigate();
   const [searchForm] = Form.useForm();
@@ -96,9 +142,9 @@ function DealList() {
       values.beginTime = moment(values.time[0]).format("YYYYMMDD");
       values.endTime = moment(values.time[1]).format("YYYYMMDD");
     }
-    if (values.valueList) {
-      values.valueList = values.valueList.split(",");
-    }
+    if (values.deptIdList) values.deptIdList = [values.deptIdList];
+    if (values.userIdList) values.userIdList = [values.userIdList];
+    if (values.valueList) values.valueList = values.valueList.split(",");
 
     dealPage({
       page: pageMsg.pagination.current,
@@ -484,8 +530,7 @@ function DealList() {
                 label: "name",
                 value: "id",
               }}
-              mode="multiple"
-              maxTagCount="responsive"
+              allowClear
             />
           </Form.Item>
           <Form.Item label="" name="userIdList">
@@ -497,8 +542,7 @@ function DealList() {
                 label: "name",
                 value: "id",
               }}
-              mode="multiple"
-              maxTagCount="responsive"
+              allowClear
             />
           </Form.Item>
           <Form.Item label="" name="valueList">
@@ -575,7 +619,7 @@ function DealList() {
             valueStyle={{ fontSize: "12px" }}
           />{" "}
           元；
-          <Tooltip title="预测：上家预计金额加权和；加权由阶段机率、信心指数确定">
+          <Tooltip title="预测：商机预计金额加权和；权重由阶段机率、信心指数确定">
             <span className="blue"> 预测</span>
           </Tooltip>
           :{" "}
@@ -591,12 +635,20 @@ function DealList() {
           <Row gutter={16}>
             <Col span={10} offset={1}>
               {Reflect.has(chartdata, "numCount") && (
-                <EChartsReact option={getOption()} lazyUpdate={true} />
+                <ReactEChartsCore
+                  echarts={echarts}
+                  option={getOption()}
+                  lazyUpdate={true}
+                />
               )}
             </Col>
             <Col span={10} offset={3}>
               {Reflect.has(chartdata, "totalCount") && (
-                <EChartsReact option={getOption1()} lazyUpdate={true} />
+                <ReactEChartsCore
+                  echarts={echarts}
+                  option={getOption1()}
+                  lazyUpdate={true}
+                />
               )}
             </Col>
           </Row>

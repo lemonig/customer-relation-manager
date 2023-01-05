@@ -139,6 +139,7 @@ function SettingSaleStage() {
       title: "是否预警",
       dataIndex: "isAlarm",
       key: "isAlarm",
+      render: (val, record, index) => (val ? "是" : "否"),
     },
 
     {

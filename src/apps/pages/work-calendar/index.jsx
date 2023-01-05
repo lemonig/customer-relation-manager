@@ -4,24 +4,9 @@ import { useEffect } from "react";
 import { activeCalendar } from "@Api/set_active.js";
 import moment from "moment";
 import { useState } from "react";
-import {
-  Button,
-  Form,
-  Input,
-  PageHeader,
-  Space,
-  Select,
-  Row,
-  Col,
-  message,
-  InputNumber,
-} from "antd";
-import {
-  activeList,
-  activeDelete,
-  activeUpdate,
-  activeAdd,
-} from "@Api/set_active.js";
+import { Button, Form, Input, Select } from "antd";
+import { activeList } from "@Api/set_active.js";
+import IconFont from "@Components/IconFont";
 
 const getMonthData = (value) => {
   if (value.month() === 8) {
@@ -64,8 +49,26 @@ function WorkCalender() {
     return (
       <ul className="events">
         {listData.map((item) => (
-          <li key={item.content}>
-            <Badge status={item.type} text={item.content} />
+          <li
+            key={item.content}
+            style={{ color: item.type ? "gray" : "black" }}
+          >
+            {item.type ? (
+              <IconFont
+                iconName="wancheng"
+                color="#DEDEDE"
+                style={{ cursor: "pointer" }}
+                size={18}
+              />
+            ) : (
+              <IconFont
+                iconName="weikao"
+                color="#DEDEDE"
+                style={{ cursor: "pointer" }}
+                size={16}
+              />
+            )}
+            <span style={{ marginLeft: "4px" }}>{item.content}</span>
           </li>
         ))}
       </ul>
@@ -76,7 +79,7 @@ function WorkCalender() {
     let res = data[value.format("YYYY-MM-DD")];
     if (res) {
       return res.map((item) => ({
-        type: item.done ? "success" : "warning",
+        type: item.done,
         content: item.subject,
       }));
     } else {
@@ -105,7 +108,7 @@ function WorkCalender() {
               }}
               allowClear
               options={activeData}
-              placeholder="请选择"
+              placeholder="任务类型"
               mode="multiple"
             />
           </Form.Item>
@@ -118,10 +121,10 @@ function WorkCalender() {
                   label: "待办",
                   value: "1",
                 },
-                {
-                  label: "超时待办",
-                  value: "3",
-                },
+                // {
+                //   label: "超时待办",
+                //   value: "3",
+                // },
                 {
                   label: "已完成",
                   value: "2",

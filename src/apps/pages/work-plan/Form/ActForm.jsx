@@ -16,7 +16,7 @@ import {
 } from "antd";
 import { actPage, actDelete, actUpdate, actAdd } from "@Api/act_adm.js";
 import LinkBusiness from "@Shared/LinkBusiness";
-import LinkCustomer from "@Shared/LinkCustomer";
+// import LinkCustomer from "@Shared/LinkCustomer";
 import { activeList } from "@Api/set_active.js";
 import { customerInfo } from "@Api/info_customer.js";
 import moment from "moment";
@@ -28,7 +28,7 @@ function ActForm({ isModalOpen, record, closeModal }) {
   const [loading, setLoading] = useState(false);
   const [linkModalOpen, setLinkModalOpen] = useState(false); //商机
   const [linkSelected, setLinkSelected] = useState({}); //商机
-  const [linkModalOpenC, setLinkModalOpenC] = useState(false); //联系人客户
+  // const [linkModalOpenC, setLinkModalOpenC] = useState(false); //联系人客户
   const [linkSelected1, setLinkSelected1] = useState({}); //联系人客户
   const [actData, setActData] = useState([]); //活动类型
   const [customLink, setCustomerLink] = useState([]); //客户联系人
@@ -88,7 +88,7 @@ function ActForm({ isModalOpen, record, closeModal }) {
       form.setFieldValue("orgId", row[0].id);
       setLinkSelected1(row[0]);
     }
-    setLinkModalOpenC(false);
+    // setLinkModalOpenC(false);
   };
 
   const handleOk = async () => {
@@ -167,10 +167,8 @@ function ActForm({ isModalOpen, record, closeModal }) {
                 value: "id",
               }}
               options={actData}
+              placeholder="请选择"
             />
-          </Form.Item>
-          <Form.Item label="任务主题" name="subject">
-            <Input placeholder="请输入" />
           </Form.Item>
 
           <Form.Item
@@ -186,25 +184,6 @@ function ActForm({ isModalOpen, record, closeModal }) {
             rules={[{ required: true, message: "请选择结束时间!" }]}
           >
             <MyTimePicker />
-          </Form.Item>
-
-          <Form.Item label="地点" name="address">
-            <Input placeholder="请输入" />
-          </Form.Item>
-
-          <Form.Item label="参与人员" name="participantList">
-            <Select
-              mode="multiple"
-              fieldNames={{
-                label: "name",
-                value: "id",
-              }}
-              options={customLink}
-              optionFilterProp="name"
-            />
-          </Form.Item>
-          <Form.Item label="任务描述" name="description">
-            <Input.TextArea placeholder="请输入" />
           </Form.Item>
           <Form.Item
             label="商机名称"
@@ -228,7 +207,28 @@ function ActForm({ isModalOpen, record, closeModal }) {
               ]}
             />
           </Form.Item>
-          <Form.Item label="客户名称" name="orgId">
+          <Form.Item label="客户联系人" name="personId">
+            <Select
+              fieldNames={{
+                label: "name",
+                value: "id",
+              }}
+              options={customLink}
+              placeholder="请选择"
+            />
+          </Form.Item>
+          <Form.Item label="地点" name="address">
+            <Input placeholder="请输入" />
+          </Form.Item>
+
+          <Form.Item label="其他参与人员" name="participant">
+            <Input placeholder="请输入" />
+          </Form.Item>
+          <Form.Item label="任务描述" name="description">
+            <Input.TextArea placeholder="请输入" />
+          </Form.Item>
+
+          {/* <Form.Item label="客户名称" name="orgId">
             <Select
               placeholder="请选择"
               onClick={() => setLinkModalOpenC(true)}
@@ -243,16 +243,7 @@ function ActForm({ isModalOpen, record, closeModal }) {
                 },
               ]}
             />
-          </Form.Item>
-          <Form.Item label="联系人" name="personId">
-            <Select
-              fieldNames={{
-                label: "name",
-                value: "id",
-              }}
-              options={customLink}
-            />
-          </Form.Item>
+          </Form.Item> */}
 
           <Form.Item
             name="done"
@@ -273,13 +264,13 @@ function ActForm({ isModalOpen, record, closeModal }) {
       )}
 
       {/* 客户联系人 */}
-      {linkModalOpenC && (
+      {/* {linkModalOpenC && (
         <LinkCustomer
           open={linkModalOpenC}
           getRowSelected={getRowSelected1}
           defaultId={linkSelected.id}
         />
-      )}
+      )} */}
     </>
   );
 }
