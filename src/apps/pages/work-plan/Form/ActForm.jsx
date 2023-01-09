@@ -18,7 +18,7 @@ import { actPage, actDelete, actUpdate, actAdd } from "@Api/act_adm.js";
 import LinkBusiness from "@Shared/LinkBusiness";
 // import LinkCustomer from "@Shared/LinkCustomer";
 import { activeList } from "@Api/set_active.js";
-import { customerInfo } from "@Api/info_customer.js";
+import { customerList } from "@Api/info_customer.js";
 import moment from "moment";
 import MyTimePicker from "@Components/MyTimePicker";
 const { Option } = Select;
@@ -39,7 +39,6 @@ function ActForm({ isModalOpen, record, closeModal }) {
 
   const getPageData = async () => {
     await getActiveList();
-    await getCustomerLink();
     if (record) {
       //编辑
       record.endTimeDto.date = moment(record.endTimeDto.date);
@@ -68,8 +67,12 @@ function ActForm({ isModalOpen, record, closeModal }) {
     setActData(data);
   };
 
-  const getCustomerLink = async () => {
-    let { data } = await customerInfo();
+  const getCustomerLink = async (row) => {
+    // 清空之前
+    form.setFieldValue("personId", null);
+    let { data } = await customerList({
+      id: row.id,
+    });
 
     setCustomerLink(data);
   };
@@ -79,6 +82,7 @@ function ActForm({ isModalOpen, record, closeModal }) {
     if (confirm && row) {
       setLinkSelected(row[0]);
       form.setFieldValue("dealId", row[0].id);
+      getCustomerLink(row[0]);
     }
     setLinkModalOpen(false);
   };
