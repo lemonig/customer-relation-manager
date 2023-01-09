@@ -37,9 +37,12 @@ module.exports = {
   ],
   webpack: {
     configure: (webpackConfig, { env, paths }) => {
+      console.log("环境：", env, paths);
+
       if (isPro(env)) {
         webpackConfig.mode = "production";
-        webpackConfig.devtool = "source-map";
+        // webpackConfig.devtool = "nosources-source-map";
+        webpackConfig.devtool = false;
         // webpackConfig.output = {
         //   ...webpackConfig.output,
         //   path: path.resolve(__dirname, "dist"),
@@ -79,6 +82,20 @@ module.exports = {
                 priority: -10,
                 reuseExistingChunk: true,
               },
+              base: {
+                // 基本框架
+                chunks: "all",
+                test: /(react|react-dom|react-dom-router)/,
+                name: "base",
+                priority: 100,
+              },
+
+              echarts: {
+                test: /(echarts)/,
+                name: "echarts",
+                priority: 100,
+              },
+
               default: {
                 minChunks: 2,
                 priority: -20,
@@ -91,7 +108,6 @@ module.exports = {
       }
 
       webpackConfig.externals = {};
-      console.log("环境：", env, paths);
       return webpackConfig;
     },
     alias: {
@@ -121,5 +137,29 @@ module.exports = {
         []
       ),
     ],
+    babel: {
+      presets: [],
+      plugins: [
+        // AntDesign 按需加载
+        [
+          "import",
+          {
+            libraryName: "antd",
+            libraryDirectory: "es",
+            style: true,
+          },
+          "antd",
+        ],
+        [
+          "@babel/plugin-proposal-decorators",
+          {
+            legacy: true,
+          },
+        ], // 用来支持装饰器
+      ],
+      loaderOptions: (babelLoaderOptions, { env, paths }) => {
+        return babelLoaderOptions;
+      },
+    },
   },
 };
