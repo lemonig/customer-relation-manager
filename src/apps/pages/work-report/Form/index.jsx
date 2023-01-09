@@ -21,8 +21,7 @@ const { RangePicker } = DatePicker;
 
 function FormRep({ open, closeModal }) {
   const [activeData, setActiveData] = useState([]);
-  const [linkModalOpen, setLinkModalOpen] = useState(false);
-  const [linkSelected, setLinkSelected] = useState({});
+
   const [loading, setLoading] = useState(false);
   const [selectedRowKeys, setSelectedRowKeys] = useState([]); //表格选中key
   const [pageMsg, setPagemsg] = useState({
@@ -83,7 +82,7 @@ function FormRep({ open, closeModal }) {
         statusList: pageMsg?.filters?.status,
       },
     }).then((res) => {
-      setData(res.data);
+      setData(res.data.filter((ele) => ele.status === "2"));
       setLoading(false);
       setPagemsg({
         ...pageMsg,
@@ -100,16 +99,6 @@ function FormRep({ open, closeModal }) {
       title: "状态",
       dataIndex: "statusName",
       key: "status",
-      filters: [
-        {
-          text: "代办",
-          value: "1",
-        },
-        {
-          text: "已完成",
-          value: "2",
-        },
-      ],
     },
     {
       title: "任务编号",

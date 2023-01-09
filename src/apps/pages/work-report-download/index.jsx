@@ -50,11 +50,11 @@ function WorkReportDownload() {
       dataIndex: "typeName",
       key: "typeName",
     },
-    {
-      title: "任务主题",
-      dataIndex: "subject",
-      key: "subject",
-    },
+    // {
+    //   title: "任务主题",
+    //   dataIndex: "subject",
+    //   key: "subject",
+    // },
     {
       title: "客户联系人",
       dataIndex: "personName",
@@ -66,7 +66,7 @@ function WorkReportDownload() {
       key: "startTime",
     },
     {
-      title: "任务结束时间",
+      title: "任务完成时间",
       dataIndex: "endTime",
       key: "endTime",
     },

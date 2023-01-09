@@ -28,3 +28,10 @@ export function customerDelete(data) {
     data,
   });
 }
+//商机人员查询
+export function customerList(data) {
+  return _post({
+    url: `/api/deal/person/list`,
+    data,
+  });
+}
