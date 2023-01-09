@@ -5,13 +5,13 @@ import {
   Button,
   Space,
   Table,
-  Tag,
   Modal,
   Form,
   message,
   InputNumber,
   Tooltip,
   PageHeader,
+  Statistic,
 } from "antd";
 import {
   productList,
@@ -51,7 +51,7 @@ function ProductManage() {
   const getProducttTypelist = async () => {
     let { data } = await productTypeList();
 
-    await setTypelist((data) => data);
+    await setTypelist(data);
 
     getPageData();
   };
@@ -189,6 +189,21 @@ function ProductManage() {
     },
 
     {
+      title: "单价(元)",
+      dataIndex: "price",
+      key: "price",
+      render: (value) => (
+        <Statistic value={value} valueStyle={{ fontSize: "12px" }} />
+      ),
+    },
+
+    {
+      title: "单位",
+      dataIndex: "unit",
+      key: "unit",
+    },
+
+    {
       title: "备注",
       dataIndex: "description",
       key: "description",
@@ -311,7 +326,12 @@ function ProductManage() {
               }))}
             />
           </Form.Item>
-
+          <Form.Item label="单价" name="price">
+            <InputNumber placeholder="请输入" min={0} />
+          </Form.Item>
+          <Form.Item label="单位" name="unit">
+            <Input placeholder="请输入" />
+          </Form.Item>
           <Form.Item label="备注" name="description">
             <Input.TextArea placeholder="请输入" />
           </Form.Item>
