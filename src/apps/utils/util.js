@@ -9,7 +9,7 @@ export function arrayToTree(items) {
     const id = item.id;
     const pid = item.pid;
     if (item.icon && typeof item.icon === "string") {
-      item.icon = <IconFont iconName={item.icon}></IconFont>;
+      item.icon = <IconFont iconName={item.icon} size={14}></IconFont>;
     }
     if (!itemMap[id] && !item.isleaf) {
       itemMap[id] = {

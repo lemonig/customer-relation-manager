@@ -3,15 +3,19 @@ import React, { useState, useEffect } from "react";
 
 import { useNavigate, useParams, useLocation } from "react-router-dom";
 import { _post, _get } from "../../server/http";
+import { userInfo, menuInfo } from "@Api/user.js";
 
+import { useDispatch, useSelector } from "react-redux";
+import { SET_MENU } from "@Store/features/userSlice";
 import "./index.less";
 
 const LoadPage = () => {
   let navigate = useNavigate();
   let location = useLocation();
-
+  let dispatch = useDispatch();
   useEffect(() => {
-    navigate("/", { replace: true });
+    getRouteMenu();
+    // navigate("/", { replace: true });
   }, []);
 
   useEffect(() => {
@@ -33,6 +37,19 @@ const LoadPage = () => {
       localStorage.setItem("user", JSON.stringify(data));
       navigate("/", { replace: true });
     }
+  };
+
+  const getRouteMenu = async () => {
+    let { data } = await menuInfo();
+    data[0].index = true;
+    data.map((item) => {
+      if (!item.visible) {
+        delete item.pid;
+      }
+    });
+    localStorage.setItem("menuList", data);
+    dispatch(SET_MENU(data));
+    console.log(data);
   };
 
   return (

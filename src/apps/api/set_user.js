@@ -69,3 +69,10 @@ export function salesmanList(data) {
     data,
   });
 }
+// 销售人员 按年份
+export function salesmanByYear(data) {
+  return _post({
+    url: `/api/user/salesman/all`,
+    data,
+  });
+}
