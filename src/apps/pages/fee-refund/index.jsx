@@ -18,6 +18,7 @@ import img2 from "../../../assets/image/2.png";
 import img3 from "../../../assets/image/5.png";
 import img4 from "../../../assets/image/6.png";
 import Salers from "./components/Salers";
+import Summary from "./components/Summary";
 const { Option } = Select;
 
 function MsgCooprate() {
@@ -30,20 +31,20 @@ function MsgCooprate() {
       label: `销售人员维度`,
       children: <Salers></Salers>,
     },
-    {
-      key: "2",
-      label: `客户维度`,
-      children: <img src={img2} alt="" />,
-    },
-    {
-      key: "3",
-      label: `合同维度`,
-      children: <img src={img3} alt="" />,
-    },
+    // {
+    //   key: "2",
+    //   label: `客户维度`,
+    //   children: <img src={img2} alt="" />,
+    // },
+    // {
+    //   key: "3",
+    //   label: `合同维度`,
+    //   children: <img src={img3} alt="" />,
+    // },
     {
       key: "4",
       label: `报销费用明细`,
-      children: <img src={img4} alt="" />,
+      children: <Summary />,
     },
   ];
 

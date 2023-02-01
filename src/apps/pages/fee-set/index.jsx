@@ -21,6 +21,7 @@ import { salesmanList } from "@Api/set_user";
 import { deptList as deptListApi } from "@Api/set_dept.js";
 import { configList } from "@Api/fee-set";
 import { arrayToTree } from "@Utils/util";
+import AddForm from "./components/AddForm";
 
 let yearList = [];
 for (let i = 2018; i < moment().year() + 3; i++) {
@@ -72,7 +73,7 @@ function FeeSet() {
     let { data } = await deptListApi();
 
     let res = arrayToTree(data);
-
+    console.log(res);
     setDeptList(res);
   };
 
@@ -91,15 +92,16 @@ function FeeSet() {
       });
     }
   };
-  const getPageData = () => {
+  const getPageData = async () => {
+    await searchForm.validateFields();
+    const values = searchForm.getFieldsValue();
     setLoading(true);
+    if (values.deptIdList) values.deptIdList = [values.deptIdList];
+    if (values.userIdList) values.userIdList = [values.userIdList];
     configList({
       page: pageMsg.pagination.current,
       size: pageMsg.pagination.pageSize,
-      data: {
-        name: searchVal,
-        orgType: selectVal,
-      },
+      data: values,
     }).then((res) => {
       setData(res.data);
       setLoading(false);
@@ -214,17 +216,21 @@ function FeeSet() {
   return (
     <div>
       <PageHeader className="site-page-header" title="费用设置" />
-      <div className="search" style={{ marginBottom: "0px" }}>
+      <div className="search">
         <Form layout="inline" form={searchForm} onFinish={search}>
           <Form.Item label="" name="deptIdList">
             <TreeSelect
               showSearch
               style={{ width: 300 }}
-              dropdownStyle={{ maxHeight: 400, overflow: "auto" }}
+              // dropdownStyle={{ maxHeight: 400, overflow: "auto" }}
               placeholder="部门"
               allowClear
               treeDefaultExpandAll
               treeData={deptList}
+              fieldNames={{
+                label: "label",
+                value: "id",
+              }}
             />
           </Form.Item>
           <Form.Item label="" name="userIdList">
@@ -265,6 +271,14 @@ function FeeSet() {
         rowKey={(record) => record.id}
         onChange={handleTableChange}
       />
+      {/* 表单 */}
+      {isModalOpen && (
+        <AddForm
+          isModalOpen={isModalOpen}
+          closeModal={closeModal}
+          operate={operate}
+        />
+      )}
     </div>
   );
 }

@@ -12,10 +12,33 @@ import {
   PageHeader,
   Statistic,
 } from "antd";
+import { feeList, feeListExport } from "@Api/fee-refund";
+import moment from "moment";
 
-function TablePopup({ isModalOpen, closeModal }) {
+function TablePopup({ isModalOpen, closeModal, operate }) {
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState([]);
+  useEffect(() => {
+    getPageData();
+  }, []);
+
+  const getPageData = () => {
+    setLoading(true);
+    let values = JSON.parse(JSON.stringify(operate));
+
+    if (values.deptIdList) values.deptIdList = [values.deptIdList];
+    feeList({
+      page: 1,
+      size: 10000,
+      data: {
+        ...values,
+      },
+    }).then((res) => {
+      setData(res.data);
+      setLoading(false);
+    });
+  };
+
   const columns = [
     {
       title: "序号",
@@ -25,63 +48,64 @@ function TablePopup({ isModalOpen, closeModal }) {
     },
     {
       title: "费用报销单号",
-      dataIndex: "name",
-      key: "name",
+      dataIndex: "code",
+      key: "code",
     },
     {
       title: "报销类型",
-      dataIndex: "name",
-      key: "name",
+      dataIndex: "typeName",
+      key: "typeName",
     },
     {
       title: "合同名称",
-      dataIndex: "name",
-      key: "name",
+      dataIndex: "projectName",
+      key: "projectName",
     },
     {
       title: "客户公司",
-      dataIndex: "name",
-      key: "name",
+      dataIndex: "orgName",
+      key: "orgName",
     },
     {
       title: "费用类型",
-      dataIndex: "name",
-      key: "name",
+      dataIndex: "feeTypeName",
+      key: "feeTypeName",
     },
 
     {
       title: "开始时间",
-      dataIndex: "createTime",
-      key: "createTime",
+      dataIndex: "startTime",
+      key: "startTime",
     },
     {
       title: "结束时间",
-      dataIndex: "updateTime",
-      key: "updateTime",
+      dataIndex: "endTime",
+      key: "endTime",
     },
     {
-      title: "合同额",
-      dataIndex: "value",
-      key: "value",
-      render: (value, record) => (
-        <Statistic value={value} valueStyle={{ fontSize: "12px" }} />
+      title: "报销金额",
+      dataIndex: "feeValue",
+      key: "feeValue",
+      render: (feeValue, record) => (
+        <Statistic value={feeValue} valueStyle={{ fontSize: "12px" }} />
       ),
     },
     {
       title: "创建时间",
-      dataIndex: "updateTime",
-      key: "updateTime",
+      dataIndex: "createTime",
+      key: "createTime",
     },
   ];
 
   return (
     <Modal
-      title="报销费用明细"
+      title="费用报销明细"
       open={isModalOpen}
       onOk={() => closeModal()}
       onCancel={() => closeModal()}
       maskClosable={false}
       destroyOnClose
+      width={1200}
     >
       <Table
         columns={columns}

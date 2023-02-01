@@ -6,3 +6,9 @@ export function tianyancha(data) {
     data,
   });
 }
+export function dictList(data) {
+  return _post({
+    url: `/api/dict/list`,
+    data,
+  });
+}

@@ -8,7 +8,7 @@ export function configList(data) {
 }
 export function configAdd(data) {
   return _post({
-    url: `/api/fee/config/page`,
+    url: `/api/fee/config/add`,
     data,
   });
 }
