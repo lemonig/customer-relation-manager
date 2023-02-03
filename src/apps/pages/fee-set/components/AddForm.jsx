@@ -30,7 +30,6 @@ function AddForm({ isModalOpen, closeModal, operate }) {
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   const [form] = Form.useForm();
   useEffect(() => {
-    console.log(operate);
     if (operate) form.setFieldsValue(operate);
     getSalesmanList();
   }, []);
@@ -38,7 +37,6 @@ function AddForm({ isModalOpen, closeModal, operate }) {
   //销售人员
   const getSalesmanList = async () => {
     let year = form.getFieldValue("year");
-    console.log(year);
     let { data } = await salesmanByYear({ year });
 
     setData(data);
@@ -62,7 +60,6 @@ function AddForm({ isModalOpen, closeModal, operate }) {
     },
   ];
   const onSelectChange = (newSelectedRowKeys) => {
-    console.log("selectedRowKeys changed: ", newSelectedRowKeys);
     setSelectedRowKeys(newSelectedRowKeys);
   };
   const rowSelection = {
@@ -76,6 +73,7 @@ function AddForm({ isModalOpen, closeModal, operate }) {
     const values = form.getFieldsValue();
     setLoading(true);
     if (operate) {
+      values.id = operate.id;
       let { success, message: msg } = await configUpdate(values);
       if (success) {
         message.success("提交成功");

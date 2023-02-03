@@ -9,12 +9,13 @@ import {
   Tooltip,
   PageHeader,
   Statistic,
+  DatePicker,
 } from "antd";
 import { contractPage } from "@Api/contract.js";
 import { ExclamationCircleOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
-const { Option } = Select;
-
+import moment from "moment";
+const { RangePicker } = DatePicker;
 function MsgCooprate() {
   const [loading, setLoading] = useState(false);
   const [pageMsg, setPagemsg] = useState({
@@ -25,6 +26,8 @@ function MsgCooprate() {
   });
   const [searchVal, setSearchVal] = useState("");
   const [data, setData] = useState([]);
+  const [total, setTotal] = useState("");
+  const [searchForm] = Form.useForm();
   let navigate = useNavigate();
   useEffect(() => {
     getPageData();
@@ -46,14 +49,18 @@ function MsgCooprate() {
   };
   const getPageData = () => {
     setLoading(true);
+    let values = searchForm.getFieldsValue();
+    if (Array.isArray(values?.time) && values?.time.length > 0) {
+      values.beginTime = moment(values.time[0]).format("YYYYMMDD");
+      values.endTime = moment(values.time[1]).format("YYYYMMDD");
+    }
     contractPage({
       page: pageMsg.pagination.current,
       size: pageMsg.pagination.pageSize,
-      data: {
-        name: searchVal,
-      },
+      data: values,
     }).then((res) => {
       setData(res.data);
+      setTotal(res.additional_data.total);
       setLoading(false);
       setPagemsg({
         ...pageMsg,
@@ -118,19 +125,7 @@ function MsgCooprate() {
         </Tooltip>
       ),
     },
-    {
-      title: "商机编号",
-      dataIndex: "dealCode",
-      key: "dealCode",
-      render: (value, record) => (!!value ? <a>{value}</a> : ""),
-      onCell: (record) => ({
-        onClick: (event) => {
-          if (record.dealCode) {
-            gotoDealDetail(record.dealCode);
-          }
-        },
-      }),
-    },
+
     {
       title: "合同金额",
       dataIndex: "value",
@@ -213,17 +208,34 @@ function MsgCooprate() {
     <div>
       <PageHeader className="site-page-header" title="合同管理" />
       <div className="search">
-        <Space>
-          <Input
-            placeholder="请输入商机名称、合同名称、合同编号"
-            style={{ width: 240 }}
-            // value={searchVal}
-            onChange={handleInputChange}
-          />
-          <Button type="primary" onClick={search}>
-            查询
-          </Button>
-        </Space>
+        <Form
+          layout="inline"
+          form={searchForm}
+          onFinish={search}
+          initialValues={{
+            time: [moment().startOf("year"), moment()],
+          }}
+        >
+          <Form.Item label="" name="name">
+            <Input
+              placeholder="请输入商机名称、合同名称、合同编号"
+              style={{ width: 240 }}
+            />
+          </Form.Item>
+          <Form.Item label="" name="time">
+            <RangePicker />
+          </Form.Item>
+          <Form.Item>
+            <Button type="primary" htmlType="submit">
+              查询
+            </Button>
+          </Form.Item>
+        </Form>
+
+        <div>
+          总计合同额:
+          <Statistic value={total} valueStyle={{ fontSize: "12px" }} />
+        </div>
       </div>
       <Table
         columns={columns}

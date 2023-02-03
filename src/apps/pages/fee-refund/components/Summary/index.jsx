@@ -23,7 +23,7 @@ import { deptList as deptListApi } from "@Api/set_dept.js";
 import { arrayToTree } from "@Utils/util";
 const { RangePicker } = DatePicker;
 let yearList = [];
-for (let i = 2018; i < moment().year() + 3; i++) {
+for (let i = 2018; i < moment().year() + 1; i++) {
   yearList.unshift({
     label: `${i}年`,
     value: i,
@@ -58,7 +58,6 @@ function Summary() {
     let { data } = await deptListApi();
 
     let res = arrayToTree(data);
-    console.log(res);
     setDeptList(res);
   };
 
@@ -71,7 +70,6 @@ function Summary() {
       feeType: data,
     });
     setFeeType(data);
-    console.log(dictData);
   };
   const getDictData1 = async () => {
     let { data } = await dictList({
@@ -82,7 +80,6 @@ function Summary() {
       ...dictData,
       fromType: data,
     });
-    console.log(dictData);
   };
   const getDictData2 = async () => {
     let { data } = await dictList({
@@ -93,7 +90,6 @@ function Summary() {
       expenseType: data,
     });
     setExpenseType(data);
-    console.log(dictData);
   };
 
   useEffect(() => {
@@ -179,9 +175,10 @@ function Summary() {
     },
     {
       title: "报销类型",
-      dataIndex: "typeName",
-      key: "typeName",
+      dataIndex: "expenseTypeName",
+      key: "expenseTypeName",
     },
+
     {
       title: "项目名称",
       dataIndex: "projectName",

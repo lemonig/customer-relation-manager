@@ -13,6 +13,7 @@ import {
   message,
   Table,
   Tooltip,
+  Statistic,
 } from "antd";
 import { workreportDetail, workreportExport } from "@Api/work_report";
 
@@ -129,26 +130,54 @@ function WorkReportDownload() {
           ref={copntentElement}
         >
           {/* 基本信息 */}
-          <Descriptions title="" column={1}>
-            <Descriptions.Item label="报告编号">{data.code}</Descriptions.Item>
-            <Descriptions.Item label="报告链接">
-              <a
-                href={data.url}
-                download={data.name}
-                target="_blank"
-                rel="noreferrer"
-              >
-                {data.name}
-              </a>
-            </Descriptions.Item>
-            <Descriptions.Item label="销售人员">
-              {data.userOwnerName}
-            </Descriptions.Item>
-            <Descriptions.Item label="创建时间">
-              {data.createTime}
-            </Descriptions.Item>
-            <Descriptions.Item label="报告明细"></Descriptions.Item>
-          </Descriptions>
+          <div style={{ width: "50%" }}>
+            <Descriptions title="" column={4}>
+              <Descriptions.Item label="报告编号" span={4}>
+                {data.code}
+              </Descriptions.Item>
+              <Descriptions.Item label="报告链接" span={4}>
+                <a
+                  href={data.url}
+                  download={data.name}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  {data.name}
+                </a>
+              </Descriptions.Item>
+              <Descriptions.Item label="销售人员" span={4}>
+                {data.userOwnerName}
+              </Descriptions.Item>
+              <Descriptions.Item label="创建时间" span={4}>
+                {data.createTime}
+              </Descriptions.Item>
+              <Descriptions.Item label={`${data.year}年合同额`}>
+                <Statistic
+                  value={data.contractValu}
+                  valueStyle={{ fontSize: "12px" }}
+                />
+              </Descriptions.Item>
+              <Descriptions.Item label="报销额度">
+                <Statistic
+                  value={data.valueRate}
+                  valueStyle={{ fontSize: "12px" }}
+                />
+              </Descriptions.Item>
+              <Descriptions.Item label="控制金额">
+                <Statistic
+                  value={data.controlValue}
+                  valueStyle={{ fontSize: "12px" }}
+                />
+              </Descriptions.Item>
+              <Descriptions.Item label="已报销金额">
+                <Statistic
+                  value={data.receivedValue}
+                  valueStyle={{ fontSize: "12px" }}
+                />
+              </Descriptions.Item>
+              <Descriptions.Item label="报告明细" span={4}></Descriptions.Item>
+            </Descriptions>
+          </div>
           <Table
             dataSource={data.activityVoList}
             columns={columns}

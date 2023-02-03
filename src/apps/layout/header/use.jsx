@@ -17,25 +17,32 @@ import {
   EditOutlined,
 } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
-import { _post, _get } from "../../server/http";
+import { logout } from "@Api/user";
+import { connect } from "react-redux";
+import "./index.less";
 
-const User = () => {
+function User() {
   const [pwdModalVisible, setPwdModalVisible] = useState(false);
   const [pwdForm] = Form.useForm();
+  const [userInfo, setUserInfo] = useState(null);
+
+  useEffect(() => {
+    setUserInfo(JSON.parse(localStorage.getItem("user")));
+  }, []);
 
   const handlePwsOk = () => {
     let params = {};
     // (pwdForm.getFieldValue());
     pwdForm.validateFields().then((_) => {
       let params = pwdForm.getFieldValue();
-      _post(`api/user/updatepwd`, params).then((res) => {
-        if (res.success) {
-          message.success("密码修改成功");
-        } else {
-          message.error(res.message);
-        }
-        setPwdModalVisible(false);
-      });
+      // _post(`api/user/updatepwd`, params).then((res) => {
+      //   if (res.success) {
+      //     message.success("密码修改成功");
+      //   } else {
+      //     message.error(res.message);
+      //   }
+      //   setPwdModalVisible(false);
+      // });
     });
   };
   let navigate = useNavigate();
@@ -48,7 +55,7 @@ const User = () => {
   };
 
   const loginOut = async () => {
-    await _post("api/sso/logout");
+    await logout();
     localStorage.clear();
     navigate("/login");
   };
@@ -72,14 +79,14 @@ const User = () => {
   return (
     <div>
       <Dropdown overlay={menu} trigger={["click"]}>
-        <Avatar
-          style={{ background: "#87d068" }}
-          src={`http://grean-ops.oss-cn-hangzhou.aliyuncs.com/avatar/${
-            JSON.parse(localStorage.getItem("user"))?.wxUserId
-          }.png`}
-          onClick={(e) => e.preventDefault()}
-        />
-        {/* <Avatar size={24} src="https://joeschmoe.io/api/v1/random" onClick={e => e.preventDefault()} /> */}
+        <span>
+          <Avatar
+            style={{ background: "#87d068" }}
+            src={userInfo?.avatar}
+            onClick={(e) => e.preventDefault()}
+          />
+          <span className="user-name">{userInfo?.nickname ?? "xx"}</span>
+        </span>
       </Dropdown>
       {/* 修改密码 */}
       <Modal
@@ -124,6 +131,6 @@ const User = () => {
       </Modal>
     </div>
   );
-};
+}
 
 export default User;

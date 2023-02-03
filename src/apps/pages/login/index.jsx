@@ -6,6 +6,8 @@ import pic_feedBack from "../../../assets/image/feedBack.png";
 
 import { useNavigate, useParams } from "react-router-dom";
 import { _post } from "../../server/http";
+import { getSsoAuthUrl } from "@Api/user";
+
 function Login() {
   let navigate = useNavigate();
   const [isCodeLogin, setIsCodeLogin] = useState(true);
@@ -14,9 +16,10 @@ function Login() {
   }, []);
 
   const ssoLogin = async () => {
-    let { data } = await _post("api/sso/getSsoAuthUrl", {
+    let { data } = await getSsoAuthUrl({
       clientLoginUrl: `${window.location.origin}/blank`,
     });
+
     if (data.isLogin) {
     } else {
       window.location.href = data.serverAuthUrl;

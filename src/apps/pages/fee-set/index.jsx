@@ -24,7 +24,7 @@ import { arrayToTree } from "@Utils/util";
 import AddForm from "./components/AddForm";
 
 let yearList = [];
-for (let i = 2018; i < moment().year() + 3; i++) {
+for (let i = 2018; i < moment().year() + 1; i++) {
   yearList.unshift({
     label: `${i}年`,
     value: i,
@@ -73,7 +73,6 @@ function FeeSet() {
     let { data } = await deptListApi();
 
     let res = arrayToTree(data);
-    console.log(res);
     setDeptList(res);
   };
 
@@ -217,7 +216,14 @@ function FeeSet() {
     <div>
       <PageHeader className="site-page-header" title="费用设置" />
       <div className="search">
-        <Form layout="inline" form={searchForm} onFinish={search}>
+        <Form
+          layout="inline"
+          form={searchForm}
+          onFinish={search}
+          initialValues={{
+            year: new Date().getFullYear(),
+          }}
+        >
           <Form.Item label="" name="deptIdList">
             <TreeSelect
               showSearch

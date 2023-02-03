@@ -26,7 +26,7 @@ import TablePopup from "./components/TablePopup";
 
 const { RangePicker } = DatePicker;
 let yearList = [];
-for (let i = 2018; i < moment().year() + 3; i++) {
+for (let i = 2018; i < moment().year() + 1; i++) {
   yearList.unshift({
     label: `${i}年`,
     value: i,
@@ -227,31 +227,37 @@ function Salers() {
             />
           </Form.Item>
 
-          <Form.Item label="" name="fromType">
+          <Form.Item label="" name="fromTypeList">
             <Select
-              style={{ width: 120 }}
+              style={{ width: 200 }}
               placeholder="数据来源"
               options={fromType}
               allowClear
               fieldNames={{ label: "dictLabel", value: "dictValue" }}
+              mode="multiple"
+              maxTagCount="responsive"
             />
           </Form.Item>
           <Form.Item label="" name="typeList">
             <Select
-              style={{ width: 120 }}
+              style={{ width: 200 }}
               placeholder="报销类型"
               options={expenseType}
               allowClear
               fieldNames={{ label: "dictLabel", value: "dictValue" }}
+              mode="multiple"
+              maxTagCount="responsive"
             />
           </Form.Item>
           <Form.Item label="" name="feeTypeList">
             <Select
-              style={{ width: 120 }}
+              style={{ width: 200 }}
               placeholder="费用类型"
               options={feeType}
               allowClear
               fieldNames={{ label: "dictLabel", value: "dictValue" }}
+              mode="multiple"
+              maxTagCount="responsive"
             />
           </Form.Item>
           {/* <Form.Item label="" name="valueList">

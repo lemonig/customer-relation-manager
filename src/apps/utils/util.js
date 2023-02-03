@@ -45,3 +45,35 @@ export function arrayToTree(items) {
   }
   return result;
 }
+
+//节流
+export function throttle(fun, delay) {
+  // let last, deferTimer;
+  // return function (args) {
+  //   let that = this;
+  //   let _args = arguments;
+  //   let now = +new Date();
+  //   if (last && now - last < delay) {
+  //     clearTimeout(deferTimer);
+  //     deferTimer = setTimeout(function () {
+  //       last = now;
+  //       fun.apply(that, _args);
+  //     }, delay);
+  //   } else {
+  //     last = now;
+  //     fun.apply(that, _args);
+  //   }
+  // };
+  var timer;
+  return function () {
+    var _this = this;
+    var args = arguments;
+    if (timer) {
+      return;
+    }
+    timer = setTimeout(function () {
+      fun.apply(_this, args);
+      timer = null; // 在delay后执行完fn之后清空timer，此时timer为假，throttle触发可以进入计时器
+    }, delay);
+  };
+}

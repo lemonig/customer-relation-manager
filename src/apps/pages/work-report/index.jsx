@@ -16,6 +16,8 @@ import { useNavigate } from "react-router-dom";
 import { salesmanList } from "@Api/set_user";
 import { workreportPage, workreportExport } from "@Api/work_report";
 import FormRep from "./Form";
+import { throttle } from "@Utils/util";
+
 const { Option } = Select;
 
 function WorkReport() {
@@ -138,7 +140,9 @@ function WorkReport() {
       fixed: "right",
       render: (_, record) => (
         <Space>
-          {record.url ? <a onClick={() => downloadPage(record)}>下载</a> : null}
+          {record.url ? (
+            <a onClick={() => throttleDownload(record)}>下载</a>
+          ) : null}
         </Space>
       ),
     },
@@ -151,19 +155,8 @@ function WorkReport() {
       },
       record.name
     );
-    // const doc = new jsPDF("l", "pt", "a4", [1900, 1000]);
-    // doc.setFont("songti", "normal");
-    // console.log(doc.getFontList());
-    // doc.html(document.getElementById("report_del_cont"), {
-    //   callback: function (doc) {
-    //     doc.save("report.pdf");
-    //   },
-    //   filename: "report",
-    //   x: 10,
-    //   y: 10,
-    // });
   };
-  const handleDownload = () => {};
+  const throttleDownload = throttle(downloadPage, 500);
 
   const handleTableChange = (pagination, filters, sorter) => {
     // if filters not changed, don't update pagination.current

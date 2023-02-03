@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+//菜单选择后保存
 const initialState = {
   key: sessionStorage.getItem("menuKey") ?? "1",
   openKey: JSON.parse(sessionStorage.getItem("openKey")) ?? [],

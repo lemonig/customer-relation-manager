@@ -1,11 +1,14 @@
 import React, { useState } from "react";
-import { useSelector } from "react-redux";
+import { shallowEqual, useSelector } from "react-redux";
+import { PUSH_LOADING, SHIFT_LOADING } from "@Store/features/loadSlice";
 import "./index.less";
 
-const Loading = ({ dispatch, id, load }) => {
+const Loading = ({ id }) => {
   const [widthPro, setWidthPro] = useState(100);
   let loadStyle = { width: widthPro + "%" };
-  const { showLoading, loadType, loadText } = useSelector((store) => store);
+  const { showLoading, loadType, loadText } = useSelector(
+    (state) => state.load
+  );
   return (
     <div>
       {showLoading ? (

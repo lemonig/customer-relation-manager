@@ -1,5 +1,6 @@
 import * as React from "react";
 import { handleRouter } from "@Utils/menu";
+import { Navigate } from "react-router-dom";
 const BodyLayout = React.lazy(() => import("@App/layout/lay-body"));
 const NotFound = React.lazy(() => import("@App/pages-status/404")); // 404
 const Noauthory = React.lazy(() => import("@App/pages-status/403")); // 403
@@ -9,9 +10,22 @@ const LoadPage = React.lazy(() => import("@Pages/load-page"));
 const WorkReportDownload = React.lazy(() =>
   import("@Pages/work-report-download")
 );
+
 /**
  * index: true 默认主路由不需要path
  * **/
+
+const lazyLoad = (moduleName) => {
+  const Module = React.lazy(() => import(`@Pages/${moduleName}`));
+  return <Module />;
+};
+
+// 路由鉴权组件
+const Appraisal = ({ children }) => {
+  console.log(children);
+  const token = localStorage.getItem("token");
+  return token ? children : <Navigate to="/login" />;
+};
 
 const fouterFilter = () => {
   return (
@@ -23,9 +37,10 @@ const fouterFilter = () => {
           obj,
           "element",
           <React.Suspense fallback={<>...</>}>
-            {React.createElement(
+            {/* {React.createElement(
               React.lazy(() => import(`@Pages/${item.component}`))
-            )}
+              )} */}
+            {lazyLoad(item.component)}
           </React.Suspense>
         );
 
@@ -87,7 +102,9 @@ const config = [
     path: "/",
     element: (
       <React.Suspense fallback={<>...</>}>
-        <BodyLayout />
+        <Appraisal>
+          <BodyLayout />
+        </Appraisal>
       </React.Suspense>
     ),
     children: fouterFilter(),

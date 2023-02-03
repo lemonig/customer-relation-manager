@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   token: "",
   menu: [],
+  user: {},
 };
 
 export const tokenSlice = createSlice({
@@ -29,8 +30,24 @@ export const menuSlice = createSlice({
     },
   },
 });
+
+export const userSlice = createSlice({
+  name: "user",
+  initialState: initialState.user,
+  reducers: {
+    SET_USER: (state, { payload }) => {
+      return (state = {
+        ...state,
+        ...payload,
+      });
+    },
+  },
+});
+
 export const { SET_MENU } = menuSlice.actions;
 export const { SET_TOKEN } = tokenSlice.actions;
+export const { SET_USER } = userSlice.actions;
 
-export const tokenSliceR = tokenSlice.reducer;
-export const menuSliceR = menuSlice.reducer;
+export const tokenReucer = tokenSlice.reducer;
+export const menuReucer = menuSlice.reducer;
+export const userReucer = userSlice.reducer;

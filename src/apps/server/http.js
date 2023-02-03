@@ -1,12 +1,12 @@
 import axios from "axios";
 import { message } from "antd";
-import { useSelector, useDispatch } from "react-redux";
 import { PUSH_LOADING, SHIFT_LOADING } from "@Store/features/loadSlice";
+import { store } from "../../store";
 
 axios.defaults.timeout = 10000;
 axios.interceptors.request.use(
   (config) => {
-    PUSH_LOADING();
+    store.dispatch(PUSH_LOADING());
     config.headers = {
       "Content-Type": "application/json; charset=utf-8",
       "X-Requested-With": "XMLHttpRequest",
@@ -23,7 +23,7 @@ axios.interceptors.request.use(
 
 axios.interceptors.response.use(
   (response) => {
-    SHIFT_LOADING();
+    store.dispatch(SHIFT_LOADING());
     if (response.data && response.status === 200) {
       if (response.data.code === 401) {
         // window.history.pushState('', null, '/login')

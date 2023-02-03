@@ -9,7 +9,7 @@ export const loadSlice = createSlice({
   name: "load",
   initialState,
   reducers: {
-    PUSH_LOADING: (state) => {
+    PUSH_LOADING: (state, { payload }) => {
       state.showLoading = true;
     },
     SHIFT_LOADING: (state) => {

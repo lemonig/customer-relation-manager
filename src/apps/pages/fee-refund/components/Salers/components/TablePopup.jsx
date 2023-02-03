@@ -34,7 +34,11 @@ function TablePopup({ isModalOpen, closeModal, operate }) {
         ...values,
       },
     }).then((res) => {
-      setData(res.data);
+      let newData = res.data.map((item, idx) => ({
+        ...item,
+        index: idx + 1,
+      }));
+      setData(newData);
       setLoading(false);
     });
   };
@@ -43,8 +47,9 @@ function TablePopup({ isModalOpen, closeModal, operate }) {
     {
       title: "序号",
       key: "index",
+      dataIndex: "index",
       width: 60,
-      render: (_, record, index) => index + 1,
+      // render: (_, record, index) => index + 1,
     },
     {
       title: "费用报销单号",

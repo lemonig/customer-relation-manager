@@ -8,7 +8,7 @@ export function tianyancha(data) {
 }
 export function dictList(data) {
   return _post({
-    url: `/api/dict/list`,
+    url: `/api/data/dict/list `,
     data,
   });
 }
