@@ -15,6 +15,8 @@ import { contractPage } from "@Api/contract.js";
 import { ExclamationCircleOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 import moment from "moment";
+import { salesmanList } from "@Api/set_user";
+
 const { RangePicker } = DatePicker;
 function MsgCooprate() {
   const [loading, setLoading] = useState(false);
@@ -24,7 +26,7 @@ function MsgCooprate() {
       pageSize: 10,
     },
   });
-  const [searchVal, setSearchVal] = useState("");
+  const [salerList, setSalerList] = useState([]);
   const [data, setData] = useState([]);
   const [total, setTotal] = useState("");
   const [searchForm] = Form.useForm();
@@ -32,6 +34,17 @@ function MsgCooprate() {
   useEffect(() => {
     getPageData();
   }, [JSON.stringify(pageMsg)]);
+
+  useEffect(() => {
+    getSalesmanList();
+  }, []);
+
+  //销售人员
+  const getSalesmanList = async () => {
+    let { data } = await salesmanList();
+
+    setSalerList(data);
+  };
 
   // 查询
   const search = () => {
@@ -54,6 +67,7 @@ function MsgCooprate() {
       values.beginTime = moment(values.time[0]).format("YYYYMMDD");
       values.endTime = moment(values.time[1]).format("YYYYMMDD");
     }
+    if (values.userIdList) values.userIdList = [values.userIdList];
     contractPage({
       page: pageMsg.pagination.current,
       size: pageMsg.pagination.pageSize,
@@ -190,11 +204,6 @@ function MsgCooprate() {
     },
   ];
 
-  const handleInputChange = (e) => {
-    const { value } = e.target;
-    setSearchVal(value);
-  };
-
   const handleTableChange = (pagination, filters, sorter) => {
     // if filters not changed, don't update pagination.current
     setPagemsg({
@@ -220,6 +229,18 @@ function MsgCooprate() {
             <Input
               placeholder="请输入商机名称、合同名称、合同编号"
               style={{ width: 240 }}
+            />
+          </Form.Item>
+          <Form.Item label="" name="userIdList">
+            <Select
+              style={{ width: 120 }}
+              options={salerList}
+              placeholder="销售人员"
+              fieldNames={{
+                label: "name",
+                value: "id",
+              }}
+              allowClear
             />
           </Form.Item>
           <Form.Item label="" name="time">

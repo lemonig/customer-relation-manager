@@ -27,7 +27,8 @@ export const menuSlice = createSlice({
   },
 });
 
-export const { SELECT_MENU } = menuSlice.actions;
-export const { OPEN_EKY } = menuSlice.actions;
+const { actions, reducer } = menuSlice;
 
-export default menuSlice.reducer;
+export const { SELECT_MENU, OPEN_EKY } = actions;
+
+export default reducer;

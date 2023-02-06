@@ -1,8 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   token: "",
-  menu: [],
-  user: {},
+  menu: JSON.parse(localStorage.getItem("menuList")) ?? [],
+  user: JSON.parse(localStorage.getItem("uesr")) ?? {},
 };
 
 export const tokenSlice = createSlice({
@@ -18,19 +18,6 @@ export const tokenSlice = createSlice({
   },
 });
 
-export const menuSlice = createSlice({
-  name: "menu",
-  initialState: initialState.menu,
-  reducers: {
-    SET_MENU: (state, { payload }) => {
-      return (state = {
-        ...state,
-        menu: payload,
-      });
-    },
-  },
-});
-
 export const userSlice = createSlice({
   name: "user",
   initialState: initialState.user,
@@ -38,16 +25,14 @@ export const userSlice = createSlice({
     SET_USER: (state, { payload }) => {
       return (state = {
         ...state,
-        ...payload,
+        user: payload,
       });
     },
   },
 });
 
-export const { SET_MENU } = menuSlice.actions;
 export const { SET_TOKEN } = tokenSlice.actions;
 export const { SET_USER } = userSlice.actions;
 
 export const tokenReucer = tokenSlice.reducer;
-export const menuReucer = menuSlice.reducer;
 export const userReucer = userSlice.reducer;

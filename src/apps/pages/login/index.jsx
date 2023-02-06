@@ -21,6 +21,7 @@ function Login() {
     });
 
     if (data.isLogin) {
+      // navigate("/", { replace: true });
     } else {
       window.location.href = data.serverAuthUrl;
     }

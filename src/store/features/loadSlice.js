@@ -17,6 +17,9 @@ export const loadSlice = createSlice({
     },
   },
 });
-export const { PUSH_LOADING, SHIFT_LOADING } = loadSlice.actions;
 
-export default loadSlice.reducer;
+const { actions, reducer } = loadSlice;
+
+export const { PUSH_LOADING, SHIFT_LOADING } = actions;
+
+export default reducer;

@@ -255,7 +255,7 @@ function UserForm({ isModalOpen, closeModal, treeData, userData }) {
               <Form.Item
                 label="角色"
                 name="roleList"
-                rules={[{ required: true, message: "请输入姓名!" }]}
+                rules={[{ required: true, message: "角色不能为空!" }]}
               >
                 <Select
                   options={roleList}

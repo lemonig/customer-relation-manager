@@ -269,31 +269,37 @@ function Summary() {
           <Form.Item label="" name="time">
             <RangePicker />
           </Form.Item>
-          <Form.Item label="" name="fromType">
+          <Form.Item label="" name="fromTypeList">
             <Select
-              style={{ width: 120 }}
+              style={{ width: 200 }}
               placeholder="数据来源"
               options={fromType}
               allowClear
               fieldNames={{ label: "dictLabel", value: "dictValue" }}
+              mode="multiple"
+              maxTagCount="responsive"
             />
           </Form.Item>
-          <Form.Item label="" name="typeList">
+          <Form.Item label="" name="expenseTypeList">
             <Select
-              style={{ width: 120 }}
+              style={{ width: 200 }}
               placeholder="报销类型"
               options={expenseType}
               allowClear
               fieldNames={{ label: "dictLabel", value: "dictValue" }}
+              mode="multiple"
+              maxTagCount="responsive"
             />
           </Form.Item>
           <Form.Item label="" name="feeTypeList">
             <Select
-              style={{ width: 120 }}
+              style={{ width: 200 }}
               placeholder="费用类型"
               options={feeType}
               allowClear
               fieldNames={{ label: "dictLabel", value: "dictValue" }}
+              mode="multiple"
+              maxTagCount="responsive"
             />
           </Form.Item>
           <Form.Item label="" name="valueList">

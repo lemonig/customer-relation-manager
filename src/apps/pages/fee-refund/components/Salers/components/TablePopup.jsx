@@ -58,14 +58,29 @@ function TablePopup({ isModalOpen, closeModal, operate }) {
     },
     {
       title: "报销类型",
-      dataIndex: "typeName",
-      key: "typeName",
+      dataIndex: "expenseTypeName",
+      key: "expenseTypeName",
     },
     {
-      title: "合同名称",
+      title: "项目名称",
       dataIndex: "projectName",
       key: "projectName",
     },
+    {
+      title: "项目编码",
+      dataIndex: "projectCode",
+      key: "projectCode",
+    },
+    {
+      title: "商机名称",
+      dataIndex: "dealName",
+      key: "dealName",
+    },
+    // {
+    //   title: "合同名称",
+    //   dataIndex: "projectName",
+    //   key: "projectName",
+    // },
     {
       title: "客户公司",
       dataIndex: "orgName",

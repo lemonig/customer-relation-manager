@@ -238,7 +238,7 @@ function Salers() {
               maxTagCount="responsive"
             />
           </Form.Item>
-          <Form.Item label="" name="typeList">
+          <Form.Item label="" name="expenseTypeList">
             <Select
               style={{ width: 200 }}
               placeholder="报销类型"

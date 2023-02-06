@@ -3,11 +3,9 @@ import menuData from "./menuData";
 import { arrayToTree } from "./util";
 
 // const menuData = JSON.parse(localStorage.getItem("menuList"));
-console.log(menuData);
-export function handleMenu() {
-  if (!menuData) return [];
-
-  let copy = JSON.parse(JSON.stringify(menuData));
+export function handleMenu(data) {
+  let copy = JSON.parse(JSON.stringify(data));
+  console.log(copy);
   return arrayToTree(copy);
 }
 

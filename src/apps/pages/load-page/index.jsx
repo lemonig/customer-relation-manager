@@ -6,7 +6,8 @@ import { _post, _get } from "../../server/http";
 import { userInfo, menuInfo } from "@Api/user.js";
 
 import { useDispatch, useSelector } from "react-redux";
-import { SET_MENU, SET_USER } from "@Store/features/userSlice";
+import { SET_USER } from "@Store/features/userSlice";
+import { SET_MENU } from "@Store/features/menulistSlice";
 import "./index.less";
 import { doLoginByTicket, owner } from "@Api/user";
 
@@ -34,13 +35,14 @@ const LoadPage = () => {
       localStorage.setItem("token", data.access_token);
       await getUserInfo();
       await getRouteMenu();
+    } else if (code === 400) {
     }
   };
 
   const getUserInfo = async () => {
     const { data } = await owner();
-    localStorage.setItem("user", JSON.stringify(data));
     dispatch(SET_USER(data));
+    localStorage.setItem("user", JSON.stringify(data));
   };
 
   const getRouteMenu = async () => {
@@ -55,8 +57,8 @@ const LoadPage = () => {
         delete item.pid;
       }
     });
-    localStorage.setItem("menuList", JSON.stringify(data));
     dispatch(SET_MENU(data));
+    localStorage.setItem("menuList", JSON.stringify(data));
     navigate("/", { replace: true });
   };
 

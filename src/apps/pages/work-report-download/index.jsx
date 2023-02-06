@@ -130,7 +130,7 @@ function WorkReportDownload() {
           ref={copntentElement}
         >
           {/* 基本信息 */}
-          <div style={{ width: "50%" }}>
+          <div style={{ width: "100%" }}>
             <Descriptions title="" column={4}>
               <Descriptions.Item label="报告编号" span={4}>
                 {data.code}

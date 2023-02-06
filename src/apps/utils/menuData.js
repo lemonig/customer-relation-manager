@@ -114,17 +114,17 @@ const menu = [
     isleaf: true,
   },
 
-  // {
-  //   key: 996,
-  //   id: 996,
-  //   pid: 2,
-  //   path: "dealConfirm",
-  //   name: "deal-confirm",
-  //   component: "deal-confirm",
-  //   auth: true,
-  //   label: "商机确认",
-  //   isleaf: true,
-  // },
+  {
+    key: 996,
+    id: 996,
+    pid: 2,
+    path: "dealConfirm",
+    name: "deal-confirm",
+    component: "deal-confirm",
+    auth: true,
+    label: "商机确认",
+    isleaf: true,
+  },
 
   {
     key: 6,
