@@ -1,18 +1,18 @@
 import { createSlice } from "@reduxjs/toolkit";
-const initialState = {
-  menu: JSON.parse(localStorage.getItem("menuList")) ?? [],
-};
+const initialState = localStorage.getItem("menuList")
+  ? JSON.parse(localStorage.getItem("menuList"))
+  : [];
 
-console.log(JSON.parse(localStorage.getItem("menuList")));
 export const menulistSlice = createSlice({
   name: "menulist",
-  initialState: initialState.menu,
+  initialState: initialState,
   reducers: {
     SET_MENU: (state, { payload }) => {
-      return (state = {
-        ...state,
-        menu: payload,
-      });
+      state = payload;
+      // return (state = {
+      //   ...state,
+      //   menu: payload,
+      // });
     },
   },
 });

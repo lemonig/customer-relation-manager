@@ -17,6 +17,7 @@ import { salesmanList } from "@Api/set_user";
 import { workreportPage, workreportExport } from "@Api/work_report";
 import FormRep from "./Form";
 import { throttle } from "@Utils/util";
+import BtnAuth from "@Shared/BtnAuth";
 
 const { Option } = Select;
 
@@ -202,7 +203,9 @@ function WorkReport() {
               <Button type="primary" htmlType="submit">
                 查询
               </Button>
-              <Button onClick={() => setFormVis(true)}>新建</Button>
+              <BtnAuth word="activity:workreport:create">
+                <Button onClick={() => setFormVis(true)}>新建</Button>
+              </BtnAuth>
             </Space>
           </Form.Item>
         </Form>

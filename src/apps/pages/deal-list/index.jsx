@@ -21,6 +21,7 @@ import { saleList } from "@Api/set_sale";
 import { salesmanList } from "@Api/set_user";
 import { deptList as deptListApi } from "@Api/set_dept.js";
 import DealForm from "./Form/DealForm";
+import BtnAuth from "@Shared/BtnAuth";
 
 import ReactEChartsCore from "echarts-for-react/lib/core";
 import * as echarts from "echarts/core";
@@ -602,7 +603,9 @@ function DealList() {
             </Button>
           </Form.Item>
           <Form.Item>
-            <Button onClick={handleAdd}>新建</Button>
+            <BtnAuth word="deal:create">
+              <Button onClick={handleAdd}>新建</Button>
+            </BtnAuth>
           </Form.Item>
         </Form>
         <Checkbox onChange={handleChartChange}>隐藏统计</Checkbox>

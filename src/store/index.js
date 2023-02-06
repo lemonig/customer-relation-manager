@@ -1,15 +1,16 @@
 import { configureStore } from "@reduxjs/toolkit";
 import loadSlice from "./features/loadSlice";
-import { tokenReucer, userReucer } from "./features/userSlice";
+import userSlice from "./features/userSlice";
 import menuSlice from "./features/menuSlice";
 import menulistSlice from "./features/menulistSlice";
+import tokenSlice from "./features/tokenSlice";
 
 export const store = configureStore({
   reducer: {
     load: loadSlice,
-    token: tokenReucer,
+    token: tokenSlice,
     menu: menulistSlice,
-    user: userReucer,
+    user: userSlice,
     menuKey: menuSlice,
   },
 });
