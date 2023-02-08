@@ -138,7 +138,7 @@ function DealDetail() {
     wonTime,
     statusName,
   }) => {
-    if (!status || status == 1) {
+    if (!status || status == 1 || status == 5) {
       return null;
     }
     let label = "",

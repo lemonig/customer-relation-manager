@@ -35,7 +35,7 @@ function LayMenu() {
   const openKey = useSelector((state) => state.menuKey.openKey);
   // const menu = useSelector((state) => state.menu);
   const menu = JSON.parse(localStorage.getItem("menuList"));
-  const menuList = handleMenu(menu);
+  const menuList = menu ? handleMenu(menu) : [];
   // const [menuList, setMenuList] = useState([]);
   const handleMenuClick = ({ item, key, keyPath }) => {
     navigate(item.props.path);

@@ -72,6 +72,11 @@ function TablePopup({ isModalOpen, closeModal, operate }) {
       key: "projectCode",
     },
     {
+      title: "商机编号",
+      dataIndex: "dealCode",
+      key: "dealCode",
+    },
+    {
       title: "商机名称",
       dataIndex: "dealName",
       key: "dealName",

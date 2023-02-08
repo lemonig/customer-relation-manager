@@ -140,8 +140,8 @@ function DealConfirm() {
       render: (value, record) => (!!value ? <a>{value}</a> : ""),
       onCell: (record) => ({
         onClick: (event) => {
-          if (record.dealCode) {
-            gotoDealDetail(record.dealCode);
+          if (record.dealId) {
+            gotoDealDetail(record.dealId);
           }
         },
       }),

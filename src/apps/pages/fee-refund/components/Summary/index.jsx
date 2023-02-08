@@ -21,6 +21,7 @@ import { feeList, feeListExport } from "@Api/fee-refund";
 import { dictList } from "@Api/public";
 import { deptList as deptListApi } from "@Api/set_dept.js";
 import { arrayToTree } from "@Utils/util";
+import { salesmanList } from "@Api/set_user";
 const { RangePicker } = DatePicker;
 let yearList = [];
 for (let i = 2018; i < moment().year() + 1; i++) {
@@ -37,6 +38,7 @@ function Summary() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [data, setData] = useState([]);
   const [selectedRow, setSelectedRow] = useState([]);
+  const [salerList, setSalerList] = useState([]);
   const [dictData, setDictData] = useState({
     feeType: [], // 费用类型
     fromType: [], //数据来源
@@ -53,6 +55,12 @@ function Summary() {
     },
   });
 
+  //销售人员
+  const getSalesmanList = async () => {
+    let { data } = await salesmanList();
+
+    setSalerList(data);
+  };
   //部门
   const getDeptList = async () => {
     let { data } = await deptListApi();
@@ -93,7 +101,7 @@ function Summary() {
   };
 
   useEffect(() => {
-    getDeptList();
+    getSalesmanList();
     getDictData();
     getDictData1();
     getDictData2();
@@ -329,19 +337,16 @@ function Summary() {
               allowClear
             />
           </Form.Item>
-          <Form.Item label="" name="deptIdList">
-            <TreeSelect
-              showSearch
-              style={{ width: 300 }}
-              // dropdownStyle={{ maxHeight: 400, overflow: "auto" }}
-              placeholder="部门"
-              allowClear
-              treeDefaultExpandAll
-              treeData={deptList}
+          <Form.Item label="" name="userIdList">
+            <Select
+              style={{ width: 120 }}
+              options={salerList}
+              placeholder="销售人员"
               fieldNames={{
-                label: "label",
+                label: "name",
                 value: "id",
               }}
+              allowClear
             />
           </Form.Item>
 
