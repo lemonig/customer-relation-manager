@@ -26,8 +26,8 @@ axios.interceptors.response.use(
     store.dispatch(SHIFT_LOADING());
     if (response.data && response.status === 200) {
       if (response.data.code === 401) {
-        // window.history.pushState('', null, '/login')
-        window.location.href = "./login";
+        window.location.href = window.location.origin + "/loading";
+      } else if (response.data.code === 403) {
       }
       return Promise.resolve(response);
     } else {
@@ -39,12 +39,17 @@ axios.interceptors.response.use(
   (error) => {
     SHIFT_LOADING();
     if (error.response.status) {
+      console.log(error);
       switch (error.response.status) {
         case 401:
+          message.error("401");
+          localStorage.removeItem("token");
+          window.location.href = window.location.origin + "/loading";
           break;
         case 403:
           message.error("403");
-          localStorage.removeItem("token");
+          window.location.href = window.location.origin + "/403";
+
           setTimeout(() => {}, 1000);
           break;
         case 404:
@@ -61,17 +66,6 @@ axios.interceptors.response.use(
     }
   }
 );
-
-const ssoLogin = () => {
-  _post("api/sso/getSsoAuthUrl", {
-    clientLoginUrl: `${window.location.origin}/#/passport/login`,
-  }).subscribe((res) => {
-    if (res.data.isLogin) {
-    } else {
-      window.location.href = res.data.serverAuthUrl;
-    }
-  });
-};
 
 /**
  * get

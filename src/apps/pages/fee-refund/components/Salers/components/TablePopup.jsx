@@ -97,16 +97,16 @@ function TablePopup({ isModalOpen, closeModal, operate }) {
       key: "feeTypeName",
     },
 
-    {
-      title: "开始时间",
-      dataIndex: "startTime",
-      key: "startTime",
-    },
-    {
-      title: "结束时间",
-      dataIndex: "endTime",
-      key: "endTime",
-    },
+    // {
+    //   title: "开始时间",
+    //   dataIndex: "startTime",
+    //   key: "startTime",
+    // },
+    // {
+    //   title: "结束时间",
+    //   dataIndex: "endTime",
+    //   key: "endTime",
+    // },
     {
       title: "报销金额",
       dataIndex: "feeValue",

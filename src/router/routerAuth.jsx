@@ -3,11 +3,14 @@ import { matchRoutes, useLocation, Navigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
 export const RouterAuth = ({ children }) => {
-  const router = useSelector((state) => state.menu);
-  // const router = JSON.parse(localStorage.getItem("menuList"));
+  // const router = useSelector((state) => state.menu);
+  const router = JSON.parse(localStorage.getItem("menuList"));
+  console.log(router);
   const location = useLocation();
   if (!router || !router.length) {
-    return <Navigate to="/login" state={{ from: location.pathname }} replace />;
+    return (
+      <Navigate to="/loading" state={{ from: location.pathname }} replace />
+    );
   }
   const mathchs = matchRoutes(router, location);
   const hasAuth = mathchs?.some((item) => {

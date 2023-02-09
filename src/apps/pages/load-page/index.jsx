@@ -9,7 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { SET_USER } from "@Store/features/userSlice";
 import { SET_MENU } from "@Store/features/menulistSlice";
 import "./index.less";
-import { doLoginByTicket, owner } from "@Api/user";
+import { doLoginByTicket, owner, getSsoAuthUrl } from "@Api/user";
 
 const LoadPage = () => {
   let navigate = useNavigate();
@@ -23,12 +23,29 @@ const LoadPage = () => {
   useEffect(() => {
     let href = window.location.href; // 完整的url路径
     let search = location.search; // 获取从？开始的部分
-    let url = decodeURI(search);
-    let code = url.split("&")[1].split("=")[1];
-    getTicket(code);
+    if (location.search) {
+      let url = decodeURI(search);
+      let ticket = url.split("&")[1].split("=")[1];
+      getTicket(ticket);
+    } else {
+      ssoLogin();
+    }
 
     window.onhashchange = function (event) {};
   });
+
+  const ssoLogin = async () => {
+    let { data } = await getSsoAuthUrl({
+      clientLoginUrl: `${window.location.origin}/loading`,
+    });
+
+    if (data.isLogin) {
+      navigate("/", { replace: true });
+    } else {
+      window.location.href = data.serverAuthUrl;
+    }
+  };
+
   const getTicket = async (ticket) => {
     let { code, data } = await doLoginByTicket({ ticket });
     if (code == 200) {
@@ -41,8 +58,11 @@ const LoadPage = () => {
 
   const getUserInfo = async () => {
     const { data } = await owner();
-    dispatch(SET_USER(data));
-    localStorage.setItem("user", JSON.stringify(data));
+    if (data) {
+      console.log(data);
+      dispatch(SET_USER(data));
+      localStorage.setItem("user", JSON.stringify(data));
+    }
   };
 
   const getRouteMenu = async () => {

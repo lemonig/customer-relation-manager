@@ -17,7 +17,7 @@ function Login() {
 
   const ssoLogin = async () => {
     let { data } = await getSsoAuthUrl({
-      clientLoginUrl: `${window.location.origin}/blank`,
+      clientLoginUrl: `${window.location.origin}/loading`,
     });
 
     if (data.isLogin) {
@@ -52,7 +52,7 @@ function Login() {
 
   const hanldeCodeLogin = () => {
     window.open(
-      "https://open.work.weixin.qq.com/wwopen/sso/qrConnect?appid=wwe0ae2b8c21cd865f&agentid=1000035&redirect_uri=http://one.greandata.com:8000/blank",
+      "https://open.work.weixin.qq.com/wwopen/sso/qrConnect?appid=wwe0ae2b8c21cd865f&agentid=1000035&redirect_uri=http://one.greandata.com:8000/loading",
       "",
       "width=600,height=600,left=10, top=10,toolbar=no, status=no, menubar=no, resizable=yes, scrollbars=yes"
     );
@@ -117,7 +117,7 @@ function Login() {
           <div style={{ width: "100%", textAlign: "center" }}>
             {/* <Button type="link" onClick={handleLoginState}>切换登录方式</Button> */}
             <a
-              href={`https://open.work.weixin.qq.com/wwopen/sso/qrConnect?appid=wwe0ae2b8c21cd865f&agentid=1000035&redirect_uri=http://one.greandata.com:8000/blank`}
+              href={`https://open.work.weixin.qq.com/wwopen/sso/qrConnect?appid=wwe0ae2b8c21cd865f&agentid=1000035&redirect_uri=http://one.greandata.com:8000/loading`}
             >
               切换登录方式
             </a>

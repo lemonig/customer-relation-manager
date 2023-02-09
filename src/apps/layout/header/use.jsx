@@ -57,18 +57,18 @@ function User() {
   const loginOut = async () => {
     await logout();
     localStorage.clear();
-    navigate("/login");
+    navigate("/loading");
   };
 
   const menu = (
     <Menu>
-      <Menu.Item key="1" icon={<UserOutlined />}>
+      {/* <Menu.Item key="1" icon={<UserOutlined />}>
         <a>个人信息</a>
       </Menu.Item>
       <Menu.Item key="3" icon={<EditOutlined />} onClick={handleModifyPwd}>
         修改密码
       </Menu.Item>
-      <Menu.Divider />
+      <Menu.Divider /> */}
 
       <Menu.Item key="0" icon={<LogoutOutlined />}>
         <a onClick={loginOut}>退出登录</a>

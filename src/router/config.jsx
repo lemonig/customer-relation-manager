@@ -25,7 +25,7 @@ const lazyLoad = (moduleName) => {
 // 路由鉴权组件
 const Appraisal = ({ children }) => {
   const token = localStorage.getItem("token");
-  return token ? children : <Navigate to="/login" />;
+  return token ? children : <Navigate to="/loading" />;
 };
 
 const fouterFilter = () => {
@@ -70,16 +70,16 @@ const fouterFilter = () => {
 };
 
 const config = [
+  // {
+  //   path: "/login",
+  //   element: (
+  //     <React.Suspense fallback={<>...</>}>
+  //       <Login />,
+  //     </React.Suspense>
+  //   ),
+  // },
   {
-    path: "/login",
-    element: (
-      <React.Suspense fallback={<>...</>}>
-        <Login />,
-      </React.Suspense>
-    ),
-  },
-  {
-    path: "blank",
+    path: "loading",
     element: (
       <React.Suspense fallback={<>...</>}>
         <LoadPage />,
