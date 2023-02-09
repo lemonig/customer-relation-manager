@@ -60,18 +60,24 @@ function LayMenu() {
       <Sider
         collapsible
         theme="dark"
-        style={{ background: "#1b1a40", color: "#fff" }}
+        style={{ background: "#1b1a40", color: "#fff", height: "100%" }}
       >
-        <Menu
-          theme="dark"
-          defaultOpenKeys={openKey}
-          defaultSelectedKeys={[treeKey]}
-          mode="inline"
-          items={menuList}
-          style={{ background: "#1b1a40", color: "#fff" }}
-          onClick={handleMenuClick}
-          onOpenChange={handleOpen}
-        />
+        <div className="menu">
+          <Menu
+            theme="dark"
+            defaultOpenKeys={openKey}
+            defaultSelectedKeys={[treeKey]}
+            mode="inline"
+            items={menuList}
+            style={{
+              background: "#1b1a40",
+              color: "#fff",
+              overflow: "hidden auto",
+            }}
+            onClick={handleMenuClick}
+            onOpenChange={handleOpen}
+          />
+        </div>
       </Sider>
     </div>
   );

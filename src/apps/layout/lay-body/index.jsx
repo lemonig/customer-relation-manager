@@ -8,21 +8,19 @@ import "./index.less";
 function BodyLayout() {
   const { Content, Footer, Sider } = Layout;
   return (
-    <div>
+    <>
+      {/* 头部 */}
       <Header />
       <section className="body-flex">
         <LayMenu />
-        <section style={{ width: "100%" }}>
-          {/* 标题 */}
-          {/* 主体内容 */}
-          <section className="body-main-content">
-            <div id="default_content_warp">
-              <Outlet />
-            </div>
-          </section>
+        {/* 主体内容 */}
+        <section className="body-main-content">
+          <div id="default_content_warp">
+            <Outlet />
+          </div>
         </section>
       </section>
-    </div>
+    </>
   );
 }
 
