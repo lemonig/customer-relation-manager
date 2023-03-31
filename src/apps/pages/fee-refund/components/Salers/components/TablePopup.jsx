@@ -116,9 +116,9 @@ function TablePopup({ isModalOpen, closeModal, operate }) {
       ),
     },
     {
-      title: "创建时间",
-      dataIndex: "createTime",
-      key: "createTime",
+      title: "提交时间",
+      dataIndex: "submitTime",
+      key: "submitTime",
     },
   ];
 

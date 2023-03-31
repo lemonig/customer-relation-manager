@@ -9,10 +9,7 @@ import {
   Modal,
   Form,
   message,
-  Tooltip,
-  PageHeader,
-  DatePicker,
-  Checkbox,
+  AutoComplete,
 } from "antd";
 import {
   companyInfo,
@@ -22,6 +19,12 @@ import {
 } from "@Api/info_company.js";
 import { tianyancha } from "@Api/public.js";
 import { organize } from "@Utils/data";
+import { province } from "@Utils/provice.js";
+
+const proviceSelect = province.map((item) => ({
+  label: item,
+  value: item,
+}));
 
 function FormComy({ record, open, closeModal }) {
   const [form] = Form.useForm();
@@ -77,12 +80,7 @@ function FormComy({ record, open, closeModal }) {
       setTycList([]);
     }
   };
-  const handleChange = (_, option) => {
-    form.setFieldsValue({
-      ...option,
-      orgType: option.companyType,
-    });
-  };
+  const handleChange = (_, option) => {};
   return (
     <>
       <Modal
@@ -104,35 +102,46 @@ function FormComy({ record, open, closeModal }) {
             name="name"
             rules={[{ required: true, message: "请输入客户名称!" }]}
           >
-            <Select
-              showSearch
+            <AutoComplete
               placeholder="请输入"
-              defaultActiveFirstOption={false}
-              showArrow={false}
+              defaultActiveFirstOption={true}
               filterOption={false}
               onSearch={handleSearch}
               onChange={handleChange}
               notFoundContent={null}
-              fieldNames={{
-                label: "name",
-                value: "creditCode",
-              }}
               options={tycList}
             />
           </Form.Item>
           <Form.Item label="机构类型" name="orgType">
             <Select
               placeholder="请选择机构"
-              options={organize}
-              disabled
+              options={[
+                {
+                  label: "政府机构",
+                  value: 1,
+                },
+                {
+                  label: "企业单位",
+                  value: 2,
+                },
+                {
+                  label: "个人",
+                  value: 3,
+                },
+                {
+                  label: "其他",
+                  value: 4,
+                },
+              ]}
             ></Select>
           </Form.Item>
-          <Form.Item label="统一社会信用代码" name="creditCode">
-            <Input disabled placeholder="请输入" />
-          </Form.Item>
           <Form.Item label="省份" name="base">
-            <Input disabled placeholder="请输入" />
+            <Select placeholder="请选择机构" options={proviceSelect}></Select>
           </Form.Item>
+          <Form.Item label="统一社会信用代码" name="creditCode">
+            <Input placeholder="请输入" />
+          </Form.Item>
+
           <Form.Item label="地址" name="address">
             <Input placeholder="请输入" />
           </Form.Item>
@@ -161,7 +170,10 @@ const fetch = (value, callback) => {
       keyword: value,
     });
     if (currentValue === value) {
-      callback(data);
+      let res = data.map((item) => ({
+        value: item.name,
+      }));
+      callback(res);
     }
   };
   timeout = setTimeout(fake, 300);

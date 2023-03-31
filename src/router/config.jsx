@@ -32,6 +32,7 @@ const fouterFilter = () => {
   return (
     handleRouter().length &&
     handleRouter().map((item) => {
+      console.log(item);
       let obj = {};
       if (item.auth) {
         Reflect.set(

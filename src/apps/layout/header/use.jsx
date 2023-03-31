@@ -57,6 +57,7 @@ function User() {
   const loginOut = async () => {
     await logout();
     localStorage.clear();
+    sessionStorage.clear();
     navigate("/loading");
   };
 

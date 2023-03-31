@@ -17,7 +17,7 @@ import {
 } from "antd";
 import { useNavigate } from "react-router-dom";
 import moment from "moment";
-import { salesmanList } from "@Api/set_user";
+import { salesmanByYear } from "@Api/set_user";
 import { deptList as deptListApi } from "@Api/set_dept.js";
 import { configList } from "@Api/fee-set";
 import { arrayToTree } from "@Utils/util";
@@ -64,7 +64,7 @@ function FeeSet() {
 
   //销售人员
   const getSalesmanList = async () => {
-    let { data } = await salesmanList();
+    let { data } = await salesmanByYear();
 
     setSalerList(data);
   };

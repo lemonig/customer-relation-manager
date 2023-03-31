@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 
 import { Select, Modal, Form, message } from "antd";
 import { dealterminate, deallose, dealwin, dealtransfer } from "@Api/deal_list";
-import { userList } from "@Api/set_user.js";
+import { salesmanByYear } from "@Api/set_user.js";
 import {
   useParams,
   useSearchParams,
@@ -17,9 +17,7 @@ function FormTrans({ open, closeModal, pipelineId }) {
   const [user, setUser] = useState([]);
   useEffect(() => {
     const getUser = async () => {
-      let { data } = await userList({
-        roleIdList: [3],
-      });
+      let { data } = await salesmanByYear();
       setUser(data);
     };
     getUser();
@@ -72,7 +70,7 @@ function FormTrans({ open, closeModal, pipelineId }) {
             placeholder="请选择"
             options={user}
             fieldNames={{
-              label: "nickname",
+              label: "name",
               value: "id",
             }}
           ></Select>
