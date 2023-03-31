@@ -100,7 +100,7 @@ function FormComy({ record, open, closeModal }) {
           <Form.Item
             label="客户名称"
             name="name"
-            rules={[{ required: true, message: "请输入客户名称!" }]}
+            rules={[{ required: true, message: "请输入客户名称" }]}
           >
             <AutoComplete
               placeholder="请输入"
@@ -112,7 +112,7 @@ function FormComy({ record, open, closeModal }) {
               options={tycList}
             />
           </Form.Item>
-          <Form.Item label="机构类型" name="orgType">
+          <Form.Item label="机构类型" name="orgType"  rules={[{ required: true, message: "请选择" }]}>
             <Select
               placeholder="请选择机构"
               options={[
@@ -135,7 +135,7 @@ function FormComy({ record, open, closeModal }) {
               ]}
             ></Select>
           </Form.Item>
-          <Form.Item label="省份" name="base">
+          <Form.Item label="省份" name="base" rules={[{ required: true, message: "请选择" }]}>
             <Select placeholder="请选择机构" options={proviceSelect}></Select>
           </Form.Item>
           <Form.Item label="统一社会信用代码" name="creditCode">
