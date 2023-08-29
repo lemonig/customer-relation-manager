@@ -35,7 +35,7 @@ function CrmUser({ open, getRowSelected, defaultId, title }) {
 
   useEffect(() => {
     getPageData();
-  }, [JSON.stringify(pageMsg)]);
+  }, [pageMsg.pagination.current, pageMsg.pagination.pageSize]);
 
   const showModal = () => {
     setIsModalOpen(true);
@@ -43,16 +43,17 @@ function CrmUser({ open, getRowSelected, defaultId, title }) {
 
   // 查询
   const search = () => {
-    setPagemsg({
-      ...pageMsg,
-      pagination: {
-        ...pageMsg.pagination,
-        current: 1,
-      },
-    });
-
-    // FIXME 分页信息异步了
-    // getPageData();
+    if (pageMsg.pagination.current === 1) {
+      getPageData();
+    } else {
+      setPagemsg({
+        ...pageMsg,
+        pagination: {
+          ...pageMsg.pagination,
+          current: 1,
+        },
+      });
+    }
   };
   const getPageData = async () => {
     setLoading(true);
@@ -179,6 +180,9 @@ function CrmUser({ open, getRowSelected, defaultId, title }) {
               // value={searchVal}
               onChange={handleInputChange}
             />
+            <Button type="primary" onClick={search}>
+              确定
+            </Button>
           </Space>
         </div>
         <Table

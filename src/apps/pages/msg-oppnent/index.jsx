@@ -40,7 +40,7 @@ function MsgOpponent() {
 
   useEffect(() => {
     getPageData();
-  }, [JSON.stringify(pageMsg)]);
+  }, [pageMsg.pagination.current, pageMsg.pagination.pageSize]);
 
   const showModal = () => {
     setIsModalOpen(true);

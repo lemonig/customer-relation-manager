@@ -47,7 +47,11 @@ function WorkPlan() {
   }, []);
   useEffect(() => {
     getPageData();
-  }, [JSON.stringify(pageMsg)]);
+  }, [
+    pageMsg.pagination.current,
+    pageMsg.pagination.pageSize,
+    JSON.stringify(pageMsg.filters),
+  ]);
 
   //销售人员
   const getSalesmanList = async () => {

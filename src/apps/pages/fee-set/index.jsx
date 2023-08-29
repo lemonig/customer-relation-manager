@@ -50,8 +50,7 @@ function FeeSet() {
 
   useEffect(() => {
     getPageData();
-    JSON.stringify(pageMsg);
-  }, [JSON.stringify(pageMsg)]);
+  }, [pageMsg.pagination.current, pageMsg.pagination.pageSize]);
 
   useEffect(() => {
     getSalesmanList();

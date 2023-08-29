@@ -29,8 +29,7 @@ function Logs({ open, closeModal, pipelineId }) {
 
   useEffect(() => {
     getPageData();
-  }, [JSON.stringify(pageMsg)]);
-
+  }, [pageMsg.pagination.current, pageMsg.pagination.pageSize]);
   const getPageData = () => {
     setLoading(true);
     dealLogs({

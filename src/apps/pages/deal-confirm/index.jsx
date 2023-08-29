@@ -45,7 +45,7 @@ function DealConfirm() {
 
   useEffect(() => {
     getPageData();
-  }, [JSON.stringify(pageMsg)]);
+  }, [pageMsg.pagination.current, pageMsg.pagination.pageSize]);
   //销售流程
   const getPlpeline = async () => {
     let { data } = await saleList();
@@ -316,7 +316,7 @@ function DealConfirm() {
               allowClear
             />
           </Form.Item> */}
-          <Form.Item label="" name="userIdList">
+          <Form.Item label="" name="dealStatusList">
             <Select
               style={{ width: 120 }}
               options={[

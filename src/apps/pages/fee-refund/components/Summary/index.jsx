@@ -108,7 +108,8 @@ function Summary() {
   }, []);
   useEffect(() => {
     getPageData();
-  }, [JSON.stringify(pageMsg)]);
+  }, [pageMsg.pagination.current, pageMsg.pagination.pageSize]);
+
   // 查询
   const search = () => {
     // FIXME 第一页会不触发hooks,故分开

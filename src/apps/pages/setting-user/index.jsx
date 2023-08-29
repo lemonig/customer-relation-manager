@@ -146,7 +146,26 @@ function Staff() {
 
   useEffect(() => {
     if (selectTreeId.length > 0) getUserData();
-  }, [JSON.stringify(pageMsg), JSON.stringify(selectTreeId)]);
+  }, [pageMsg.pagination.current, pageMsg.pagination.pageSize]);
+
+  useEffect(() => {
+    if (selectTreeId.length > 0) search();
+  }, [JSON.stringify(selectTreeId)]);
+
+  // 查询
+  const search = () => {
+    if (pageMsg.pagination.current === 1) {
+      getUserData();
+    } else {
+      setPagemsg({
+        ...pageMsg,
+        pagination: {
+          ...pageMsg.pagination,
+          current: 1,
+        },
+      });
+    }
+  };
 
   // 获取用户
   const getUserData = () => {

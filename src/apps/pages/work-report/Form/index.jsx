@@ -37,7 +37,7 @@ function FormRep({ open, closeModal }) {
   }, []);
   useEffect(() => {
     getPageData();
-  }, [JSON.stringify(pageMsg)]);
+  }, [pageMsg.pagination.current, pageMsg.pagination.pageSize]);
   const getActiveData = async () => {
     setLoading(true);
     let { data } = await activeList();

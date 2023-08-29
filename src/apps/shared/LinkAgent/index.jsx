@@ -24,10 +24,9 @@ function LinkOppnent({ open, getRowSelected, defaultId, url }) {
   const [rowKey, setRowKey] = useState([]);
   // 新增
   const [isModalOpen, setIsModalOpen] = useState(false);
-
   useEffect(() => {
     getPageData();
-  }, [JSON.stringify(pageMsg)]);
+  }, [pageMsg.pagination.current, pageMsg.pagination.pageSize]);
 
   // 查询
   const search = () => {

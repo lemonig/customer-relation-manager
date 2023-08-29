@@ -27,7 +27,7 @@ function LinkCooprate({ open, getRowSelected, defaultId }) {
 
   useEffect(() => {
     getPageData();
-  }, [JSON.stringify(pageMsg)]);
+  }, [pageMsg.pagination.current, pageMsg.pagination.pageSize]);
 
   // 查询
   const search = () => {

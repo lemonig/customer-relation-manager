@@ -43,7 +43,7 @@ function ProductManage() {
   }, []);
   useEffect(() => {
     getPageData();
-  }, [JSON.stringify(pageMsg)]);
+  }, [pageMsg.pagination.current, pageMsg.pagination.pageSize]);
 
   const showModal = () => {
     setIsModalOpen(true);
@@ -52,8 +52,6 @@ function ProductManage() {
     let { data } = await productTypeList();
 
     await setTypelist(data);
-
-    getPageData();
   };
 
   // 查询

@@ -42,7 +42,7 @@ function LinkContract({ open, getRowSelected, defaultId }) {
 
   useEffect(() => {
     getPageData();
-  }, [JSON.stringify(pageMsg)]);
+  }, [pageMsg.pagination.current, pageMsg.pagination.pageSize]);
 
   const showModal = () => {
     setIsModalOpen(true);

@@ -37,9 +37,10 @@ function MsgCooprate() {
   const [searchVal, setSearchVal] = useState("");
   const [data, setData] = useState([]);
   let navigate = useNavigate();
+
   useEffect(() => {
     getPageData();
-  }, [JSON.stringify(pageMsg)]);
+  }, [pageMsg.pagination.current, pageMsg.pagination.pageSize]);
 
   // 查询
   const search = () => {

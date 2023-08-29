@@ -101,7 +101,13 @@ function DealList() {
     if (pipeline.length > 0) {
       getPageData();
     }
-  }, [JSON.stringify(pageMsg), pipeline]);
+  }, [pipeline]);
+
+  useEffect(() => {
+    if (pipeline.length > 0) {
+      getPageData();
+    }
+  }, [pageMsg.pagination.current, pageMsg.pagination.pageSize]);
 
   //销售流程
   const getPlpeline = async () => {
