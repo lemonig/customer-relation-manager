@@ -30,7 +30,7 @@ function MsgCompany() {
     },
   });
   const [searchVal, setSearchVal] = useState("");
-  const [selectVal, setSelectVal] = useState("1");
+  const [selectVal, setSelectVal] = useState("");
   const [data, setData] = useState([]);
 
   useEffect(() => {
@@ -234,7 +234,13 @@ function MsgCompany() {
           <Select
             style={{ width: 120 }}
             onChange={handleSelectChange}
-            options={organize}
+            options={[
+              {
+                label: "全部",
+                value: "",
+              },
+              ...organize,
+            ]}
             placeholder="机构类型"
             allowClear
           />

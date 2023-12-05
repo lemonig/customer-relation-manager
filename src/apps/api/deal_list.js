@@ -123,3 +123,10 @@ export function dealLogs(data) {
     data,
   });
 }
+// 时间线
+export function dealTimeline(data) {
+  return _post({
+    url: `/api/deal/timeline`,
+    data,
+  });
+}

@@ -22,12 +22,13 @@ import FormTrans from "./components/Form/FormTrans";
 import FormLose from "./components/Form/FormLose";
 import FormSop from "./components/Form/FormSop";
 import Logs from "./components/Logs";
+import TabView from "./components/TabView";
 const { confirm } = Modal;
 
 function DealDetail() {
   const params = useParams();
   let navigate = useNavigate();
-  const [getParams, setParam] = useSearchParams(); //第一个参数 getParams 获取 param 等 url  信息, 第二个参数 setParam 设置 url 等信息。
+  const [getParams, setParam] = useSearchParams();
   const pipelineId = getParams.getAll("pipelineId")[0];
   const [data, setData] = useState(null);
   const [modalVis, setModalVis] = useState({
@@ -164,28 +165,24 @@ function DealDetail() {
         <PageHeader
           className="site-page-header"
           style={{ padding: "0 24px" }}
-          onBack={
-            () => navigate(-1, {})
-            // navigate({
-            //   pathname: "/dealList",
-            //   replace: true,
-            // })
-          }
+          onBack={() => navigate(-1, {})}
           title="商机详情"
-          extra={[
-            <Button
-              key="3"
-              type="link"
-              onClick={() => {
-                setModalVis({
-                  ...modalVis,
-                  logs: true,
-                });
-              }}
-            >
-              变更日志
-            </Button>,
-          ]}
+          extra={
+            [
+              // <Button
+              //   key="3"
+              //   type="link"
+              //   onClick={() => {
+              //     setModalVis({
+              //       ...modalVis,
+              //       logs: true,
+              //     });
+              //   }}
+              // >
+              //   变更日志
+              // </Button>,
+            ]
+          }
         />
         <div className="actions-content">
           <div className="actions">
@@ -336,10 +333,11 @@ function DealDetail() {
                     </React.Fragment>
                   ))}
                 </Descriptions>
+                <TabView />
               </Card>
             )}
           </div>
-          <div className="content">
+          {/* <div className="content">
             <Card
               title="销售计划"
               bordered={false}
@@ -360,7 +358,7 @@ function DealDetail() {
                 fontWeight: 600,
               }}
             ></Card>
-          </div>
+          </div> */}
         </div>
       </div>
 

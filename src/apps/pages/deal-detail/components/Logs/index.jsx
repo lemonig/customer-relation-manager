@@ -14,8 +14,11 @@ import {
 
 import moment from "moment";
 import { dealLogs } from "@Api/deal_list";
+import { useParams, useSearchParams, useNavigate } from "react-router-dom";
 
-function Logs({ open, closeModal, pipelineId }) {
+function Logs() {
+  const [getParams, setParam] = useSearchParams();
+  const pipelineId = getParams.getAll("pipelineId")[0];
   const [activeData, setActiveData] = useState([]);
 
   const [loading, setLoading] = useState(false);
@@ -65,16 +68,13 @@ function Logs({ open, closeModal, pipelineId }) {
       title: "变更时间",
       dataIndex: "createTime",
       key: "createTime",
-      width: 150,
     },
     {
       title: "变更人",
       dataIndex: "createUserName",
       key: "createUserName",
-      width: 150,
     },
     {
-      width: 300,
       title: "变更字段",
       dataIndex: "propertyList",
       key: "propertyList",
@@ -83,7 +83,6 @@ function Logs({ open, closeModal, pipelineId }) {
     },
 
     {
-      width: 300,
       title: "变更前",
       dataIndex: "beforeList",
       key: "beforeList",
@@ -92,7 +91,6 @@ function Logs({ open, closeModal, pipelineId }) {
     },
 
     {
-      width: 300,
       title: "变更后",
       dataIndex: "afterList",
       key: "afterList",
@@ -123,27 +121,16 @@ function Logs({ open, closeModal, pipelineId }) {
           }
         `}
       </style>
-      <Modal
-        title="变更日志"
-        open={open}
-        onOk={null}
-        onCancel={() => closeModal(false)}
-        maskClosable={false}
-        destroyOnClose
-        width={1400}
-        confirmLoading={loading}
-        footer={null}
-      >
-        <Table
-          columns={columns}
-          dataSource={data}
-          loading={loading}
-          pagination={pageMsg.pagination}
-          rowKey={(record) => record.id}
-          onChange={handleTableChange}
-          onHeaderCell={() => "onHeaderCell"}
-        />
-      </Modal>
+
+      <Table
+        columns={columns}
+        dataSource={data}
+        loading={loading}
+        pagination={pageMsg.pagination}
+        rowKey={(record) => record.id}
+        onChange={handleTableChange}
+        onHeaderCell={() => "onHeaderCell"}
+      />
     </div>
   );
 }

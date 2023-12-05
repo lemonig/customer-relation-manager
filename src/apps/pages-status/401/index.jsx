@@ -2,9 +2,8 @@ import { Button, Result } from "antd";
 import React from "react";
 
 const back = () => {
-  // window.location.history.back();
+  window.location.history.back();
 };
-
 const NoAuth = () => (
   <Result
     status="401"

@@ -32,7 +32,6 @@ const fouterFilter = () => {
   return (
     handleRouter().length &&
     handleRouter().map((item) => {
-      console.log(item);
       let obj = {};
       if (item.auth) {
         Reflect.set(
@@ -53,19 +52,6 @@ const fouterFilter = () => {
         }
         return obj;
       }
-      // return item.auth
-      //   ? {
-      //       path: item.path,
-      //       element: (
-      //         <React.Suspense fallback={<>...</>}>
-      //           {React.createElement(
-      //             React.lazy(() => import(`@Pages/${item.component}`))
-      //           )}
-      //         </React.Suspense>
-      //       ),
-      //       index: !!item.index,
-      //     }
-      //   : null;
     })
   );
 };
