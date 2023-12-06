@@ -20,7 +20,7 @@ export const RouterAuth = ({ children }) => {
   });
 
   if (!hasAuth) {
-    return <Navigate to="/401" state={{ from: location.pathname }} />;
+    return <Navigate to="/403" state={{ from: location.pathname }} />;
   }
 
   return <>{children}</>;

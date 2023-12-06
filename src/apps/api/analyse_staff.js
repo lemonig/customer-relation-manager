@@ -32,7 +32,7 @@ export function winDeal(data) {
     data
   })
 }
-// 商机停滞 
+// 商机流失
 export function unWinDeal(data) {
   return _post({
     url: `/api/analysis/person/unWinDeal`,

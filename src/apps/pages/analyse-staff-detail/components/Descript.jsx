@@ -32,7 +32,7 @@ function Desript() {
   return (
     <div>
       <SdTitle title="我的销售">
-        <DatePicker picker="year" onChange={onChange} />
+        <DatePicker picker="year" onChange={onChange} defaultValue={moment()} />
       </SdTitle>
       <Descriptions title={null}>
         {data.map((item, idx) => {

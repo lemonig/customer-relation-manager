@@ -4,16 +4,16 @@ import React from "react";
 const back = () => {
   window.location.history.back();
 };
-const NoAuth = () => (
+const NotAuth = () => (
   <Result
     status="401"
     title="401"
-    subTitle="对不起, 您无权限访问该页面."
+    subTitle="对不起, 您访问的页面无权限."
     extra={
       <Button type="primary" onClick={back}>
-        返回
+        返回首页
       </Button>
     }
   />
 );
-export default NoAuth;
+export default NotAuth;

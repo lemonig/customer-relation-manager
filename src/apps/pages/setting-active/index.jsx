@@ -5,7 +5,7 @@ import {
   Button,
   Space,
   Table,
-  Tag,
+  Switch,
   Modal,
   Form,
   message,
@@ -119,6 +119,12 @@ function SettingActive() {
       dataIndex: "name",
       key: "name",
     },
+    {
+      title: "费用",
+      dataIndex: "isFeeRequired",
+      key: "isFeeRequired",
+      render: (val) => (val ? "是" : "否"),
+    },
 
     {
       title: "创建时间",
@@ -168,11 +174,12 @@ function SettingActive() {
       >
         <Form
           name="basic"
-          labelCol={{ span: 4 }}
-          wrapperCol={{ span: 18 }}
+          labelCol={{ span: 8 }}
+          wrapperCol={{ span: 16 }}
           autoComplete="off"
           initialValues={{
             orgType: "1",
+            isFeeRequired: false,
           }}
           form={form}
         >
@@ -182,6 +189,13 @@ function SettingActive() {
             rules={[{ required: true, message: "请输入活动类型!" }]}
           >
             <Input placeholder="请输入" />
+          </Form.Item>
+          <Form.Item
+            label="是否需要费用"
+            name="isFeeRequired"
+            rules={[{ required: true, message: "请输入活动类型!" }]}
+          >
+            <Switch />
           </Form.Item>
         </Form>
       </Modal>

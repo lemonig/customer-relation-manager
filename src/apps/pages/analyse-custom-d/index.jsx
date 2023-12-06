@@ -2,10 +2,14 @@ import React, { useState, useEffect } from "react";
 import { Space, Table, PageHeader, Switch } from "antd";
 
 import { activity as activityApi } from "@Api/analyse_custom";
-import { useParams, useNavigate, NavLink } from "react-router-dom";
+import { useParams, useNavigate, NavLink, useLocation } from "react-router-dom";
 
 function Index() {
   let navigate = useNavigate();
+  const { state } = useLocation();
+  console.log(state);
+  const name = state?.name;
+
   const { id } = useParams();
   const [loading, setLoading] = useState(false);
   const [pageMsg, setPagemsg] = useState({
@@ -159,7 +163,7 @@ function Index() {
         className="site-page-header"
         style={{ padding: "0 24px" }}
         onBack={() => navigate(-1, {})}
-        title={"任务历史-" + data[0]?.organization.name}
+        title={"任务历史-" + name}
         extra={[
           <Space>
             只看发生费用任务:

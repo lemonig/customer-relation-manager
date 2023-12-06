@@ -11,6 +11,7 @@ function Table1() {
   const [searchForm] = Form.useForm();
   const { id } = useParams();
   const [data, setData] = useState([]);
+  const [otherdata, setOtherdata] = useState([]);
   const [loading, setLoading] = useState(false);
   const [showTask, setShowTask] = useState(true);
   const [column, setColumn] = useState([]);
@@ -36,6 +37,7 @@ function Table1() {
     });
 
     setData(res.data);
+    setOtherdata(res.additional_data.totalList);
     setLoading(false);
     let temp = [
       {
@@ -140,6 +142,25 @@ function Table1() {
           y: 300,
         }}
         onChange={handleTableChange}
+        summary={() => (
+          <Table.Summary fixed={"bottom"}>
+            <Table.Summary.Row>
+              <Table.Summary.Cell index={0} />
+              {otherdata &&
+                otherdata?.map((item, idx) => {
+                  return (
+                    <Table.Summary.Cell
+                      index={idx + 1}
+                      key={idx}
+                      style={{ textAlign: "center" }}
+                    >
+                      {item.value}
+                    </Table.Summary.Cell>
+                  );
+                })}
+            </Table.Summary.Row>
+          </Table.Summary>
+        )}
       />
     </div>
   );

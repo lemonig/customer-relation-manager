@@ -81,6 +81,22 @@ function Index() {
       ...sorter,
     });
   };
+  function gotoDetail(params) {
+    navigate(`/analyseCustom/${params.id}`, { state: { name: params.value } });
+  }
+  function tableRender(value) {
+    if (!value) {
+      return "-";
+    }
+    if ("id" in value) {
+      return (
+        <Button type="link" onClick={() => gotoDetail(value)}>
+          {value.value}
+        </Button>
+      );
+    }
+    return <>{<span>{value.value}</span>}</>;
+  }
 
   return (
     <div className="deal-page">
@@ -116,13 +132,3 @@ function Index() {
 }
 
 export default Index;
-
-function tableRender(value) {
-  if (!value) {
-    return "-";
-  }
-  if ("id" in value) {
-    return <NavLink to={`/analyseCustom/${value.id}`}>{value.value}</NavLink>;
-  }
-  return <>{<span>{value.value}</span>}</>;
-}

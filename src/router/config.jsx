@@ -1,11 +1,13 @@
 import * as React from "react";
 import { handleRouter } from "@Utils/menu";
 import { Navigate } from "react-router-dom";
-import { RouterAuth } from "./routerAuth";
+import { RouterAuth } from "./routerAuth"; // 403
+// const NoAuth = React.lazy(() => import("@App/pages-status/401")); // 401
+
 const BodyLayout = React.lazy(() => import("@App/layout/lay-body"));
 const NotFound = React.lazy(() => import("@App/pages-status/404")); // 404
-const Noauthory = React.lazy(() => import("@App/pages-status/403")); // 403
-const NoAuth = React.lazy(() => import("@App/pages-status/401")); // 401
+const NotAuth = React.lazy(() => import("@App/pages-status/401"));
+const Noauthory = React.lazy(() => import("@App/pages-status/403"));
 
 const Login = React.lazy(() => import("@Pages/login"));
 const LoadPage = React.lazy(() => import("@Pages/load-page"));
@@ -77,6 +79,12 @@ const config = [
     path: "*",
     element: <NotFound />,
   },
+
+  {
+    path: "401",
+    element: <NotAuth />,
+  },
+
   {
     path: "workReportDetail1",
     element: <WorkReportDownload />,
@@ -84,10 +92,6 @@ const config = [
   {
     path: "403",
     element: <Noauthory />,
-  },
-  {
-    path: "401",
-    element: <NoAuth />,
   },
 
   {

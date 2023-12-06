@@ -26,7 +26,10 @@ function TimeLine() {
     >
       <Timeline>
         {data.map((item, index) => (
-          <Timeline.Item key={index}>
+          <Timeline.Item
+            key={index}
+            color={item.type === "activity" ? "#52c41a" : "#1890ff"}
+          >
             <div
               style={{
                 fontSize: "14px",

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 
 import { Table } from "antd";
 
-import { winDeal as winDealApi } from "@Api/analyse_staff";
+import { unWinDeal as unWinDealApi } from "@Api/analyse_staff";
 import { useParams, NavLink } from "react-router-dom";
 import SdTitle from "@Components/SdTitle";
 
@@ -24,7 +24,7 @@ function Table1() {
 
   // Fetch or generate your data here and update the state
   async function getPageData() {
-    let res = await winDealApi({
+    let res = await unWinDealApi({
       page: pageMsg.pagination.current,
       size: pageMsg.pagination.pageSize,
       data: {
