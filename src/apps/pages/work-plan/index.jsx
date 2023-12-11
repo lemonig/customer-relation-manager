@@ -84,29 +84,29 @@ function WorkPlan() {
   };
 
   const columns = [
-    {
-      title: "完成",
-      dataIndex: "done",
-      key: "done",
-      render: (down, record) =>
-        down ? (
-          <IconFont
-            iconName="wancheng"
-            color="#DEDEDE"
-            style={{ cursor: "pointer" }}
-            size={18}
-            onClick={() => handleChangeOver(record.id, down)}
-          />
-        ) : (
-          <IconFont
-            iconName="weikao"
-            color="#DEDEDE"
-            style={{ cursor: "pointer" }}
-            size={16}
-            onClick={() => handleChangeOver(record.id, down)}
-          />
-        ),
-    },
+    // {
+    //   title: "完成",
+    //   dataIndex: "done",
+    //   key: "done",
+    //   render: (down, record) =>
+    //     down ? (
+    //       <IconFont
+    //         iconName="wancheng"
+    //         color="#DEDEDE"
+    //         style={{ cursor: "pointer" }}
+    //         size={18}
+    //         onClick={() => handleChangeOver(record.id, down)}
+    //       />
+    //     ) : (
+    //       <IconFont
+    //         iconName="weikao"
+    //         color="#DEDEDE"
+    //         style={{ cursor: "pointer" }}
+    //         size={16}
+    //         onClick={() => handleChangeOver(record.id, down)}
+    //       />
+    //     ),
+    // },
 
     {
       title: "状态",
@@ -133,6 +133,11 @@ function WorkPlan() {
       dataIndex: "typeName",
       key: "typeName",
       filters: activeData,
+    },
+    {
+      title: "费用",
+      dataIndex: "fee",
+      key: "fee",
     },
     // {
     //   title: "任务主题",

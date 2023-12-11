@@ -20,6 +20,8 @@ import ReactECharts from "echarts-for-react";
 import { calender as calenderApi } from "@Api/analyse_staff";
 import moment from "moment";
 
+const weekText = ["日", "一", "二", "三", "四", "五", "六"];
+
 function CalendarChart() {
   const { id } = useParams();
   const [data, setData] = useState([]);
@@ -87,13 +89,31 @@ function CalendarChart() {
         borderWidth: 1,
         padding: [10, 15],
         formatter: (params) => {
+          let week = moment(params.value[0]).day();
+          console.log(week);
+          console.log(params);
+          let weekWord = weekText[week];
           let html;
           if (params.value[1] === 0) {
-            html = `<div>${params.value[0]}</div>`;
+            html = `<div>
+            <p>无任务</p>
+            <p>
+            <Space>
+            周${weekWord}
+            ${params.value[0]}
+            </Space>
+            </p>
+            </div>`;
           } else {
             html = `
             <div>
-            <p>${params.value[1]}</p>
+            <p>
+              <Space>
+                <span>
+                ${params.value[1]}</span>  
+              个任务
+              </Space>
+            </p>
             <p>${params.value[0]}</p>
               </div>
                `;
@@ -103,7 +123,7 @@ function CalendarChart() {
       },
 
       calendar: {
-        top: 0,
+        top: 20,
         left: "center",
         range: "2023",
         splitLine: {

@@ -26,6 +26,7 @@
     "react-router-dom": "^6.4.2",
     "react-scripts": "5.0.1",
     "react-spring": "^9.5.5",
+    "redux-logger": "^3.0.6",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
@@ -56,6 +57,7 @@
     "compression-webpack-plugin": "^10.0.0",
     "moment-locales-webpack-plugin": "^1.2.0",
     "redux-devtools": "^3.7.0",
+    "redux-devtools-extension": "^2.13.9",
     "terser-webpack-plugin": "^5.3.6",
     "webpack-bundle-analyzer": "^4.7.0"
   }

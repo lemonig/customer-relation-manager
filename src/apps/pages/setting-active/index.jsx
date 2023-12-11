@@ -120,7 +120,7 @@ function SettingActive() {
       key: "name",
     },
     {
-      title: "费用",
+      title: "是否强制提交费用",
       dataIndex: "isFeeRequired",
       key: "isFeeRequired",
       render: (val) => (val ? "是" : "否"),

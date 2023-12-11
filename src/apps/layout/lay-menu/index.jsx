@@ -1,55 +1,47 @@
 import React, { useState } from "react";
-import {
-  DesktopOutlined,
-  FileOutlined,
-  PieChartOutlined,
-  TeamOutlined,
-  UserOutlined,
-  ContainerOutlined,
-  MailOutlined,
-  AppstoreOutlined,
-} from "@ant-design/icons";
-import { Breadcrumb, Layout, Menu } from "antd";
+import { Layout, Menu } from "antd";
 import "./index.less";
-import IconFont from "@Components/IconFont";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { SELECT_MENU, OPEN_EKY } from "@Store/features/menuSlice";
 import { handleMenu } from "@Utils/menu";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useResolvedPath } from "react-router-dom";
 import { useEffect } from "react";
-const { Header, Content, Footer, Sider } = Layout;
-// function getItem(label, key, icon, children, type) {
-//   return {
-//     key,
-//     icon,
-//     children,
-//     label,
-//     type,
-//   };
-// }
+const { Sider } = Layout;
 
 function LayMenu() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const treeKey = useSelector((state) => state.menuKey.key);
-  const openKey = useSelector((state) => state.menuKey.openKey);
-  // const menu = useSelector((state) => state.menu);
+  const [selectedKeys, setSelectedKeys] = useState([]);
+  const [openKeys, setOpenKeys] = useState([]);
+
   const menu = JSON.parse(localStorage.getItem("menuList"));
   const menuList = menu ? handleMenu(menu) : [];
-  // const [menuList, setMenuList] = useState([]);
-  const handleMenuClick = ({ item, key, keyPath }) => {
-    navigate(item.props.path);
-    dispatch(SELECT_MENU(key));
-  };
+  let resolvedPath = useResolvedPath();
+
   const handleOpen = (openKeys) => {
     // open keys数组集合
     dispatch(OPEN_EKY(openKeys));
+    setOpenKeys(openKeys);
   };
 
   useEffect(() => {
-    // const menu = handleMenu();
-    // setMenuList(menu);
+    let path = resolvedPath.pathname.replace("/", "");
+    let res = menu.find((item) => item.path === path);
+    if (res) {
+      setSelectedKeys([`${res.id}`]);
+      setOpenKeys([`${res.pid}`]);
+      dispatch(SELECT_MENU(`${res.id}`));
+      dispatch(OPEN_EKY(`${res.pid}`));
+    }
   }, []);
+
+  const handleMenuClick1 = ({ item, key, keyPath, selectedKeys }) => {
+    setSelectedKeys(selectedKeys);
+    if (item.props.path) {
+      navigate(item.props.path);
+    }
+  };
+
   return (
     <div
       className="menu-warp"
@@ -65,8 +57,8 @@ function LayMenu() {
         <div className="menu">
           <Menu
             theme="dark"
-            defaultOpenKeys={openKey}
-            defaultSelectedKeys={[treeKey]}
+            openKeys={openKeys}
+            selectedKeys={selectedKeys}
             mode="inline"
             items={menuList}
             style={{
@@ -74,8 +66,8 @@ function LayMenu() {
               color: "#fff",
               overflow: "hidden auto",
             }}
-            onClick={handleMenuClick}
             onOpenChange={handleOpen}
+            onSelect={handleMenuClick1}
           />
         </div>
       </Sider>

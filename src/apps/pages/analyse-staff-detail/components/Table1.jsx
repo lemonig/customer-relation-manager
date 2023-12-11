@@ -60,6 +60,13 @@ function Table1() {
       }),
     ];
     setColumn(temp);
+    setPagemsg({
+      ...pageMsg,
+      pagination: {
+        ...pageMsg.pagination,
+        total: res.additional_data.pagination.total,
+      },
+    });
   }
 
   const onSwitchChange = (value) => {

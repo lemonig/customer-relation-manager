@@ -25,6 +25,7 @@ function Head() {
           style={{ background: "#87d068" }}
           src={userinfo?.avatar}
           onClick={(e) => e.preventDefault()}
+          size={90}
         />
       </div>
       <div className="cover-title">{userinfo?.nickname}</div>
