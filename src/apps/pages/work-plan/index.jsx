@@ -11,6 +11,7 @@ import {
   Form,
   Select,
   Tooltip,
+  Image,
 } from "antd";
 import { actPage, actDelete, actExport, actUpdate } from "@Api/act_adm.js";
 import { ExclamationCircleOutlined } from "@ant-design/icons";
@@ -200,6 +201,18 @@ function WorkPlan() {
       title: "参与人员",
       dataIndex: "participant",
       key: "participant",
+    },
+    {
+      title: "照片",
+      dataIndex: "fileList",
+      key: "fileList",
+      render: (val) => (
+        <Space>
+          {val.map((item) => (
+            <Image width={40} src={item.url} key={item.id} />
+          ))}
+        </Space>
+      ),
     },
 
     {
