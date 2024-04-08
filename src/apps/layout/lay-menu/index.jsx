@@ -36,9 +36,12 @@ function LayMenu() {
   }, []);
 
   const handleMenuClick1 = ({ item, key, keyPath, selectedKeys }) => {
+    console.log(item);
     setSelectedKeys(selectedKeys);
     if (item.props.path) {
       navigate(item.props.path);
+    } else {
+      navigate("/");
     }
   };
 

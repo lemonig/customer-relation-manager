@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Space, Table, PageHeader, Switch } from "antd";
+import { Space, Table, PageHeader, Switch, Image } from "antd";
 
 import { activity as activityApi } from "@Api/analyse_custom";
 import { useParams, useNavigate, NavLink, useLocation } from "react-router-dom";
@@ -119,6 +119,18 @@ function Index() {
       dataIndex: "organization",
       key: "organization",
       render: (value, rec) => <span>{value.name}</span>,
+    },
+    {
+      title: "照片",
+      dataIndex: "fileList",
+      key: "fileList",
+      render: (val) => (
+        <Space>
+          {val.map((item) => (
+            <Image width={40} src={item.url} key={item.id} />
+          ))}
+        </Space>
+      ),
     },
     {
       title: "创建时间",

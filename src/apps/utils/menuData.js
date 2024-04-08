@@ -71,6 +71,17 @@ const menu = [
     isleaf: true,
   },
   {
+    key: 1004,
+    id: 1004,
+    pid: 8,
+    path: "analyseDeal",
+    name: "analyseDeal",
+    component: "analyse-deal",
+    auth: true,
+    label: "商机变化",
+    isleaf: true,
+  },
+  {
     key: 2,
     id: 2,
     pid: 0,

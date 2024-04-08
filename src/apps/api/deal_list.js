@@ -130,3 +130,10 @@ export function dealTimeline(data) {
     data,
   });
 }
+// 变化商机
+export function changeDealList(data) {
+  return _post({
+    url: `/api/analysis/changeDeal`,
+    data,
+  });
+}

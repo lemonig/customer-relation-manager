@@ -23,6 +23,7 @@ import FormLose from "./components/Form/FormLose";
 import FormSop from "./components/Form/FormSop";
 import Logs from "./components/Logs";
 import TabView from "./components/TabView";
+
 const { confirm } = Modal;
 
 function DealDetail() {
