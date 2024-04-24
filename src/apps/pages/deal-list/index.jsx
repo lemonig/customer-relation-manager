@@ -13,8 +13,9 @@ import {
   Checkbox,
   Tooltip,
   Statistic,
+  TreeSelect,
 } from "antd";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useResolvedPath } from "react-router-dom";
 import moment from "moment";
 import { dealPage } from "@Api/deal_list";
 import { saleList } from "@Api/set_sale";
@@ -27,44 +28,17 @@ import ReactEChartsCore from "echarts-for-react/lib/core";
 import * as echarts from "echarts/core";
 import { BarChart } from "echarts/charts";
 import {
-  // GridSimpleComponent,
   GridComponent,
-  // PolarComponent,
-  // RadarComponent,
-  // GeoComponent,
-  // SingleAxisComponent,
-  // ParallelComponent,
-  // CalendarComponent,
-  // GraphicComponent,
-  // ToolboxComponent,
   TooltipComponent,
-  // AxisPointerComponent,
-  // BrushComponent,
   TitleComponent,
-  // TimelineComponent,
-  // MarkPointComponent,
-  // MarkLineComponent,
-  // MarkAreaComponent,
-  // LegendComponent,
-  // LegendScrollComponent,
-  // LegendPlainComponent,
-  // DataZoomComponent,
-  // DataZoomInsideComponent,
-  // DataZoomSliderComponent,
-  // VisualMapComponent,
-  // VisualMapContinuousComponent,
-  // VisualMapPiecewiseComponent,
-  // AriaComponent,
-  // TransformComponent,
-  // DatasetComponent,
+  LegendComponent,
 } from "echarts/components";
-// Import renderer, note that introducing the CanvasRenderer or SVGRenderer is a required step
-import {
-  CanvasRenderer,
-  // SVGRenderer,
-} from "echarts/renderers";
-
+import { CanvasRenderer } from "echarts/renderers";
+import { arrayToTree } from "@Utils/util";
+import { useDispatch, useSelector } from "react-redux";
+import { SAVE_FORM, DELETE_FORM } from "@Store/features/searchFormSlice.js";
 import "./index.less";
+
 const { RangePicker } = DatePicker;
 echarts.use([
   TitleComponent,
@@ -72,15 +46,14 @@ echarts.use([
   GridComponent,
   BarChart,
   CanvasRenderer,
+  LegendComponent,
 ]);
 function DealList() {
-  let navigate = useNavigate();
   const [searchForm] = Form.useForm();
   const [loading, setLoading] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [data, setData] = useState([]);
   const [chartdata, setChartdata] = useState(null);
-  const [pipeline, setPipeline] = useState([]); //销售流程
   const [salerList, setSalerList] = useState([]);
   const [deptList, setDeptList] = useState([]);
   const [chartVis, setChartVis] = useState(false);
@@ -91,30 +64,35 @@ function DealList() {
       pageSize: 10,
     },
   });
+  let navigate = useNavigate();
+  const dispatch = useDispatch();
+  let resolvedPath = useResolvedPath();
+  const { form: preForm } = useSelector((state) => state.searchForm);
+  console.log(preForm);
+
   useEffect(() => {
-    getPlpeline();
     getSalesmanList();
     getDeptList();
   }, []);
 
   useEffect(() => {
-    if (pipeline.length > 0) {
-      getPageData();
-    }
-  }, [pipeline]);
-
-  useEffect(() => {
-    if (pipeline.length > 0) {
-      getPageData();
-    }
+    console.log("get");
+    getPageData();
   }, [pageMsg.pagination.current, pageMsg.pagination.pageSize]);
 
-  //销售流程
-  const getPlpeline = async () => {
-    let { data } = await saleList();
-    searchForm.setFieldValue("pipelineId", data[0]?.id);
-    setPipeline(data);
-  };
+  // useEffect(() => {
+  //   const unlisten = navigate.listen((location, action) => {
+  //     if (action === "POP") {
+  //       console.log("back");
+  //       console.log(preForm);
+  //     }
+  //   });
+
+  //   return () => {
+  //     unlisten();
+  //   };
+  // }, [resolvedPath.patb]);
+
   //销售人员
   const getSalesmanList = async () => {
     let { data } = await salesmanList();
@@ -124,7 +102,8 @@ function DealList() {
   //部门
   const getDeptList = async () => {
     let { data } = await deptListApi();
-    setDeptList(data);
+    let res = arrayToTree(data);
+    setDeptList(res);
   };
 
   // 查询
@@ -152,7 +131,7 @@ function DealList() {
     if (values.deptIdList) values.deptIdList = [values.deptIdList];
     if (values.userIdList) values.userIdList = [values.userIdList];
     if (values.valueList) values.valueList = values.valueList.split(",");
-
+    values.pipelineId = 1;
     dealPage({
       page: pageMsg.pagination.current,
       size: pageMsg.pagination.pageSize,
@@ -244,11 +223,11 @@ function DealList() {
       dataIndex: "personName",
       key: "personName",
     },
-    {
-      title: "竞争对手(个)",
-      dataIndex: "competitorNum",
-      key: "competitorNum",
-    },
+    // {
+    //   title: "竞争对手(个)",
+    //   dataIndex: "competitorNum",
+    //   key: "competitorNum",
+    // },
     // {
     //   title: "销售流程",
     //   dataIndex: "pipelineName",
@@ -287,6 +266,11 @@ function DealList() {
   ];
 
   const gotoDealDetail = (id) => {
+    console.log(searchForm);
+    let values = searchForm.getFieldsValue();
+    console.log(values);
+    dispatch(SAVE_FORM(values));
+
     navigate({
       pathname: "/pipeline",
       search: `?pipelineId=${id}`,
@@ -517,27 +501,19 @@ function DealList() {
           <Form.Item label="" name="time">
             <RangePicker />
           </Form.Item>
-          <Form.Item label="" name="pipelineId">
-            <Select
-              style={{ width: 120 }}
-              placeholder="销售流程"
-              fieldNames={{
-                label: "name",
-                value: "id",
-              }}
-              options={pipeline}
-            />
-          </Form.Item>
+
           <Form.Item label="" name="deptIdList">
-            <Select
-              style={{ width: 120 }}
-              options={deptList}
-              placeholder="选择部门"
+            <TreeSelect
+              style={{ width: "180px" }}
               fieldNames={{
-                label: "name",
-                value: "id",
+                label: "label",
+                value: "key",
               }}
+              treeData={deptList}
+              dropdownStyle={{ maxHeight: 400, overflow: "auto" }}
+              placeholder="选择部门"
               allowClear
+              treeDefaultExpandAll
             />
           </Form.Item>
           <Form.Item label="" name="userIdList">

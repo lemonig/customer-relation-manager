@@ -14,6 +14,14 @@ import moment from "moment";
 import "moment/locale/zh-cn";
 moment.locale("zh-cn");
 
+
+if (process.env.NODE_ENV === 'production') {
+  const BrowserLogger = require('alife-logger');
+  const __bl = BrowserLogger.singleton({ pid: "e2247z4cy8@dd7bc0190969049", appType: "web", imgUrl: "https://arms-retcode.aliyuncs.com/r.png?", sendResource: true, enableLinkTrace: true, behavior: true });
+}
+
+
+
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
 root.render(

@@ -1,0 +1,33 @@
+.half-circle {
+  position: relative;
+  // width: auto;
+  height: 20px;
+
+  display: inline-block;
+  opacity: 1;
+  position: relative;
+  margin: 0 5px;
+  padding: 0px 4px;
+  list-style: none;
+  white-space: nowrap;
+  color: #fff;
+  line-height: 20px;
+  font-size: 12px;
+}
+.half-circle::before,
+.half-circle::after {
+  content: "";
+  position: absolute;
+  width: 10px;
+  height: 20px;
+  background-color: var(--bg-color);
+  border-radius: 50%;
+}
+.half-circle::before {
+  top: 0;
+  left: -5px;
+}
+.half-circle::after {
+  top: 0;
+  right: -5px;
+}

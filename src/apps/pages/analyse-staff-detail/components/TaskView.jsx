@@ -165,22 +165,22 @@ function TaskView() {
     },
     {
       title: "任务描述",
-      dataIndex: "description",
-      key: "description",
+      dataIndex: "subject",
+      key: "subject",
       ellipsis: {
         showTitle: false,
       },
-      render: (description) => (
-        <Tooltip placement="topLeft" title={description}>
-          {description}
+      render: (subject) => (
+        <Tooltip placement="topLeft" title={subject}>
+          {subject}
         </Tooltip>
       ),
     },
 
     {
       title: "完成纪要",
-      dataIndex: "fee",
-      key: "fee",
+      dataIndex: "description",
+      key: "description",
     },
     {
       title: "实际费用",

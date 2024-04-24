@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { Button, Table, PageHeader, DatePicker, Form } from "antd";
+import { Button, Table, PageHeader, DatePicker, Form, Tooltip } from "antd";
 import { useNavigate } from "react-router-dom";
 import moment from "moment";
 import { countByPerson as countByPersonApi } from "@Api/analyse_staff";
+import { InfoCircleFilled } from "@ant-design/icons";
 
 import { NavLink } from "react-router-dom";
 const { RangePicker } = DatePicker;
@@ -93,7 +94,20 @@ function DealList() {
 
   return (
     <div className="deal-page">
-      <PageHeader className="site-page-header" title="按人员统计" />
+      <PageHeader
+        className="site-page-header"
+        title={
+          <>
+            <span>按人员统计</span>
+            <Tooltip title="统计各人员在商机各个阶段任务产生的费用和OA报销费用">
+              <span style={{ fontSize: "14px", cursor: "pointer" }}>
+                <InfoCircleFilled />
+              </span>
+            </Tooltip>
+          </>
+        }
+      />
+
       <div className="search" style={{ marginBottom: "0px" }}>
         <Form
           layout="inline"

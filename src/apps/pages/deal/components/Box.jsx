@@ -1,6 +1,7 @@
 import { useDrag } from "react-dnd";
 import { ItemTypes } from "./ItemTypes.js";
 import IconFont from "@Components/IconFont";
+import SdTag from "@Components/SdTag";
 import { Avatar, Image, Tag, Statistic } from "antd";
 import { useNavigate } from "react-router-dom";
 import "./index.less";
@@ -68,18 +69,12 @@ export const Box = function Box({ data }) {
 
   const getActiveIcon = () => {
     let { todayUndoneCount, undoneCount, overTimeCount } = data;
-    if (undoneCount) {
-      if (overTimeCount) {
-        return <IconFont iconName="huodong" color="#fff1f0" size="16" />;
-      } else {
-        if (todayUndoneCount) {
-          return <IconFont iconName="huodong" color="#87d068" size="16" />;
-        } else {
-          return <IconFont iconName="huodong" size="16" />;
-        }
-      }
-    } else {
-      return <IconFont iconName="icon-test " size="16" />;
+    if (undoneCount == 0) {
+      return <IconFont iconName="icon-test" size="16" />;
+    } else if (overTimeCount) {
+      return <IconFont iconName="icon-warn2" color="#119143" size="16" />;
+    } else if (undoneCount) {
+      return <IconFont iconName="icon-warn1" size="16" />;
     }
   };
 
@@ -123,14 +118,26 @@ export const Box = function Box({ data }) {
                   <IconFont iconName="ren" size={18}></IconFont>
                 )}
               </span>
-
               {data.ownerUserName}
               {data.status == "1" || !data.status ? null : (
                 <Tag
-                  color={getColor()}
+                  color={getColor(data)}
                   style={{ margin: "0 4px", borderRadius: "8px" }}
                 >
-                  {data.statusName}{" "}
+                  {data.statusName}
+                </Tag>
+              )}
+              {!data.stayDayCount ? null : (
+                <Tag
+                  color="#cf1322"
+                  style={{
+                    margin: "0 4px",
+                    borderRadius: "22px",
+                    fontSize: "10px",
+                    padding: "0 5px",
+                  }}
+                >
+                  {data.stayDayCount}d
                 </Tag>
               )}
               {/* <IconFont

@@ -11,7 +11,7 @@ import {
   message,
 } from "antd";
 import { ExclamationCircleOutlined } from "@ant-design/icons";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, NavLink } from "react-router-dom";
 import { saleList } from "@Api/set_sale";
 import { salesmanList } from "@Api/set_user";
 import { changeDealList } from "@Api/deal_list";
@@ -137,10 +137,47 @@ function AnalyseDeal() {
 
   return (
     <div>
+      <PageHeader className="site-page-header" title="商机变化" />
       <div className="search">
-        <Form layout="inline" form={searchForm} onFinish={search}>
-          <Form.Item label="" name="name">
-            <Input placeholder="请输入商机号" />
+        <Form
+          layout="inline"
+          form={searchForm}
+          onFinish={search}
+          initialValues={{
+            status: "",
+          }}
+        >
+          <Form.Item label="" name="status">
+            <Select
+              style={{ width: 120 }}
+              options={[
+                {
+                  label: "全部",
+                  value: "",
+                },
+                {
+                  label: "创建中",
+                  value: "0",
+                },
+                {
+                  label: "进行中",
+                  value: "1",
+                },
+                {
+                  label: "赢单",
+                  value: "2",
+                },
+                {
+                  label: "输单",
+                  value: "3",
+                },
+                {
+                  label: "终止",
+                  value: "4",
+                },
+              ]}
+              placeholder="商机状态"
+            />
           </Form.Item>
           <Form.Item label="" name="userId">
             <Select
@@ -177,5 +214,24 @@ function AnalyseDeal() {
 export default AnalyseDeal;
 
 function tableRender(value) {
+  if (!value) {
+    return "-";
+  }
+
+  if (value.key == "key_1") {
+    return <NavLink to={`/analyseStaff/${value.id}`}>{value.value}</NavLink>;
+  }
+  if (value.key == "key_2") {
+    return (
+      <NavLink to={`/pipeline?pipelineId=${value.id}`}>{value.value}</NavLink>
+    );
+  }
+  if (value.key == "key_3") {
+    return (
+      <NavLink to={`/analyseCustom/${value.id}`} state={{ name: value.value }}>
+        {value.value}
+      </NavLink>
+    );
+  }
   return <>{<span>{value.value}</span>}</>;
 }

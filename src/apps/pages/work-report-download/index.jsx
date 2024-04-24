@@ -68,8 +68,8 @@ function WorkReportDownload() {
     },
     {
       title: "任务完成时间",
-      dataIndex: "endTime",
-      key: "endTime",
+      dataIndex: "doneTime",
+      key: "doneTime",
     },
     {
       title: "商机名称",
@@ -88,14 +88,14 @@ function WorkReportDownload() {
     },
     {
       title: "任务描述",
-      dataIndex: "description",
-      key: "description",
+      dataIndex: "subject",
+      key: "subject",
       ellipsis: {
         showTitle: false,
       },
-      render: (description) => (
-        <Tooltip placement="topLeft" title={description}>
-          {description}
+      render: (subject) => (
+        <Tooltip placement="topLeft" title={subject}>
+          {subject}
         </Tooltip>
       ),
     },

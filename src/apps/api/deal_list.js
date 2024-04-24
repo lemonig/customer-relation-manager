@@ -130,10 +130,24 @@ export function dealTimeline(data) {
     data,
   });
 }
+// 重开
+export function dealReopen(data) {
+  return _post({
+    url: `/api/deal/action/reopen`,
+    data,
+  });
+}
 // 变化商机
 export function changeDealList(data) {
   return _post({
     url: `/api/analysis/changeDeal`,
+    data,
+  });
+}
+// c产品
+export function productList(data) {
+  return _post({
+    url: `/api/product/list`,
     data,
   });
 }

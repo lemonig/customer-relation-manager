@@ -45,6 +45,7 @@ function ContractView() {
   const [searchForm] = Form.useForm();
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState([]);
+  const [addData, setAddData] = useState(0);
   const [pageMsg, setPagemsg] = useState({
     pagination: {
       current: 1,
@@ -82,6 +83,7 @@ function ContractView() {
       },
     }).then((res) => {
       setData(res.data);
+      setAddData(res.additional_data.total);
       setLoading(false);
       setPagemsg({
         ...pageMsg,
@@ -191,7 +193,7 @@ function ContractView() {
           <Select
             style={{ width: 120 }}
             options={createYear()}
-            placeholder="商机状态"
+            placeholder="年份"
             value={year}
             onChange={(v) => setYear(v)}
           />
@@ -199,6 +201,12 @@ function ContractView() {
             查询
           </Button> */}
         </Space>
+        {addData != null ? (
+          <div className="data-msg">
+            总计：
+            <Statistic value={addData} valueStyle={{ fontSize: "12px" }} />元
+          </div>
+        ) : null}
       </div>
 
       <Row gutter={16}>
@@ -332,6 +340,7 @@ function PieChart({ params }) {
         orient: "vertical",
         left: "left",
       },
+
       series: [
         {
           name: "Access From",
@@ -341,6 +350,18 @@ function PieChart({ params }) {
             ...i,
             name: i.label,
           })),
+          label: {
+            formatter: "{name|{b}}{d}% ",
+            minMargin: 5,
+            edgeDistance: 10,
+            lineHeight: 15,
+            rich: {
+              time: {
+                fontSize: 10,
+                color: "#999",
+              },
+            },
+          },
           emphasis: {
             itemStyle: {
               shadowBlur: 10,

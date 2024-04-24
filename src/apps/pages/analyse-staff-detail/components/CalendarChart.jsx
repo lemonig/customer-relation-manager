@@ -34,6 +34,7 @@ function CalendarChart() {
       });
 
       const newData = getVirtualData(res.data);
+
       setData(newData);
     }
     getPageData();
@@ -73,13 +74,17 @@ function CalendarChart() {
         orient: "horizontal",
         left: "center",
         bottom: "0",
-        splitNumbe: 2,
         hoverLink: true,
-        inRange: {
-          color: ["#EDEDED", "#ACD5F2", "#7FA8C9", "#527BA0", "#254E77"],
-          // color: ["#EDEDED", "#7FA8C9"],
-        },
+        pieces: [
+          { value: 0, color: "#EDEDED" },
+          { value: 1, color: "#ACD5F2" },
+          { value: 2, color: "#7FA8C9" },
+          { value: 3, color: "#527BA0" },
+          { value: 4, color: "#254E77" },
+          { gt: 5, color: "#000" },
+        ],
       },
+
       tooltip: {
         backgroundColor: "rgba(0,0,0,0.7)",
         borderColor: "#333",
@@ -90,8 +95,6 @@ function CalendarChart() {
         padding: [10, 15],
         formatter: (params) => {
           let week = moment(params.value[0]).day();
-          console.log(week);
-          console.log(params);
           let weekWord = weekText[week];
           let html;
           if (params.value[1] === 0) {
@@ -110,7 +113,7 @@ function CalendarChart() {
             <p>
               <Space>
                 <span>
-                ${params.value[1]}</span>  
+                ${params.value[1]}</span>
               个任务
               </Space>
             </p>
@@ -125,7 +128,7 @@ function CalendarChart() {
       calendar: {
         top: 20,
         left: "center",
-        range: "2023",
+        range: moment().year(),
         splitLine: {
           show: false,
         },

@@ -17,9 +17,11 @@ import {
   Tooltip,
   Spin,
   Statistic,
+  TreeSelect,
 } from "antd";
 import { saleList } from "@Api/set_sale";
 import moment from "moment";
+import { arrayToTree } from "@Utils/util";
 const { RangePicker } = DatePicker;
 
 function Deal() {
@@ -54,7 +56,8 @@ function Deal() {
   //部门
   const getDeptList = async () => {
     let { data } = await deptListApi();
-    setDeptList(data);
+    let res = arrayToTree(data);
+    setDeptList(res);
   };
 
   const getPageData = async () => {
@@ -67,7 +70,7 @@ function Deal() {
     if (values.deptIdList) values.deptIdList = [values.deptIdList];
     if (values.userIdList) values.userIdList = [values.userIdList];
     if (values.valueList) values.valueList = values.valueList.split(",");
-
+    values.pipelineId = 1;
     let { data } = await dealFunnel(values);
     setstageArr(data.detailCount);
     setStageMsg(data.totalCount);
@@ -107,7 +110,7 @@ function Deal() {
           <Form.Item label="" name="time">
             <RangePicker />
           </Form.Item>
-          <Form.Item label="" name="pipelineId">
+          {/* <Form.Item label="" name="pipelineId">
             <Select
               style={{ width: 120 }}
               placeholder="销售流程"
@@ -117,17 +120,19 @@ function Deal() {
               }}
               options={pipeline}
             />
-          </Form.Item>
+          </Form.Item> */}
           <Form.Item label="" name="deptIdList">
-            <Select
-              style={{ width: 120 }}
-              options={deptList}
-              placeholder="选择部门"
+            <TreeSelect
+              style={{ width: "180px" }}
               fieldNames={{
-                label: "name",
-                value: "id",
+                label: "label",
+                value: "key",
               }}
+              treeData={deptList}
+              dropdownStyle={{ maxHeight: 400, overflow: "auto" }}
+              placeholder="选择部门"
               allowClear
+              treeDefaultExpandAll
             />
           </Form.Item>
           <Form.Item label="" name="userIdList">

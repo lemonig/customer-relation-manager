@@ -94,7 +94,6 @@ function DealView() {
   const getPageData = () => {
     setLoading(true);
     let values = searchForm.getFieldsValue();
-    if (values.statusList) values.statusList = [values.statusList];
     dealOverview({
       page: pageMsg.pagination.current,
       size: pageMsg.pagination.pageSize,
@@ -451,10 +450,10 @@ function DealView() {
           onFinish={search}
           onValuesChange={formItemChange}
           initialValues={{
-            statusList: "",
+            status: "",
           }}
         >
-          <Form.Item label="" name="statusList">
+          <Form.Item label="" name="status">
             <Select
               style={{ width: 180 }}
               options={[

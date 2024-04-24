@@ -134,8 +134,8 @@ function FormRep({ open, closeModal }) {
     },
     {
       title: "任务描述",
-      dataIndex: "description",
-      key: "description",
+      dataIndex: "subject",
+      key: "subject",
     },
     {
       title: "地址",

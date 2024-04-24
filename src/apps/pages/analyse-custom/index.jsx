@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { Input, Button, Table, PageHeader, Form } from "antd";
+import { Input, Button, Table, PageHeader, Form, Tooltip } from "antd";
 import { useNavigate, NavLink } from "react-router-dom";
 import { countByOrg as countByOrgApi } from "@Api/analyse_custom";
 
+import { InfoCircleFilled } from "@ant-design/icons";
 function Index() {
   let navigate = useNavigate();
   const [searchForm] = Form.useForm();
@@ -100,7 +101,19 @@ function Index() {
 
   return (
     <div className="deal-page">
-      <PageHeader className="site-page-header" title="按客户统计" />
+      <PageHeader
+        className="site-page-header"
+        title={
+          <>
+            <span>按客户统计</span>
+            <Tooltip title="统计各客户在商机各个阶段任务产生的费用">
+              <span style={{ fontSize: "14px", cursor: "pointer" }}>
+                <InfoCircleFilled />
+              </span>
+            </Tooltip>
+          </>
+        }
+      />
       <div className="search" style={{ marginBottom: "0px" }}>
         <Form
           layout="inline"

@@ -65,26 +65,26 @@ function TaskList() {
 
     {
       title: "参与人员",
-      dataIndex: "personName",
-      key: "personName",
+      dataIndex: "participant",
+      key: "participant",
     },
     {
       title: "任务开始时间",
-      dataIndex: "createTime",
-      key: "createTime",
+      dataIndex: "startTime",
+      key: "startTime",
     },
     {
       title: "任务描述",
-      dataIndex: "description",
-      key: "description",
+      dataIndex: "subject",
+      key: "subject",
       render: (value, record) => (
         <div className="p-elipse">{value ?? "--"}</div>
       ),
     },
     {
       title: "完成纪要",
-      dataIndex: "participant",
-      key: "participant",
+      dataIndex: "description",
+      key: "description",
     },
     {
       title: "费用",
@@ -103,8 +103,8 @@ function TaskList() {
     },
     {
       title: "完成时间",
-      dataIndex: "endTime",
-      key: "endTime",
+      dataIndex: "doneTime",
+      key: "doneTime",
     },
   ];
 

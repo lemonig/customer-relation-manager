@@ -37,6 +37,7 @@ import {
 import { agentPersonInfo } from "@Api/info_agent.js";
 import { cooperatePersonInfo } from "@Api/info_cooperate.js";
 import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons";
+import ProductLink from "../deal-list/Form/ProductLink";
 
 const formItemLayout = {
   labelCol: {
@@ -53,7 +54,7 @@ function DealEdit() {
   const pipelineId = getParams.getAll("pipelineId")[0];
   const [form] = Form.useForm();
   const [pagedata, setPagedata] = useState(null);
-
+  const [proModalOpen, setProModalOpen] = useState(false);
   const [customLink, setCustomerLink] = useState([]); //客户联系人
   const [agentLink, setAgentLink] = useState([]); //招标联系人
   const [cooperateLink, setCooperateLink] = useState([]); //合作联系人
@@ -62,6 +63,7 @@ function DealEdit() {
   const [productData, setProductData] = useState([]); //销售流程阶段
   const [linkModalOpen, setLinkModalOpen] = useState(false);
   const [linkSelected, setLinkSelected] = useState({});
+  const [productSelected, setProductSelected] = useState([]);
 
   const navigate = useNavigate();
   useEffect(() => {
@@ -138,6 +140,7 @@ function DealEdit() {
     await form.validateFields();
     const values = form.getFieldsValue();
     values.id = pipelineId;
+    values.dealProductList = productSelected;
     // 处理表单null 数据
     values.competitorList = values.competitorList.filter(Boolean);
     values.partnerList = values.partnerList.filter(Boolean);
@@ -151,6 +154,17 @@ function DealEdit() {
     }
     setLoading(false);
   };
+
+  const getProSelected = (confirm, row) => {
+    if (confirm) {
+      console.log(row);
+      // form.setFieldValue("orgId", row[0].id);
+      // setLinkSelected(row[0]);
+      setProductSelected(row);
+    }
+    setProModalOpen(false);
+  };
+
   return (
     pagedata && (
       <>
@@ -217,28 +231,30 @@ function DealEdit() {
 
                 <Row gutter={24}>
                   <Col span={11}>
-                    <Form.Item label="产品信息" name="productList">
-                      <Select
-                        mode="multiple"
-                        placeholder="请选择"
-                        fieldNames={{
-                          label: "name",
-                          value: "id",
-                        }}
-                        options={productData}
-                        optionFilterProp="name"
-                      />
+                    <Form.Item label="产品信息">
+                      {!!productSelected.length &&
+                        `已选 ${productSelected.length}个`}
+                      <Button type="link" onClick={() => setProModalOpen(true)}>
+                        选择产品
+                      </Button>
                     </Form.Item>
                   </Col>
                   <Col span={11}>
                     <Form.Item label="预计金额(元)" name="value">
-                      <InputNumber placeholder="请输入" addonAfter="￥" />
+                      <InputNumber
+                        placeholder="请输入"
+                        addonAfter="￥"
+                        formatter={(value) =>
+                          `￥ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                        }
+                        parser={(value) => value?.replace(/\￥\s?|(,*)/g, "")}
+                      />
                     </Form.Item>
                   </Col>
                 </Row>
                 <Row gutter={24}>
                   <Col span={11}>
-                    <Form.Item
+                    {/* <Form.Item
                       label="销售流程"
                       name="pipelineId"
                       rules={[{ required: true, message: "请选择销售流程!" }]}
@@ -251,6 +267,21 @@ function DealEdit() {
                         }}
                         options={pipeline}
                         onChange={handlePipelineChange}
+                      />
+                    </Form.Item> */}
+                    <Form.Item label="业务类型" name="businessType">
+                      <Select
+                        placeholder="请选择"
+                        options={[
+                          {
+                            value: "1",
+                            label: "普通业务",
+                          },
+                          {
+                            value: "2",
+                            label: "拓展业务",
+                          },
+                        ]}
                       />
                     </Form.Item>
                   </Col>
@@ -274,7 +305,35 @@ function DealEdit() {
                 <Row gutter={24}>
                   <Col span={11}>
                     <Form.Item label="信心指数" name="probability">
-                      <InputNumber placeholder="请输入" addonAfter="%" />
+                      <Select
+                        placeholder="请选择"
+                        options={[
+                          {
+                            label: "90%",
+                            value: 90,
+                          },
+
+                          {
+                            label: "70%",
+                            value: 70,
+                          },
+
+                          {
+                            label: "50%",
+                            value: 50,
+                          },
+
+                          {
+                            label: "30%",
+                            value: 30,
+                          },
+
+                          {
+                            label: "10%",
+                            value: 10,
+                          },
+                        ]}
+                      />
                     </Form.Item>
                   </Col>
                 </Row>
@@ -509,6 +568,13 @@ function DealEdit() {
             open={linkModalOpen}
             getRowSelected={getRowSelected}
             defaultId={linkSelected.id}
+          />
+        )}
+        {proModalOpen && (
+          <ProductLink
+            open={proModalOpen}
+            getRowSelected={getProSelected}
+            defaultId={productSelected}
           />
         )}
       </>

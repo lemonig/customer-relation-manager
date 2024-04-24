@@ -64,7 +64,7 @@ function Table1() {
       ...pageMsg,
       pagination: {
         ...pageMsg.pagination,
-        total: res.additional_data.pagination.total,
+        // total: res.additional_data.pagination.total,
       },
     });
   }

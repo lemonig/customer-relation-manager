@@ -12,6 +12,7 @@ import {
   Select,
   Tooltip,
   Image,
+  TreeSelect,
 } from "antd";
 import { actPage, actDelete, actExport, actUpdate } from "@Api/act_adm.js";
 import { ExclamationCircleOutlined } from "@ant-design/icons";
@@ -20,9 +21,11 @@ import ActForm from "./Form/ActForm";
 import moment from "moment";
 import { activeList } from "@Api/set_active.js";
 import { salesmanList } from "@Api/set_user";
+import { deptList as deptListApi } from "@Api/set_dept.js";
 import IconFont from "@Components/IconFont";
 import "./index.less";
 import BtnAuth from "@Shared/BtnAuth";
+import { arrayToTree } from "@Utils/util";
 const { RangePicker } = DatePicker;
 
 function WorkPlan() {
@@ -39,12 +42,15 @@ function WorkPlan() {
   const [data, setData] = useState([]);
   const [activeData, setActiveData] = useState([]);
   const [salerList, setSalerList] = useState([]);
+  const [deptList, setDeptList] = useState([]);
   const [searchForm] = Form.useForm();
+
   let navigate = useNavigate();
 
   useEffect(() => {
     getSalesmanList();
     getActiveData();
+    getDeptList();
   }, []);
   useEffect(() => {
     getPageData();
@@ -59,6 +65,12 @@ function WorkPlan() {
     let { data } = await salesmanList();
 
     setSalerList(data);
+  };
+  //部门
+  const getDeptList = async () => {
+    let { data } = await deptListApi();
+    let res = arrayToTree(data);
+    setDeptList(res);
   };
 
   const getActiveData = async () => {
@@ -275,6 +287,7 @@ function WorkPlan() {
       values.beginTime = moment(values.time[0]).format("YYYYMMDD");
       values.endTime = moment(values.time[1]).format("YYYYMMDD");
     }
+    if (values.deptIdList) values.deptIdList = [values.deptIdList];
     actPage({
       page: pageMsg.pagination.current,
       size: pageMsg.pagination.pageSize,
@@ -388,6 +401,20 @@ function WorkPlan() {
           </Form.Item>
           <Form.Item label="" name="time">
             <RangePicker />
+          </Form.Item>
+          <Form.Item label="" name="deptIdList">
+            <TreeSelect
+              style={{ width: "180px" }}
+              fieldNames={{
+                label: "label",
+                value: "key",
+              }}
+              treeData={deptList}
+              dropdownStyle={{ maxHeight: 400, overflow: "auto" }}
+              placeholder="选择部门"
+              allowClear
+              treeDefaultExpandAll
+            />
           </Form.Item>
           <Form.Item label="" name="userIdList">
             <Select

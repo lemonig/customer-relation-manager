@@ -71,8 +71,8 @@ function WorkReportDetail() {
     },
     {
       title: "任务完成时间",
-      dataIndex: "endTime",
-      key: "endTime",
+      dataIndex: "doneTime",
+      key: "doneTime",
     },
     {
       title: "商机名称",

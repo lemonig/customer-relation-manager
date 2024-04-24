@@ -20,16 +20,19 @@ import { saleList, saleStageList } from "@Api/set_sale.js";
 import { productList, productTypeList } from "@Api/product.js";
 import { ExclamationCircleOutlined, DownOutlined } from "@ant-design/icons";
 import LinkCustomer from "@Shared/LinkCustomer";
+import ProductLink from "./ProductLink";
 
 function DealForm({ isModalOpen, closeModal, data }) {
   const [loading, setLoading] = useState(false);
   const [form] = Form.useForm();
   const [linkModalOpen, setLinkModalOpen] = useState(false);
+  const [proModalOpen, setProModalOpen] = useState(false);
   const [linkSelected, setLinkSelected] = useState({});
   const [customLink, setCustomerLink] = useState([]); //客户联系人
   const [pipeline, setPipeline] = useState([]); //销售流程
   const [pipelineStage, setPipelineStage] = useState([]); //销售流程阶段
   const [productData, setProductData] = useState([]); //销售流程阶段
+  const [productSelected, setProductSelected] = useState([]);
 
   useEffect(() => {
     getCustomerLink();
@@ -63,6 +66,8 @@ function DealForm({ isModalOpen, closeModal, data }) {
     const values = form.getFieldsValue();
     setLoading(true);
 
+    values.dealProductList = productSelected;
+
     let { success, message: msg } = await dealadd(values);
     if (success) {
       message.success("提交成功");
@@ -79,6 +84,16 @@ function DealForm({ isModalOpen, closeModal, data }) {
       setLinkSelected(row[0]);
     }
     setLinkModalOpen(false);
+  };
+
+  const getProSelected = (confirm, row) => {
+    if (confirm) {
+      console.log(row);
+      // form.setFieldValue("orgId", row[0].id);
+      // setLinkSelected(row[0]);
+      setProductSelected(row);
+    }
+    setProModalOpen(false);
   };
 
   const getDealCode = async () => {
@@ -148,7 +163,7 @@ function DealForm({ isModalOpen, closeModal, data }) {
           >
             <Input placeholder="请输入" />
           </Form.Item>
-          <Form.Item
+          {/* <Form.Item
             label="商机编号"
             name="code"
             rules={[{ required: true, message: "请输入商机编号!" }]}
@@ -160,12 +175,18 @@ function DealForm({ isModalOpen, closeModal, data }) {
               <Button type="link" onClick={getDealCode}>
                 获取商机编码
               </Button>
-              {/* <Tooltip title="Useful information">
-                <Typography.Link href="#API">获取商机编码</Typography.Link>
-              </Tooltip> */}
             </Space>
+          </Form.Item> */}
+          <Form.Item label="销售阶段" name="pipelineStageId">
+            <Select
+              placeholder="请选择"
+              fieldNames={{
+                label: "name",
+                value: "id",
+              }}
+              options={pipelineStage}
+            />
           </Form.Item>
-
           <Form.Item label="最终用户" name="isFinalOrg">
             <Select
               placeholder="请选择"
@@ -181,7 +202,53 @@ function DealForm({ isModalOpen, closeModal, data }) {
               ]}
             />
           </Form.Item>
-          <Form.Item label="主要联系人" name="personList">
+          <Form.Item label="业务类型" name="businessType">
+            <Select
+              placeholder="请选择"
+              options={[
+                {
+                  value: "1",
+                  label: "普通业务",
+                },
+                {
+                  value: "2",
+                  label: "拓展业务",
+                },
+              ]}
+            />
+          </Form.Item>
+          <Form.Item label="信心指数" name="probability">
+            <Select
+              placeholder="请选择"
+              options={[
+                {
+                  label: "90%",
+                  value: 90,
+                },
+
+                {
+                  label: "70%",
+                  value: 70,
+                },
+
+                {
+                  label: "50%",
+                  value: 50,
+                },
+
+                {
+                  label: "30%",
+                  value: 30,
+                },
+
+                {
+                  label: "10%",
+                  value: 10,
+                },
+              ]}
+            />
+          </Form.Item>
+          {/* <Form.Item label="主要联系人" name="personList">
             <Select
               mode="multiple"
               fieldNames={{
@@ -203,34 +270,24 @@ function DealForm({ isModalOpen, closeModal, data }) {
               options={pipeline}
               onChange={handlePipelineChange}
             />
-          </Form.Item>
-          <Form.Item label="销售流程阶段" name="pipelineStageId">
-            <Select
-              placeholder="请选择"
-              fieldNames={{
-                label: "name",
-                value: "id",
-              }}
-              options={pipelineStage}
-            />
-          </Form.Item>
+          </Form.Item> */}
 
           <Form.Item label="预计金额(元)" name="value">
-            <InputNumber placeholder="请输入" addonAfter="￥" />
-          </Form.Item>
-          <Form.Item label="产品信息" name="productList">
-            <Select
-              mode="multiple"
-              placeholder="请选择"
-              fieldNames={{
-                label: "name",
-                value: "id",
-              }}
-              options={productData}
-              optionFilterProp="name"
+            <InputNumber
+              placeholder="请输入"
+              addonAfter="￥"
+              formatter={(value) =>
+                `￥ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+              }
+              parser={(value) => value?.replace(/\￥\s?|(,*)/g, "")}
             />
           </Form.Item>
-
+          <Form.Item label="产品信息">
+            {!!productSelected.length && `已选 ${productSelected.length}个`}
+            <Button type="link" onClick={() => setProModalOpen(true)}>
+              选择产品
+            </Button>
+          </Form.Item>
           <Form.Item label="备注" name="description">
             <Input.TextArea placeholder="请输入" />
           </Form.Item>
@@ -241,6 +298,13 @@ function DealForm({ isModalOpen, closeModal, data }) {
           open={linkModalOpen}
           getRowSelected={getRowSelected}
           defaultId={linkSelected.id}
+        />
+      )}
+      {proModalOpen && (
+        <ProductLink
+          open={proModalOpen}
+          getRowSelected={getProSelected}
+          defaultId={productSelected}
         />
       )}
     </>

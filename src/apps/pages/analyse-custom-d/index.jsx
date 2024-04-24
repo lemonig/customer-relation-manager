@@ -75,26 +75,26 @@ function Index() {
 
     {
       title: "参与人员",
-      dataIndex: "personName",
-      key: "personName",
+      dataIndex: "participant",
+      key: "participant",
     },
     {
       title: "任务开始时间",
-      dataIndex: "createTime",
+      dataIndex: "startTime",
       key: "createTime",
     },
     {
       title: "任务描述",
-      dataIndex: "description",
-      key: "description",
+      dataIndex: "subject",
+      key: "subject",
       render: (value, record) => (
         <div className="p-elipse">{value ?? "--"}</div>
       ),
     },
     {
       title: "完成纪要",
-      dataIndex: "participant",
-      key: "participant",
+      dataIndex: "description",
+      key: "description",
     },
     {
       title: "实际费用",
@@ -116,8 +116,8 @@ function Index() {
     },
     {
       title: "客户",
-      dataIndex: "organization",
-      key: "organization",
+      dataIndex: "orgName",
+      key: "orgName",
       render: (value, rec) => <span>{value.name}</span>,
     },
     {
@@ -139,8 +139,8 @@ function Index() {
     },
     {
       title: "完成时间",
-      dataIndex: "endTime",
-      key: "endTime",
+      dataIndex: "doneTime",
+      key: "doneTime",
     },
   ];
 
