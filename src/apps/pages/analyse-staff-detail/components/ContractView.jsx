@@ -25,6 +25,7 @@ import {
   GridComponent,
   TooltipComponent,
   TitleComponent,
+  LegendComponent,
 } from "echarts/components";
 import {
   CanvasRenderer,
@@ -37,6 +38,7 @@ echarts.use([
   GridComponent,
   BarChart,
   CanvasRenderer,
+  LegendComponent,
 ]);
 
 function ContractView() {

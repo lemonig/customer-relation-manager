@@ -319,7 +319,6 @@ function DealList() {
         text: "商机数量统计",
         left: "center",
       },
-      legend: {},
       tooltip: {
         trigger: "axis",
         axisPointer: {

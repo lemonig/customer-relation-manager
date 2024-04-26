@@ -1,17 +1,18 @@
 const menu = [
   {
-    id: 1,
+    id: 9999,
     pid: 0,
-    key: 1,
+    key: 0,
     path: "/",
-    name: "workCalendar",
-    component: "work-calendar",
+    name: "dashboard",
+    component: "dashboard",
     auth: true,
-    label: "工作台历",
-    icon: "V",
+    label: "仪表盘",
+    icon: "yibiao",
     isleaf: true,
     index: true,
   },
+
   {
     id: 10,
     pid: 0,
@@ -206,6 +207,18 @@ const menu = [
     isleaf: true,
   },
   {
+    id: 1,
+    pid: 3,
+    key: 1,
+    path: "calendar",
+    name: "workCalendar",
+    component: "work-calendar",
+    auth: true,
+    label: "工作台历",
+    icon: "V",
+    isleaf: false,
+  },
+  {
     key: 7,
     id: 7,
     pid: 3,
@@ -253,7 +266,7 @@ const menu = [
   {
     key: 16,
     id: 16,
-    pid: 15,
+    pid: 0,
     path: "",
     name: "",
     component: "",

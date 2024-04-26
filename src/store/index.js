@@ -27,9 +27,9 @@ export const store = configureStore({
     menuKey: menuSlice,
     searchForm: searchFormSlice,
   },
-  middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(middleware),
-  // enhancers: (getDefaultEnhancers) =>
-  //   getDefaultEnhancers().concat(monitorReducersEnhancer),
-  devTools: process.env.NODE_ENV !== 'production',
+  // middleware: (getDefaultMiddleware) =>
+  //   getDefaultMiddleware().concat(middleware),
+  // // enhancers: (getDefaultEnhancers) =>
+  // //   getDefaultEnhancers().concat(monitorReducersEnhancer),
+  // devTools: process.env.NODE_ENV !== 'production',
 });

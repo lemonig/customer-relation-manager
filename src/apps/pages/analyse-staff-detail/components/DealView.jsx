@@ -26,6 +26,7 @@ import {
   GridComponent,
   TooltipComponent,
   TitleComponent,
+  LegendComponent,
 } from "echarts/components";
 import { CanvasRenderer } from "echarts/renderers";
 
@@ -36,6 +37,7 @@ echarts.use([
   GridComponent,
   BarChart,
   CanvasRenderer,
+  LegendComponent,
 ]);
 function DealView() {
   let navigate = useNavigate();
@@ -270,7 +272,7 @@ function DealView() {
         text: "商机数量统计",
         left: "center",
       },
-      legend: {},
+
       tooltip: {
         trigger: "axis",
         axisPointer: {
