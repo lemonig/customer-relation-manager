@@ -59,12 +59,14 @@ function DealList() {
           title: "序号",
           key: "index",
           width: 60,
+          fixed: "left",
           render: (_, record, index) =>
             pageMsg.pagination.pageSize * (pageMsg.pagination.current - 1) +
             index +
             1,
         },
-        ...res.additional_data.columnList.map((item) => ({
+        ...res.additional_data.columnList.map((item, idx) => ({
+          fixed: idx == 0 ? "left" : false,
           title: item.label,
           dataIndex: item.key,
           key: item.key,
@@ -129,6 +131,9 @@ function DealList() {
       </div>
 
       <Table
+        scroll={{
+          x: 1300,
+        }}
         columns={column}
         dataSource={data}
         loading={loading}
