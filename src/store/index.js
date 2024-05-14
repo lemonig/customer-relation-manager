@@ -25,7 +25,7 @@ export const store = configureStore({
     menu: menulistSlice,
     user: userSlice,
     menuKey: menuSlice,
-    searchForm: searchFormSlice,
+    searchSlice: searchFormSlice,
   },
   // middleware: (getDefaultMiddleware) =>
   //   getDefaultMiddleware().concat(middleware),

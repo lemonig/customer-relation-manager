@@ -356,7 +356,7 @@ function DealDetail() {
                   <Descriptions.Item label="销售人员">
                     {data.ownerUserName}
                   </Descriptions.Item>
-                  <Descriptions.Item label="预计金额（元）">
+                  <Descriptions.Item label="预算金额（元）">
                     <Statistic
                       value={data.value}
                       valueStyle={{ fontSize: "12px" }}

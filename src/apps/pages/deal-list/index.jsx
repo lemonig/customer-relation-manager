@@ -67,7 +67,7 @@ function DealList() {
   let navigate = useNavigate();
   const dispatch = useDispatch();
   let resolvedPath = useResolvedPath();
-  const { form: preForm } = useSelector((state) => state.searchForm);
+  const { form: preForm } = useSelector((state) => state.searchSlice);
   console.log(preForm);
 
   useEffect(() => {

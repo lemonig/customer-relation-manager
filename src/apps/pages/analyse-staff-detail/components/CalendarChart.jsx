@@ -49,17 +49,10 @@ function CalendarChart() {
 
     for (let time = date; time <= end; time += dayTime) {
       let timeS = echarts.time.format(time, "{yyyy}-{MM}-{dd}");
-      if (timeS in value) {
-        generatedData.push([
-          echarts.time.format(time, "{yyyy}-{MM}-{dd}", false),
-          value[timeS],
-        ]);
-      } else {
-        generatedData.push([
-          echarts.time.format(time, "{yyyy}-{MM}-{dd}", false),
-          0,
-        ]);
-      }
+      generatedData.push([
+        echarts.time.format(time, "{yyyy}-{MM}-{dd}", false),
+        timeS in value ? value[timeS] : 0,
+      ]);
     }
 
     return generatedData;
@@ -81,7 +74,7 @@ function CalendarChart() {
           { value: 2, color: "#7FA8C9" },
           { value: 3, color: "#527BA0" },
           { value: 4, color: "#254E77" },
-          { gt: 5, color: "#000" },
+          { gte: 5, color: "#000" },
         ],
       },
 
@@ -160,7 +153,13 @@ function CalendarChart() {
       },
     };
   };
-
+  const onChartClick = (params) => {
+    console.log(params);
+    if (params.componentType === "calendar") {
+      const selectedDate = params.value[0];
+      console.log(selectedDate);
+    }
+  };
   return (
     <div>
       {/* <ReactEChartsCore
@@ -174,6 +173,7 @@ function CalendarChart() {
         option={getOption()}
         style={{ height: "180px" }}
         opts={{ renderer: "svg" }} // use svg to render the chart.
+        onEvents={{ click: onChartClick }}
       />
     </div>
   );

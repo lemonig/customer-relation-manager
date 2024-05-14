@@ -44,16 +44,19 @@ function Table1() {
         title: "序号",
         key: "index",
         width: 60,
+        fixed: "left",
         render: (_, record, index) =>
           pageMsg.pagination.pageSize * (pageMsg.pagination.current - 1) +
           index +
           1,
       },
-      ...res.additional_data.columnList.map((item) => {
+      ...res.additional_data.columnList.map((item, idx) => {
         return {
+          fixed: idx == 0 ? "left" : false,
           title: item.label,
           dataIndex: item.key,
           key: item.key,
+          width: 150,
           render: (value) => tableRender(value, flag),
           sorter: item.sortable ? (a, b) => a[item.key] - b[item.key] : false,
         };
@@ -145,7 +148,7 @@ function Table1() {
         pagination={pageMsg.pagination}
         rowKey={(record) => record.id}
         scroll={{
-          x: true,
+          x: (column.length - 1) * 150 + 60,
           y: 300,
         }}
         onChange={handleTableChange}

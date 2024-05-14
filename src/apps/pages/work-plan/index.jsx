@@ -120,61 +120,23 @@ function WorkPlan() {
     //       />
     //     ),
     // },
-
     {
-      title: "状态",
-      dataIndex: "statusName",
-      key: "status",
-      filters: [
-        {
-          text: "代办",
-          value: "1",
-        },
-        {
-          text: "已完成",
-          value: "2",
-        },
-      ],
-    },
-    {
-      title: "任务编号",
-      dataIndex: "code",
-      key: "code",
+      title: "创建人",
+      dataIndex: "createUserName",
+      key: "createUserName",
     },
     {
       title: "任务类型",
       dataIndex: "typeName",
       key: "typeName",
-      filters: activeData,
     },
     {
-      title: "费用",
-      dataIndex: "fee",
-      key: "fee",
-    },
-    // {
-    //   title: "任务主题",
-    //   dataIndex: "subject",
-    //   key: "subject",
-    // },
-    {
-      title: "客户联系人",
-      dataIndex: "personName",
-      key: "personName",
+      title: "任务状态",
+      dataIndex: "statusName",
+      key: "status",
     },
     {
-      title: "联系人电话",
-      dataIndex: "personPhone",
-      key: "personPhone",
-    },
-    {
-      title: "任务开始时间",
-      dataIndex: "startTime",
-      key: "startTime",
-      sorter: true,
-    },
-    {
-      title: "任务描述",
+      title: "标题",
       dataIndex: "description",
       key: "description",
       ellipsis: {
@@ -187,44 +149,49 @@ function WorkPlan() {
       ),
     },
     {
-      title: "地址",
-      dataIndex: "address",
-      key: "address",
-      ellipsis: {
-        showTitle: false,
-      },
-      render: (address) => (
-        <Tooltip placement="topLeft" title={address}>
-          {address}
-        </Tooltip>
-      ),
+      title: "开始时间",
+      dataIndex: "startTime",
+      key: "startTime",
+      sorter: true,
     },
     {
-      title: "商机名称",
+      title: "完成时间",
+      dataIndex: "doneTime",
+      key: "doneTime",
+    },
+
+    {
+      title: "关联商机",
       key: "dealName",
-      render: (row) => row.deal.name,
+      dataIndex: "doneTime",
+    },
+    {
+      title: "关联客户",
+      dataIndex: "orgName",
+      key: "orgName",
+    },
+
+    {
+      title: "联系人",
+      dataIndex: "personName",
+      key: "personName",
+    },
+
+    {
+      title: "费用",
+      dataIndex: "fee",
+      key: "fee",
     },
     // {
-    //   title: "客户公司",
-    //   dataIndex: "orgName",
-    //   key: "orgName",
+    //   title: "任务主题",
+    //   dataIndex: "subject",
+    //   key: "subject",
     // },
+
     {
-      title: "参与人员",
-      dataIndex: "participant",
-      key: "participant",
-    },
-    {
-      title: "照片",
-      dataIndex: "fileList",
-      key: "fileList",
-      render: (val) => (
-        <Space>
-          {val.map((item) => (
-            <Image width={40} src={item.url} key={item.id} />
-          ))}
-        </Space>
-      ),
+      title: "联系人电话",
+      dataIndex: "personPhone",
+      key: "personPhone",
     },
 
     {
@@ -232,11 +199,10 @@ function WorkPlan() {
       dataIndex: "createTime",
       key: "createTime",
     },
-
     {
-      title: "创建用户",
-      dataIndex: "createUserName",
-      key: "createUserName",
+      title: "OA推送状态",
+      dataIndex: "createTime",
+      key: "createTime",
     },
 
     // {
@@ -427,6 +393,33 @@ function WorkPlan() {
               }}
               mode="multiple"
               maxTagCount="responsive"
+            />
+          </Form.Item>
+          <Form.Item label="" name="statusList">
+            <Select
+              style={{ width: 200 }}
+              options={activeData}
+              placeholder="状态"
+              fieldNames={{
+                label: "text",
+                value: "id",
+              }}
+            />
+          </Form.Item>
+          <Form.Item label="" name="statusList">
+            <Select
+              style={{ width: 200 }}
+              options={[
+                {
+                  label: "代办",
+                  value: "1",
+                },
+                {
+                  label: "已完成",
+                  value: "2",
+                },
+              ]}
+              placeholder="状态"
             />
           </Form.Item>
           <Form.Item>
