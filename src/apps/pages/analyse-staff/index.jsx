@@ -85,28 +85,33 @@ function DealList() {
         },
         ...res.additional_data.columnList.map((item, idx) => ({
           fixed: idx == 0 ? "left" : false,
-          title: item.label,
+          title: function () {
+            if ([6, 7, 8, 9].includes(Number(item["key"].substring(4)))) {
+              return (
+                <span style={{ fontWeight: "bold" }} key={item.key}>
+                  {item.label}
+                </span>
+              );
+            }
+            return <span>{item.label}</span>;
+          },
           dataIndex: item.key,
           key: item.key,
           width: 150,
           render: (value) => tableRender(value),
-          sorter: item.sortable ? (a, b) => a[item.key] - b[item.key] : false,
+          sorter: item.sortable
+            ? (a, b) => a[item.key]["value"] - b[item.key]["value"]
+            : false,
         })),
       ];
 
       setColumn(temp);
-      setPagemsg({
-        ...pageMsg,
-        pagination: {
-          ...pageMsg.pagination,
-          total: res.additional_data.pagination.total,
-        },
-      });
     });
   };
 
   const handleTableChange = (pagination, filters, sorter) => {
     // if filters not changed, don't update pagination.current
+    console.log(sorter);
     setPagemsg({
       pagination,
       filters,
@@ -198,7 +203,10 @@ function DealList() {
         columns={column}
         dataSource={data}
         loading={loading}
-        pagination={pageMsg.pagination}
+        pagination={{
+          showSizeChanger: true,
+          ...pageMsg.pagination,
+        }}
         rowKey={(record) => record.id}
         onChange={handleTableChange}
         summary={() => (
