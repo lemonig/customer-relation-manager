@@ -11,7 +11,7 @@ import {
   Form,
   Select,
   Tooltip,
-  Image,
+  Statistic,
   TreeSelect,
 } from "antd";
 import { actPage, actDelete, actExport, actUpdate } from "@Api/act_adm.js";
@@ -40,6 +40,7 @@ function WorkPlan() {
     },
   });
   const [data, setData] = useState([]);
+  const [odata, setOdata] = useState([]);
   const [activeData, setActiveData] = useState([]);
   const [salerList, setSalerList] = useState([]);
   const [deptList, setDeptList] = useState([]);
@@ -163,7 +164,7 @@ function WorkPlan() {
     {
       title: "关联商机",
       key: "dealName",
-      dataIndex: "doneTime",
+      dataIndex: "dealName",
     },
     {
       title: "关联客户",
@@ -201,8 +202,9 @@ function WorkPlan() {
     },
     {
       title: "OA推送状态",
-      dataIndex: "createTime",
-      key: "createTime",
+      dataIndex: "isSync",
+      key: "isSync",
+      render: (val) => (val ? "是" : "否"),
     },
 
     // {
@@ -267,6 +269,7 @@ function WorkPlan() {
       },
     }).then((res) => {
       setData(res.data);
+      setOdata(res.additional_data.count);
       setLoading(false);
       setPagemsg({
         ...pageMsg,
@@ -453,7 +456,13 @@ function WorkPlan() {
         onChange={handleTableChange}
         title={() => (
           <div style={{ textAlign: "right", fontSize: "12px" }}>
-            共{pageMsg.pagination.total}项数据
+            共{pageMsg.pagination.total}项数据，任务费用{" "}
+            <Statistic
+              title=""
+              value={odata.totalFee}
+              valueStyle={{ fontSize: "12px" }}
+            />
+            元
           </div>
         )}
         onHeaderCell={() => "onHeaderCell"}

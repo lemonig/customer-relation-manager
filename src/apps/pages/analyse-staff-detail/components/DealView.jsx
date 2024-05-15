@@ -240,6 +240,7 @@ function DealView() {
   };
   const handleTableChange = (pagination, filters, sorter) => {
     // if filters not changed, don't update pagination.current
+    console.log(sorter);
     setPagemsg({
       pagination,
       filters,

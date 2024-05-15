@@ -35,7 +35,7 @@ function MsgCompany() {
 
   useEffect(() => {
     getPageData();
-  }, [pageMsg.pagination.current, pageMsg.pagination.pageSize]);
+  }, [JSON.stringify(pageMsg)]);
 
   const showModal = () => {
     setIsModalOpen(true);
@@ -61,6 +61,7 @@ function MsgCompany() {
     companyInfo({
       page: pageMsg.pagination.current,
       size: pageMsg.pagination.pageSize,
+      sort: [pageMsg.field, pageMsg.order],
       data: {
         name: searchVal,
         orgType: selectVal,
@@ -114,47 +115,89 @@ function MsgCompany() {
     setIsModalOpen(false);
   };
   const columns = [
-    {
-      title: "序号",
-      key: "index",
-      width: 60,
-      render: (_, record, index) =>
-        pageMsg.pagination.pageSize * (pageMsg.pagination.current - 1) +
-        index +
-        1,
-    },
+    // {
+    //   title: "序号",
+    //   key: "index",
+    //   width: 60,
+    //   render: (_, record, index) =>
+    //     pageMsg.pagination.pageSize * (pageMsg.pagination.current - 1) +
+    //     index +
+    //     1,
+    // },
     {
       title: "客户名称",
       dataIndex: "name",
       key: "name",
     },
     {
-      title: "机构类型",
-      dataIndex: "orgType",
-      key: "orgType",
-      render: (value) => {
-        let res = organize.filter((ele) => ele.value == value);
-        return res[0].label;
-      },
+      title: "省份",
+      dataIndex: "province",
+      key: "province",
     },
     {
-      title: "地址",
-      dataIndex: "address",
-      key: "address",
-      ellipsis: {
-        showTitle: false,
-      },
-      render: (address) => (
-        <Tooltip placement="topLeft" title={address}>
-          {address}
-        </Tooltip>
-      ),
+      title: "商机数量",
+      dataIndex: "dealNum",
+      key: "dealNum",
+      sorter: true,
     },
     {
-      title: "统一社会信用代码",
-      dataIndex: "creditCode",
-      key: "creditCode",
+      title: "任务数量",
+      dataIndex: "activityNum",
+      key: "activityNum",
+      sorter: true,
     },
+
+    {
+      title: "任务费用",
+      dataIndex: "activityFee",
+      key: "activityFee",
+      sorter: true,
+    },
+    // {
+    //   title: "机构类型",
+    //   dataIndex: "orgType",
+    //   key: "orgType",
+    //   render: (value) => {
+    //     let res = organize.filter((ele) => ele.value == value);
+    //     return res[0].label;
+    //   },
+    // },
+    {
+      title: "最近跟进时间",
+      dataIndex: "updateTime",
+      key: "updateTime",
+      sorter: true,
+    },
+    {
+      title: "合同数量",
+      dataIndex: "contractNum",
+      key: "contractNum",
+      sorter: true,
+    },
+    {
+      title: "合同金额",
+      dataIndex: "contractValue",
+      key: "contractValue",
+      sorter: true,
+    },
+    // {
+    //   title: "地址",
+    //   dataIndex: "address",
+    //   key: "address",
+    //   ellipsis: {
+    //     showTitle: false,
+    //   },
+    //   render: (address) => (
+    //     <Tooltip placement="topLeft" title={address}>
+    //       {address}
+    //     </Tooltip>
+    //   ),
+    // },
+    // {
+    //   title: "统一社会信用代码",
+    //   dataIndex: "creditCode",
+    //   key: "creditCode",
+    // },
     {
       title: "备注",
       dataIndex: "description",
@@ -169,7 +212,7 @@ function MsgCompany() {
       ),
     },
     {
-      title: "创建用户",
+      title: "创建人",
       dataIndex: "createUserName",
       key: "createUserName",
     },
@@ -178,23 +221,19 @@ function MsgCompany() {
       dataIndex: "createTime",
       key: "createTime",
     },
-    {
-      title: "更新时间",
-      dataIndex: "updateTime",
-      key: "updateTime",
-    },
-    {
-      title: "操作",
-      key: "operation",
-      width: 100,
-      fixed: "right",
-      render: (_, record) => (
-        <Space>
-          <a onClick={() => handleEdit(record)}>编辑</a>
-          <a onClick={() => handleDel(record)}>删除</a>
-        </Space>
-      ),
-    },
+
+    // {
+    //   title: "操作",
+    //   key: "operation",
+    //   width: 100,
+    //   fixed: "right",
+    //   render: (_, record) => (
+    //     <Space>
+    //       <a onClick={() => handleEdit(record)}>编辑</a>
+    //       <a onClick={() => handleDel(record)}>删除</a>
+    //     </Space>
+    //   ),
+    // },
   ];
 
   const handleInputChange = (e) => {
@@ -222,7 +261,7 @@ function MsgCompany() {
 
   return (
     <div>
-      <PageHeader className="site-page-header" title="客户公司" />
+      <PageHeader className="site-page-header" title="客户管理" />
       <div className="search">
         <Space>
           <Input

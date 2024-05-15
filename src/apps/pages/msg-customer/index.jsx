@@ -37,8 +37,9 @@ function MsgCustomer() {
   const [data, setData] = useState([]);
 
   useEffect(() => {
+    console.log(pageMsg);
     getPageData();
-  }, [pageMsg.pagination.current, pageMsg.pagination.pageSize]);
+  }, [JSON.stringify(pageMsg)]);
 
   const showModal = () => {
     setIsModalOpen(true);
@@ -63,10 +64,12 @@ function MsgCustomer() {
     customerInfo({
       page: pageMsg.pagination.current,
       size: pageMsg.pagination.pageSize,
+      sort: [pageMsg.field, pageMsg.order],
       data: {
         name: searchVal,
       },
     }).then((res) => {
+      console.log(pageMsg);
       setData(res.data);
       setLoading(false);
       setPagemsg({
@@ -111,69 +114,46 @@ function MsgCustomer() {
   };
 
   const columns = [
-    {
-      title: "序号",
-      key: "index",
-      width: 60,
-      render: (_, record, index) =>
-        pageMsg.pagination.pageSize * (pageMsg.pagination.current - 1) +
-        index +
-        1,
-    },
+    // {
+    //   title: "序号",
+    //   key: "index",
+    //   width: 60,
+    //   render: (_, record, index) =>
+    //     pageMsg.pagination.pageSize * (pageMsg.pagination.current - 1) +
+    //     index +
+    //     1,
+    // },
     {
       title: "姓名",
       dataIndex: "name",
       key: "name",
     },
     {
-      title: "联系电话",
+      title: "客户",
+      dataIndex: "orgName",
+      key: "orgName",
+    },
+    {
+      title: "手机",
       dataIndex: "phone",
       key: "phone",
     },
     {
-      title: "电子邮箱",
-      dataIndex: "email",
-      key: "email",
-    },
-    {
-      title: "性别",
-      dataIndex: "gender",
-      key: "gender",
-      render: (val) => (val == 1 ? "男" : "女"),
-    },
-    {
-      title: "客户名称",
-      dataIndex: "orgName",
-      key: "orgName",
+      title: "职务",
+      dataIndex: "jobTitle",
+      key: "jobTitle",
     },
     {
       title: "部门",
       dataIndex: "department",
       key: "department",
     },
-    {
-      title: "职位",
-      dataIndex: "jobTitle",
-      key: "jobTitle",
-    },
+
     {
       title: "关键决策人",
       dataIndex: "isKdm",
       key: "isKdm",
       render: (val) => (val ? "是" : "否"),
-    },
-    {
-      title: "地址",
-      dataIndex: "address",
-      key: "address",
-      ellipsis: {
-        showTitle: false,
-      },
-      render: (address) => (
-        <Tooltip placement="topLeft" title={address}>
-          {address}
-        </Tooltip>
-      ),
     },
     {
       title: "备注",
@@ -188,8 +168,35 @@ function MsgCustomer() {
         </Tooltip>
       ),
     },
+
     {
-      title: "创建用户",
+      title: "商机数量",
+      dataIndex: "dealNum",
+      key: "dealNum",
+      sorter: true,
+    },
+
+    {
+      title: "跟进次数",
+      dataIndex: "activityNum",
+      key: "activityNum",
+      sorter: true,
+    },
+
+    {
+      title: "任务费用",
+      dataIndex: "activityFee",
+      key: "activityFee",
+      sorter: true,
+    },
+    {
+      title: "最近跟进时间",
+      dataIndex: "updateTime",
+      key: "updateTime",
+      sorter: true,
+    },
+    {
+      title: "创建人",
       dataIndex: "createUserName",
       key: "createUserName",
     },
@@ -198,22 +205,44 @@ function MsgCustomer() {
       dataIndex: "createTime",
       key: "createTime",
     },
-    {
-      title: "更新时间",
-      dataIndex: "updateTime",
-      key: "updateTime",
-    },
-    {
-      title: "操作",
-      key: "operation",
-      fixed: "right",
-      render: (_, record) => (
-        <Space>
-          <a onClick={() => handleEdit(record)}>编辑</a>
-          <a onClick={() => handleDel(record)}>删除</a>
-        </Space>
-      ),
-    },
+
+    // {
+    //   title: "电子邮箱",
+    //   dataIndex: "email",
+    //   key: "email",
+    // },
+    // {
+    //   title: "性别",
+    //   dataIndex: "gender",
+    //   key: "gender",
+    //   render: (val) => (val == 1 ? "男" : "女"),
+    // },
+
+    // {
+    //   title: "地址",
+    //   dataIndex: "address",
+    //   key: "address",
+    //   ellipsis: {
+    //     showTitle: false,
+    //   },
+    //   render: (address) => (
+    //     <Tooltip placement="topLeft" title={address}>
+    //       {address}
+    //     </Tooltip>
+    //   ),
+    // },
+
+    // {
+    //   title: "操作",
+    //   key: "operation",
+    //   fixed: "right",
+    //   render: (_, record) => (
+    //     <Space>
+    //       <a onClick={() => handleEdit(record)}>编辑</a>
+    //       <a onClick={() => handleDel(record)}>删除</a>
+    //     </Space>
+    //   ),
+    // },
   ];
 
   //表单回调
@@ -229,6 +258,7 @@ function MsgCustomer() {
 
   const handleTableChange = (pagination, filters, sorter) => {
     // if filters not changed, don't update pagination.current
+    console.log(sorter);
     setPagemsg({
       pagination,
       filters,
@@ -238,7 +268,7 @@ function MsgCustomer() {
 
   return (
     <div>
-      <PageHeader className="site-page-header" title="客户联系人" />
+      <PageHeader className="site-page-header" title="联系人管理" />
       <div className="search">
         <Space>
           <Input
