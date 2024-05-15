@@ -122,9 +122,7 @@ function CalendarChart() {
         top: 20,
         left: "center",
         range: moment().year(),
-        splitLine: {
-          show: false,
-        },
+
         cellSize: 18,
 
         itemStyle: {

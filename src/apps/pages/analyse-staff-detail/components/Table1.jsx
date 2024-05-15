@@ -53,12 +53,23 @@ function Table1() {
       ...res.additional_data.columnList.map((item, idx) => {
         return {
           fixed: idx == 0 ? "left" : false,
-          title: item.label,
+          title: function () {
+            if ([6, 7, 8, 9].includes(Number(item["key"].substring(4)))) {
+              return (
+                <span style={{ fontWeight: "bold" }} key={item.key}>
+                  {item.label}
+                </span>
+              );
+            }
+            return <span>{item.label}</span>;
+          },
           dataIndex: item.key,
           key: item.key,
           width: 150,
           render: (value) => tableRender(value, flag),
-          sorter: item.sortable ? (a, b) => a[item.key] - b[item.key] : false,
+          sorter: item.sortable
+            ? (a, b) => a[item.key]["value"] - b[item.key]["value"]
+            : false,
         };
       }),
     ];
@@ -178,6 +189,11 @@ function Table1() {
 
 export default Table1;
 function tableRender(value, showTask) {
+  const dir = {
+    赢单: "#389e0d",
+    输单: "#ff4d4f",
+    终止: "#ff4d4f",
+  };
   if (!value) {
     return "-";
   }
@@ -195,6 +211,17 @@ function tableRender(value, showTask) {
           {showTask ? <span>({value.num})</span> : null}
         </div>
       </>
+    );
+  }
+  if (value.key == "key_2") {
+    return (
+      <span
+        style={{
+          color: dir[value.value],
+        }}
+      >
+        {value.value}
+      </span>
     );
   }
   return <span>{value.value}</span>;

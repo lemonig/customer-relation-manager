@@ -5,6 +5,7 @@ import menuSlice from "./features/menuSlice";
 import menulistSlice from "./features/menulistSlice";
 import tokenSlice from "./features/tokenSlice";
 import searchFormSlice from './features/searchFormSlice';
+import staffTreeSlice from './features//staffTreeSlice'
 
 import { composeWithDevTools } from 'redux-devtools-extension';
 
@@ -26,6 +27,7 @@ export const store = configureStore({
     user: userSlice,
     menuKey: menuSlice,
     searchSlice: searchFormSlice,
+    staffTreeSlice: staffTreeSlice,
   },
   // middleware: (getDefaultMiddleware) =>
   //   getDefaultMiddleware().concat(middleware),

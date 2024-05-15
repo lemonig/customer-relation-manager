@@ -15,7 +15,9 @@ import { InfoCircleFilled } from "@ant-design/icons";
 import { useDispatch, useSelector } from "react-redux";
 import { SAVE_FORM } from "@Store/features/searchFormSlice";
 import { salesmanList } from "@Api/set_user";
+import StaffTree from "@Shared/StaffTree";
 import { NavLink } from "react-router-dom";
+import { SAVE_ID, DELETE_ID } from "@Store/features/staffTreeSlice";
 const { RangePicker } = DatePicker;
 
 function DealList() {
@@ -25,6 +27,7 @@ function DealList() {
   const { form: preForm } = useSelector((state) => state.searchSlice);
   console.log(preForm);
   const [loading, setLoading] = useState(false);
+  const [treeVis, setTreeVis] = useState(false);
   const [data, setData] = useState([]);
   const [otherdata, setOtherdata] = useState([]);
   const [column, setColumn] = useState([]);
@@ -35,6 +38,7 @@ function DealList() {
     },
   });
   const [salerList, setSalerList] = useState([]);
+  const [userId, setUserId] = useState([]);
   //销售人员
   const getSalesmanList = async () => {
     let { data } = await salesmanList();
@@ -45,6 +49,9 @@ function DealList() {
     getSalesmanList();
     getPageData();
   }, []);
+  useEffect(() => {
+    getPageData();
+  }, [userId]);
 
   // 查询
   const search = () => {
@@ -68,7 +75,10 @@ function DealList() {
       values.endYear = moment(values.time[1]).format("YYYY");
     }
 
-    countByPersonApi(values).then((res) => {
+    countByPersonApi({
+      ...values,
+      userIdList: userId,
+    }).then((res) => {
       setData(res.data);
       setOtherdata(res.additional_data.totalList);
       setLoading(false);
@@ -112,6 +122,8 @@ function DealList() {
   const handleTableChange = (pagination, filters, sorter) => {
     // if filters not changed, don't update pagination.current
     console.log(sorter);
+    console.log(filters);
+    console.log(pagination);
     setPagemsg({
       pagination,
       filters,
@@ -121,10 +133,7 @@ function DealList() {
 
   function tableRender(value) {
     const beforeRoute = () => {
-      console.log("x");
-      console.log(pageMsg.pagination);
       let values = searchForm.getFieldsValue();
-      console.log(values);
       let search = {};
       if (Array.isArray(values?.time) && values?.time.length > 0) {
         search.beginYear = moment(values.time[0]).format("YYYY");
@@ -146,6 +155,16 @@ function DealList() {
     }
     return <>{<span>{value.value}</span>}</>;
   }
+  const showPeopleTree = () => {
+    setTreeVis(true);
+  };
+  const getRowSelected = (flag, val) => {
+    dispatch(DELETE_ID());
+    setTreeVis(false);
+    if (flag) {
+      setUserId(val);
+    }
+  };
 
   return (
     <div className="deal-page">
@@ -175,7 +194,7 @@ function DealList() {
           <Form.Item label="" name="time">
             <RangePicker picker="year" />
           </Form.Item>
-          <Form.Item label="" name="userIdList">
+          {/* <Form.Item label="" name="userIdList">
             <Select
               style={{ width: 200 }}
               options={salerList}
@@ -187,13 +206,18 @@ function DealList() {
               mode="multiple"
               maxTagCount="responsive"
             />
-          </Form.Item>
+          </Form.Item> */}
           <Form.Item>
             <Button type="primary" htmlType="submit">
               查询
             </Button>
           </Form.Item>
         </Form>
+        <div>
+          <Button type="link" onClick={showPeopleTree}>
+            按人员
+          </Button>
+        </div>
       </div>
 
       <Table
@@ -229,6 +253,8 @@ function DealList() {
           </Table.Summary>
         )}
       />
+
+      <StaffTree open={treeVis} getRowSelected={getRowSelected} />
     </div>
   );
 }
