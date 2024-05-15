@@ -165,7 +165,7 @@ function DealConfirm() {
       key: "dealCreateTime",
     },
     {
-      title: "预计金额",
+      title: "预算金额",
       dataIndex: "dealValue",
       key: "dealValue",
       render: (dealValue, record) => (
@@ -312,7 +312,7 @@ function DealConfirm() {
                   value: "0,1000000",
                 },
               ]}
-              placeholder="预计金额"
+              placeholder="预算金额"
               allowClear
             />
           </Form.Item> */}

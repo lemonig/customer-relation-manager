@@ -54,7 +54,7 @@ function Table1() {
         return {
           fixed: idx == 0 ? "left" : false,
           title: function () {
-            if ([6, 7, 8, 9].includes(Number(item["key"].substring(4)))) {
+            if ([10, 11, 12, 13].includes(Number(item["key"].substring(4)))) {
               return (
                 <span style={{ fontWeight: "bold" }} key={item.key}>
                   {item.label}

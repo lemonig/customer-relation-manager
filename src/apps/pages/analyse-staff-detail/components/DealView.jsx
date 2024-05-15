@@ -158,7 +158,7 @@ function DealView() {
       // ),
     },
     {
-      title: "预计金额",
+      title: "预算金额",
       dataIndex: "value",
       key: "value",
       render: (value, record) => (
@@ -356,7 +356,7 @@ function DealView() {
     valueCount.forEach((ele) => {
       xData.unshift(ele.name);
       yData1.unshift(ele.prev / 10000); //预测值
-      yData2.unshift(ele.pv / 10000); //预计值
+      yData2.unshift(ele.pv / 10000); //预算值
     });
 
     const option = {
@@ -399,7 +399,7 @@ function DealView() {
       },
       series: [
         {
-          name: "预计金额",
+          name: "预算金额",
           type: "bar",
           data: yData2,
           itemStyle: {
@@ -496,8 +496,8 @@ function DealView() {
         {chartdata && (
           <div className="data-msg">
             商机: {chartdata.totalCount.total} 笔；
-            <Tooltip title="预计：商机预计金额累加和">
-              <span className="blue">预计</span>
+            <Tooltip title="预算：商机预算金额累加和">
+              <span className="blue">预算</span>
             </Tooltip>
             :{" "}
             <Statistic
@@ -505,7 +505,7 @@ function DealView() {
               valueStyle={{ fontSize: "12px" }}
             />{" "}
             元；
-            <Tooltip title="预测：商机预计金额加权和；权重由阶段机率、信心指数确定">
+            <Tooltip title="预测：商机预算金额加权和；权重由阶段机率、信心指数确定">
               <span className="blue"> 预测</span>
             </Tooltip>
             :{" "}

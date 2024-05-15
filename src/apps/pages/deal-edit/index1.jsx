@@ -193,7 +193,7 @@ function DealEdit() {
                   </Form.Item>
                 </Col>
                 <Col span={11}>
-                  <Form.Item label="预计金额(元)" name="value">
+                  <Form.Item label="预算金额(元)" name="value">
                     <Input placeholder="请输入" />
                   </Form.Item>
                 </Col>

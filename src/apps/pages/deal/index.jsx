@@ -168,7 +168,7 @@ function Deal() {
                   value: "0,1000000",
                 },
               ]}
-              placeholder="预计金额"
+              placeholder="预算金额"
               allowClear
             />
           </Form.Item>
@@ -211,12 +211,12 @@ function Deal() {
       {stageMsg && (
         <div className="data-msg">
           商机: {stageMsg.total} 笔；
-          <Tooltip title="预计：商机预计金额累加和">
-            <span className="blue">预计</span>
+          <Tooltip title="预算：商机预算金额累加和">
+            <span className="blue">预算</span>
           </Tooltip>
           : <Statistic value={stageMsg.pv} valueStyle={{ fontSize: "12px" }} />{" "}
           元；
-          <Tooltip title="预测：上家预计金额加权和；加权由阶段机率、信心指数确定">
+          <Tooltip title="预测：上家预算金额加权和；加权由阶段机率、信心指数确定">
             <span className="blue"> 预测</span>
           </Tooltip>
           :{" "}

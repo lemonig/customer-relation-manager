@@ -19,12 +19,15 @@ import ReactECharts from "echarts-for-react";
 
 import { calender as calenderApi } from "@Api/analyse_staff";
 import moment from "moment";
+import TaskView from "@Shared/TaskView";
 
 const weekText = ["日", "一", "二", "三", "四", "五", "六"];
 
 function CalendarChart() {
   const { id } = useParams();
   const [data, setData] = useState([]);
+  const [modalVis, setModalVis] = useState(false);
+  const [selectedVal, setSelectedVal] = useState("");
 
   useEffect(() => {
     async function getPageData() {
@@ -153,9 +156,12 @@ function CalendarChart() {
   };
   const onChartClick = (params) => {
     console.log(params);
-    if (params.componentType === "calendar") {
+    if (params.componentSubType === "heatmap") {
       const selectedDate = params.value[0];
-      console.log(selectedDate);
+      if (selectedDate) {
+        setModalVis(true);
+        setSelectedVal(selectedDate);
+      }
     }
   };
   return (
@@ -173,6 +179,16 @@ function CalendarChart() {
         opts={{ renderer: "svg" }} // use svg to render the chart.
         onEvents={{ click: onChartClick }}
       />
+      {modalVis && (
+        <TaskView
+          open={modalVis}
+          getRowSelected={() => setModalVis(false)}
+          params={{
+            time: selectedVal,
+            id,
+          }}
+        ></TaskView>
+      )}
     </div>
   );
 }

@@ -76,7 +76,7 @@ function LinkBusiness({ open, getRowSelected, defaultId }) {
       key: "title",
     },
     {
-      title: "预计金额",
+      title: "预算金额",
       dataIndex: "value",
       key: "value",
     },

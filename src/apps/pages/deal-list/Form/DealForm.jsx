@@ -272,7 +272,7 @@ function DealForm({ isModalOpen, closeModal, data }) {
             />
           </Form.Item> */}
 
-          <Form.Item label="预计金额(元)" name="value">
+          <Form.Item label="预算金额(元)" name="value">
             <InputNumber
               placeholder="请输入"
               addonAfter="￥"
