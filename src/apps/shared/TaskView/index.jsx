@@ -151,19 +151,16 @@ function TaskView({ open, getRowSelected, params: { time, id } }) {
   const getPageData = () => {
     setLoading(true);
 
-    activityOverview({
+    actPage({
       page: pageMsg.pagination.current,
       size: pageMsg.pagination.pageSize,
-      sort: pageMsg?.order
-        ? [pageMsg?.columnKey, pageMsg?.order.substring(0, 3)]
-        : undefined,
+
       data: {
         startTimeBeginTime: time,
         startTimeEndTime: time,
         typeIdList: pageMsg?.filters?.typeName,
         statusList: pageMsg?.filters?.status,
-        userId: id,
-        showFee: showFee,
+        userIdList: [id],
       },
     }).then((res) => {
       setData(res.data);
