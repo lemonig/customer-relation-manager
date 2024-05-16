@@ -180,12 +180,12 @@ function Table1() {
         summary={() => (
           <Table.Summary fixed={"bottom"}>
             <Table.Summary.Row>
-              <Table.Summary.Cell index={0} />
+              {/* <Table.Summary.Cell index={0} /> */}
               {otherdata &&
                 otherdata?.map((item, idx) => {
                   return (
                     <Table.Summary.Cell
-                      index={idx + 1}
+                      index={idx}
                       key={idx}
                       style={{ textAlign: "center" }}
                     >
