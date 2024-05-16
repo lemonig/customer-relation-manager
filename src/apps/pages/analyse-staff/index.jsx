@@ -175,7 +175,7 @@ function DealList() {
             <span>按人员统计</span>
             <Tooltip title="统计各人员在商机各个阶段任务产生的费用和OA报销费用">
               <span style={{ fontSize: "14px", cursor: "pointer" }}>
-                <InfoCircleFilled />
+                <InfoCircleFilled style={{ color: "rgba(0,0,0,0.4)" }} />
               </span>
             </Tooltip>
           </>

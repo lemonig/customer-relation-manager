@@ -65,7 +65,7 @@ function Table1() {
       <span>商机流失</span>
       <Tooltip title="历史终止或输单的商机，按流失时间排序">
         <span style={{ fontSize: "14px", cursor: "pointer" }}>
-          <InfoCircleFilled />
+          <InfoCircleFilled style={{ color: "rgba(0,0,0,0.4)" }} />
         </span>
       </Tooltip>
     </>

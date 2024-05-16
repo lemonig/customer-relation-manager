@@ -109,7 +109,7 @@ function Table1() {
 有发生费用的任务"
       >
         <span style={{ fontSize: "14px", cursor: "pointer" }}>
-          <InfoCircleFilled />
+          <InfoCircleFilled style={{ color: "rgba(0,0,0,0.4)" }} />
         </span>
       </Tooltip>
     </>

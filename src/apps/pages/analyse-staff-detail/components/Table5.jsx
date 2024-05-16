@@ -32,6 +32,13 @@ function Table1() {
     });
 
     setData(res.data);
+    setPagemsg({
+      ...pageMsg,
+      pagination: {
+        ...pageMsg.pagination,
+        total: res.additional_data.pagination.total,
+      },
+    });
     setLoading(false);
     let temp = [
       {
@@ -65,7 +72,7 @@ function Table1() {
       <span>商机赢单</span>
       <Tooltip title="历史赢单商机，按赢单时间排序">
         <span style={{ fontSize: "14px", cursor: "pointer" }}>
-          <InfoCircleFilled />
+          <InfoCircleFilled style={{ color: "rgba(0,0,0,0.4)" }} />
         </span>
       </Tooltip>
     </>

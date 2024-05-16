@@ -36,7 +36,7 @@ function Desript() {
       <span>{val.label}</span>
       <Tooltip title={val.description}>
         <span style={{ fontSize: "14px", cursor: "pointer" }}>
-          <InfoCircleFilled />
+          <InfoCircleFilled style={{ color: "rgba(0,0,0,0.4)" }} />
         </span>
       </Tooltip>
     </>

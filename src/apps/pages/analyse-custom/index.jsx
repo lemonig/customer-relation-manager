@@ -108,7 +108,7 @@ function Index() {
             <span>按客户统计</span>
             <Tooltip title="统计各客户在商机各个阶段任务产生的费用">
               <span style={{ fontSize: "14px", cursor: "pointer" }}>
-                <InfoCircleFilled />
+                <InfoCircleFilled style={{ color: "rgba(0,0,0,0.4)" }} />
               </span>
             </Tooltip>
           </>
