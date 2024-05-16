@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 
-import { Descriptions, DatePicker } from "antd";
+import { Descriptions, DatePicker, Tooltip } from "antd";
 import { saleDashboard as saleDashboardApi } from "@Api/analyse_staff";
 import { useParams } from "react-router-dom";
 import SdTitle from "@Components/SdTitle";
 import moment from "moment";
+import { InfoCircleFilled } from "@ant-design/icons";
 
 function Desript() {
   const { id } = useParams();
@@ -29,6 +30,17 @@ function Desript() {
 
     setData(res.data);
   }
+
+  const $descLabel = (val) => (
+    <>
+      <span>{val.label}</span>
+      <Tooltip title={val.description}>
+        <span style={{ fontSize: "14px", cursor: "pointer" }}>
+          <InfoCircleFilled />
+        </span>
+      </Tooltip>
+    </>
+  );
   return (
     <div>
       <SdTitle title="我的销售">
@@ -37,7 +49,7 @@ function Desript() {
       <Descriptions title={null}>
         {data.map((item, idx) => {
           return item.map((jtem, jdx) => (
-            <Descriptions.Item label={jtem.label} key={idx + "-" + jdx}>
+            <Descriptions.Item label={$descLabel(jtem)} key={idx + "-" + jdx}>
               {jtem.value}
             </Descriptions.Item>
           ));

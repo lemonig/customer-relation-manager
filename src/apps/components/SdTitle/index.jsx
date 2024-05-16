@@ -1,11 +1,11 @@
 import React from "react";
 import "./index.less";
 
-function SdTitle(props) {
+function SdTitle({ title, children }) {
   return (
     <div className="sd-title-wrap">
-      <div className="left">{props.title}</div>
-      <div className="right">{props.children}</div>
+      <div className="left">{title}</div>
+      <div className="right">{children}</div>
     </div>
   );
 }

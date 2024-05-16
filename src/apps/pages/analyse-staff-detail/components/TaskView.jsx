@@ -77,15 +77,6 @@ function TaskView() {
   };
 
   const columns = [
-    {
-      title: "序号",
-      key: "index",
-      width: 60,
-      render: (_, record, index) =>
-        pageMsg.pagination.pageSize * (pageMsg.pagination.current - 1) +
-        index +
-        1,
-    },
     // {
     //   title: "完成",
     //   dataIndex: "done",
@@ -114,6 +105,7 @@ function TaskView() {
       title: "状态",
       dataIndex: "statusName",
       key: "status",
+      fixed: "left",
       // filters: [
       //   {
       //     text: "代办",
@@ -129,6 +121,7 @@ function TaskView() {
       title: "任务编号",
       dataIndex: "code",
       key: "code",
+      fixed: "left",
     },
     {
       title: "任务类型",
@@ -181,6 +174,7 @@ function TaskView() {
       title: "完成纪要",
       dataIndex: "description",
       key: "description",
+      width: 300,
     },
     {
       title: "实际费用",
@@ -221,6 +215,7 @@ function TaskView() {
       title: "客户",
       dataIndex: "orgName",
       key: "orgName",
+      width: 300,
       render: (value, record) => (
         <Space>
           <a>{value}</a>
@@ -444,6 +439,9 @@ function TaskView() {
         columns={columns}
         dataSource={data}
         loading={loading}
+        scroll={{
+          x: (columns.length - 1) * 150,
+        }}
         pagination={pageMsg.pagination}
         rowKey={(record) => record.id}
         onChange={handleTableChange}

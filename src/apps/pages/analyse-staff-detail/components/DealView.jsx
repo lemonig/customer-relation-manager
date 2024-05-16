@@ -119,19 +119,10 @@ function DealView() {
 
   const columns = [
     {
-      title: "序号",
-      key: "index",
-      width: 60,
-      render: (_, record, index) =>
-        pageMsg.pagination.pageSize * (pageMsg.pagination.current - 1) +
-        index +
-        1,
-    },
-
-    {
       title: "商机编号",
       dataIndex: "code",
       key: "code",
+      fixed: "left",
       render: (value, record) => (
         <Space>
           <a>{value}</a>
@@ -148,6 +139,7 @@ function DealView() {
       dataIndex: "title",
       width: "300",
       key: "title",
+      fixed: "left",
       // ellipsis: {
       //   showTitle: false,
       // },
@@ -551,6 +543,9 @@ function DealView() {
         pagination={pageMsg.pagination}
         rowKey={(record) => record.id}
         onChange={handleTableChange}
+        scroll={{
+          x: (columns.length - 1) * 150,
+        }}
       />
     </div>
   );

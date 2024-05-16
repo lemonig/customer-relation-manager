@@ -1,11 +1,19 @@
 import React, { useEffect, useState } from "react";
-
-import { Input, Space, Table, DatePicker, Form, Select, Switch } from "antd";
+import {
+  Input,
+  Space,
+  Table,
+  DatePicker,
+  Form,
+  Select,
+  Switch,
+  Tooltip,
+} from "antd";
 import moment from "moment";
-
 import { activityFeeContribution as activityFeeContributionApi } from "@Api/analyse_staff";
 import { useParams, NavLink } from "react-router-dom";
 import SdTitle from "@Components/SdTitle";
+import { InfoCircleFilled } from "@ant-design/icons";
 
 function Table1() {
   const [searchForm] = Form.useForm();
@@ -40,19 +48,9 @@ function Table1() {
     setOtherdata(res.additional_data.totalList);
     setLoading(false);
     let temp = [
-      {
-        title: "序号",
-        key: "index",
-        width: 60,
-        fixed: "left",
-        render: (_, record, index) =>
-          pageMsg.pagination.pageSize * (pageMsg.pagination.current - 1) +
-          index +
-          1,
-      },
       ...res.additional_data.columnList.map((item, idx) => {
         return {
-          fixed: idx == 0 ? "left" : false,
+          fixed: [0, 1].includes(idx) ? "left" : false,
           title: function () {
             if ([10, 11, 12, 13].includes(Number(item["key"].substring(4)))) {
               return (
@@ -100,9 +98,25 @@ function Table1() {
       ...sorter,
     });
   };
+
+  const $title = () => (
+    <>
+      <span>任务费用对商机贡献分析</span>
+      <Tooltip
+        title="当年完成的带费用的任务(按开始时间发生年份为当
+年)，对商机阶段推进的贡献分析，查看不同商机阶段
+发生的任务费用和个数。不包含未关联商机的任务或没
+有发生费用的任务"
+      >
+        <span style={{ fontSize: "14px", cursor: "pointer" }}>
+          <InfoCircleFilled />
+        </span>
+      </Tooltip>
+    </>
+  );
   return (
     <div>
-      <SdTitle title="任务费用对商机贡献分析">
+      <SdTitle title={$title()}>
         <div className="search" style={{ marginBottom: "0px" }}>
           <Form
             layout="inline"

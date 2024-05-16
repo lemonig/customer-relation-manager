@@ -14,7 +14,7 @@ code {
 
 /* //end
 //滚动条样式 */
-::-webkit-scrollbar {
+/* ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
   background-color: #dee0e2;
@@ -22,7 +22,7 @@ code {
 
 ::-webkit-scrollbar-thumb {
   background: #6e6e6e;
-}
+} */
 
 /* 树 */
 /* .ant-tree .ant-tree-node-content-wrapper.ant-tree-node-selected {

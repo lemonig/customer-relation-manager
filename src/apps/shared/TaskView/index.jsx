@@ -209,6 +209,7 @@ function TaskView({ open, getRowSelected, params: { time, id } }) {
           style={{
             top: "0px",
           }}
+          footer={null}
         >
           <div>
             <Table

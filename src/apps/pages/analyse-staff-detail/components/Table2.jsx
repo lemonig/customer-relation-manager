@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
-
-import { Table } from "antd";
-
+import { Table, Tooltip } from "antd";
 import { advanceDeal as advanceDealApi } from "@Api/analyse_staff";
 import { useParams, NavLink } from "react-router-dom";
 import SdTitle from "@Components/SdTitle";
+import { InfoCircleFilled } from "@ant-design/icons";
 
 function Table1() {
   const { id } = useParams();
@@ -69,10 +68,19 @@ function Table1() {
       ...sorter,
     });
   };
-
+  const $title = () => (
+    <>
+      <span>商机推进</span>
+      <Tooltip title="进行中商机里，发生销售阶段变化的商机，按变化时间排序">
+        <span style={{ fontSize: "14px", cursor: "pointer" }}>
+          <InfoCircleFilled />
+        </span>
+      </Tooltip>
+    </>
+  );
   return (
     <div>
-      <SdTitle title="商机推进" />
+      <SdTitle title={$title()} />
       <Table
         columns={column}
         dataSource={data}
