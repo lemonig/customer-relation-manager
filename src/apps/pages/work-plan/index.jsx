@@ -26,6 +26,10 @@ import IconFont from "@Components/IconFont";
 import "./index.less";
 import BtnAuth from "@Shared/BtnAuth";
 import { arrayToTree } from "@Utils/util";
+import { useParams } from "react-router-dom";
+import DrawerTask from "@Shared/DrawerTask";
+import DrawerDeal from "@Shared/DrawerDeal";
+import DrawerLinkman from "@Shared/DrawerLinkman";
 const { RangePicker } = DatePicker;
 
 function WorkPlan() {
@@ -45,6 +49,12 @@ function WorkPlan() {
   const [salerList, setSalerList] = useState([]);
   const [deptList, setDeptList] = useState([]);
   const [searchForm] = Form.useForm();
+  const [drawerVis, setDrawerVis] = useState({
+    task: false,
+    deal: false,
+    linkman: false,
+  });
+  const [operateId, setOperateId] = useState(null);
 
   let navigate = useNavigate();
 
@@ -98,29 +108,6 @@ function WorkPlan() {
   };
 
   const columns = [
-    // {
-    //   title: "完成",
-    //   dataIndex: "done",
-    //   key: "done",
-    //   render: (down, record) =>
-    //     down ? (
-    //       <IconFont
-    //         iconName="wancheng"
-    //         color="#DEDEDE"
-    //         style={{ cursor: "pointer" }}
-    //         size={18}
-    //         onClick={() => handleChangeOver(record.id, down)}
-    //       />
-    //     ) : (
-    //       <IconFont
-    //         iconName="weikao"
-    //         color="#DEDEDE"
-    //         style={{ cursor: "pointer" }}
-    //         size={16}
-    //         onClick={() => handleChangeOver(record.id, down)}
-    //       />
-    //     ),
-    // },
     {
       title: "创建人",
       dataIndex: "createUserName",
@@ -130,6 +117,13 @@ function WorkPlan() {
       title: "任务类型",
       dataIndex: "typeName",
       key: "typeName",
+      render: (val, { id }) => {
+        return (
+          <Button type="link" onClick={() => openTaskDrawer(id)}>
+            {val}
+          </Button>
+        );
+      },
     },
     {
       title: "任务状态",
@@ -138,8 +132,8 @@ function WorkPlan() {
     },
     {
       title: "标题",
-      dataIndex: "description",
-      key: "description",
+      dataIndex: "subject",
+      key: "subject",
       ellipsis: {
         showTitle: false,
       },
@@ -165,6 +159,22 @@ function WorkPlan() {
       title: "关联商机",
       key: "dealName",
       dataIndex: "dealName",
+      render: (val, { dealId }) => {
+        return (
+          <Button
+            type="link"
+            onClick={() => {
+              setOperateId(dealId);
+              setDrawerVis({
+                ...drawerVis,
+                deal: true,
+              });
+            }}
+          >
+            {val}
+          </Button>
+        );
+      },
     },
     {
       title: "关联客户",
@@ -176,6 +186,22 @@ function WorkPlan() {
       title: "联系人",
       dataIndex: "personName",
       key: "personName",
+      render: (val, { personId }) => {
+        return (
+          <Button
+            type="link"
+            onClick={() => {
+              setOperateId(personId);
+              setDrawerVis({
+                ...drawerVis,
+                linkman: true,
+              });
+            }}
+          >
+            {val}
+          </Button>
+        );
+      },
     },
 
     {
@@ -356,6 +382,14 @@ function WorkPlan() {
     );
   };
 
+  const openTaskDrawer = (id) => {
+    setOperateId(id);
+    setDrawerVis({
+      ...drawerVis,
+      task: true,
+    });
+  };
+
   return (
     <div>
       <PageHeader className="site-page-header" title="销售计划" />
@@ -482,6 +516,46 @@ function WorkPlan() {
           isModalOpen={isModalOpen}
           record={selectedTable[0]}
           closeModal={closeModal}
+        />
+      )}
+      {drawerVis.task && (
+        <DrawerTask
+          width="800"
+          visible={drawerVis.task}
+          onClose={() =>
+            setDrawerVis({
+              ...drawerVis,
+              task: false,
+            })
+          }
+          id={operateId}
+        />
+      )}
+
+      {drawerVis.deal && (
+        <DrawerDeal
+          width="800"
+          visible={drawerVis.deal}
+          onClose={() =>
+            setDrawerVis({
+              ...drawerVis,
+              deal: false,
+            })
+          }
+          id={operateId}
+        />
+      )}
+      {drawerVis.linkman && (
+        <DrawerLinkman
+          width="800"
+          visible={drawerVis.linkman}
+          onClose={() =>
+            setDrawerVis({
+              ...drawerVis,
+              linkman: false,
+            })
+          }
+          id={operateId}
         />
       )}
     </div>

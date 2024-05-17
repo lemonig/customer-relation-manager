@@ -1,0 +1,121 @@
+/* src/components/Drawer.css */
+.drawer-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.drawer-overlay.open {
+  opacity: 1;
+}
+
+.drawer {
+  position: fixed;
+  z-index: 1001;
+  background: white;
+  transition: transform 0.6s ease;
+}
+
+.drawer-right {
+  top: 0;
+  right: 0;
+  height: 100%;
+  transform: translateX(100%);
+}
+
+.drawer-left {
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 300px;
+  transform: translateX(-100%);
+}
+
+.drawer-top {
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 300px;
+  transform: translateY(-100%);
+}
+
+.drawer-bottom {
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 300px;
+  transform: translateY(100%);
+}
+
+.drawer.open.drawer-right {
+  transform: translateX(0);
+}
+
+.drawer.open.drawer-left {
+  transform: translateX(0);
+}
+
+.drawer.open.drawer-top {
+  transform: translateY(0);
+}
+
+.drawer.open.drawer-bottom {
+  transform: translateY(0);
+}
+
+.drawer-close {
+  display: inline-block;
+  margin-right: 12px;
+  color: #00000073;
+  font-weight: 700;
+  font-size: 16px;
+  font-style: normal;
+  line-height: 1;
+  text-align: center;
+  text-transform: none;
+  text-decoration: none;
+  background: transparent;
+  border: 0;
+  outline: 0;
+  cursor: pointer;
+  transition: color 0.6s;
+  text-rendering: auto;
+}
+
+.header {
+  display: flex;
+  flex: 0;
+  align-items: center;
+  padding: 16px 24px;
+  font-size: 16px;
+  line-height: 22px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  .main {
+    display: flex;
+    flex: 1;
+    align-items: center;
+    min-width: 0;
+    min-height: 0;
+  }
+  .title {
+    flex: 1;
+    margin: 0;
+    color: #000000d9;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 22px;
+  }
+}
+.body {
+  flex: 1;
+  min-width: 0;
+  min-height: 0;
+  padding: 24px;
+  overflow: auto;
+}

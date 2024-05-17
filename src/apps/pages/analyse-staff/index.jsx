@@ -11,7 +11,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import moment from "moment";
 import { countByPerson as countByPersonApi } from "@Api/analyse_staff";
-import { InfoCircleFilled } from "@ant-design/icons";
+import { InfoCircleFilled, EyeOutlined } from "@ant-design/icons";
 import { useDispatch, useSelector } from "react-redux";
 import { SAVE_FORM } from "@Store/features/searchFormSlice";
 import { salesmanList } from "@Api/set_user";
@@ -214,7 +214,12 @@ function DealList() {
           </Form.Item>
         </Form>
         <div>
-          <Button type="link" onClick={showPeopleTree}>
+          <Button
+            type="link"
+            onClick={showPeopleTree}
+            icon={<EyeOutlined />}
+            style={{ color: "#000000E0" }}
+          >
             按人员
           </Button>
         </div>

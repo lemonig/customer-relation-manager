@@ -23,6 +23,13 @@ export function actAdd(data) {
     data,
   });
 }
+// 活动详情
+export function actGet(data) {
+  return _post({
+    url: `/api/activity/get`,
+    data,
+  });
+}
 // 活动修改
 export function actUpdate(data) {
   return _post({
@@ -34,6 +41,13 @@ export function actUpdate(data) {
 export function actPage(data) {
   return _post({
     url: `/api/activity/page`,
+    data,
+  });
+}
+// 活动分页查询
+export function actHistory(data) {
+  return _post({
+    url: `/api/activity/history/page`,
     data,
   });
 }

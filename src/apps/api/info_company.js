@@ -1,5 +1,12 @@
 import { _post } from "@App/server/http";
 const basePath = "undefined";
+// 客户详情
+export function organizationGet(data) {
+  return _post({
+    url: `/api/organization/get`,
+    data,
+  });
+}
 // 客户分页查询
 export function companyInfo(data) {
   return _post({

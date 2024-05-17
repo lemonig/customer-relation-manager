@@ -122,23 +122,6 @@ function Index({ open, getRowSelected, defaultId, url }) {
   };
   const columns = [
     {
-      title: "状态",
-      key: "status",
-      dataIndex: "status",
-      width: 100,
-      render: (status) => {
-        return (
-          <>
-            {status == 1 ? (
-              <Badge status="success" text="已激活" />
-            ) : (
-              <Badge status="error" text="禁用" />
-            )}
-          </>
-        );
-      },
-    },
-    {
       title: "姓名",
       key: "nickname",
       render: (row) => {
@@ -149,42 +132,6 @@ function Index({ open, getRowSelected, defaultId, url }) {
           </Space>
         );
       },
-    },
-
-    {
-      title: "手机号",
-      dataIndex: "phone",
-      key: "phone",
-    },
-    // {
-    //   title: "性别",
-    //   dataIndex: "sex",
-    //   key: "sex",
-    // },
-    {
-      title: "邮箱",
-      dataIndex: "email",
-      key: "email",
-    },
-    {
-      title: "部门",
-      dataIndex: "deptName",
-      key: "deptName",
-    },
-    // {
-    //   title: "岗位",
-    //   dataIndex: "updateTime",
-    //   key: "updateTime",
-    // },
-    {
-      title: "直接上级",
-      dataIndex: "leaderName",
-      key: "leaderName",
-    },
-    {
-      title: "角色",
-      dataIndex: "roleName",
-      key: "roleName",
     },
   ];
 
@@ -233,24 +180,26 @@ function Index({ open, getRowSelected, defaultId, url }) {
     <>
       {open && (
         <Modal
-          title="关联公司"
+          title="选择员工"
           open={open}
           onOk={() => getRowSelected(true, selectedRowKeys)}
           onCancel={() => getRowSelected(false)}
-          width={1200}
+          width={800}
           destroyOnClose
           bodyStyle={{
             padding: "8px",
           }}
-          style={{
-            top: "0px",
-          }}
         >
           <div style={{ height: "100%" }}>
-            <PageHeader className="site-page-header" title="选择员工" />
-
             <Layout className="staff">
-              <Sider style={{ background: "#fff", height: "100%" }} width="240">
+              <Sider
+                style={{
+                  background: "#fff",
+                  height: "600px",
+                  overflow: "auto",
+                }}
+                width="240"
+              >
                 <div className="tree-wrap">
                   <div className="tree-menu">
                     <span>企业组织架构</span>{" "}

@@ -35,3 +35,10 @@ export function customerList(data) {
     data,
   });
 }
+// 客户联系人分页查询
+export function customerGet(data) {
+  return _post({
+    url: `/api/person/get`,
+    data,
+  });
+}

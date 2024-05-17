@@ -151,3 +151,44 @@ export function productList(data) {
     data,
   });
 }
+
+
+// 商机-联系人记录 
+export function personPage(data) {
+  return _post({
+    url: `/api/deal/person/page`,
+    data
+  })
+}
+
+// 商机-活动获取 
+export function activitypage(data) {
+  return _post({
+    url: `/api/deal/activity/page`,
+    data
+  })
+}
+
+// 商机-产品记录 
+export function productpage(data) {
+  return _post({
+    url: `/api/deal/product/page`,
+    data
+  })
+}
+
+// 商机-日志记录 
+export function historypage(data) {
+  return _post({
+    url: `/api/deal/history/page`,
+    data
+  })
+}
+
+// 商机-合同
+export function contractpage(data) {
+  return _post({
+    url: `/api/deal/contract/page`,
+    data
+  })
+}
