@@ -10,14 +10,15 @@ import {
   DatePicker,
   Form,
   Select,
+  Tooltip,
+  Statistic,
 } from "antd";
 
 import moment from "moment";
-import { dealLogs } from "@Api/deal_list";
+import { contractPage } from "@Api/contract";
 import { DealContext } from "../index";
 
-function Tab6() {
-  const id = useContext(DealContext);
+function Tab5({ id, word }) {
   const [activeData, setActiveData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [pageMsg, setPagemsg] = useState({
@@ -33,11 +34,11 @@ function Tab6() {
   }, [pageMsg.pagination.current, pageMsg.pagination.pageSize]);
   const getPageData = () => {
     setLoading(true);
-    dealLogs({
+    contractPage({
       page: pageMsg.pagination.current,
       size: pageMsg.pagination.pageSize,
       data: {
-        dealId: id,
+        [word]: id,
       },
     }).then((res) => {
       setData(res.data);
@@ -54,46 +55,54 @@ function Tab6() {
 
   const columns = [
     {
-      title: "序号",
-      key: "index",
-      width: 60,
-      render: (_, record, index) =>
-        pageMsg.pagination.pageSize * (pageMsg.pagination.current - 1) +
-        index +
-        1,
+      title: "合同编号",
+      dataIndex: "code",
+      key: "code",
     },
     {
-      title: "变更时间",
+      title: "合同名称",
+      dataIndex: "name",
+      key: "name",
+      ellipsis: {
+        showTitle: false,
+      },
+      render: (name) => (
+        <Tooltip placement="topLeft" title={name}>
+          {name}
+        </Tooltip>
+      ),
+    },
+    {
+      title: "签约日期",
+      dataIndex: "signedDate",
+      key: "signedDate",
+    },
+    {
+      title: "合同金额",
+      dataIndex: "value",
+      key: "value",
+      render: (value, record) => (
+        <Statistic value={value} valueStyle={{ fontSize: "12px" }} />
+      ),
+    },
+    {
+      title: "回款金额",
+      dataIndex: "unreceivedValue",
+      key: "unreceivedValue",
+      render: (value, record) => (
+        <Statistic value={value} valueStyle={{ fontSize: "12px" }} />
+      ),
+    },
+
+    {
+      title: "创建人",
+      dataIndex: "ownerUserName",
+      key: "ownerUserName",
+    },
+    {
+      title: "创建日期",
       dataIndex: "createTime",
       key: "createTime",
-    },
-    {
-      title: "变更人",
-      dataIndex: "createUserName",
-      key: "createUserName",
-    },
-    {
-      title: "变更字段",
-      dataIndex: "propertyList",
-      key: "propertyList",
-      render: (value, record) =>
-        value.map((item) => <div className="p-elipse">{item ?? "--"}</div>),
-    },
-
-    {
-      title: "变更前",
-      dataIndex: "beforeList",
-      key: "beforeList",
-      render: (value, record) =>
-        value.map((item) => <div className="p-elipse">{item ?? "--"}</div>),
-    },
-
-    {
-      title: "变更后",
-      dataIndex: "afterList",
-      key: "afterList",
-      render: (value, record) =>
-        value.map((item) => <div className="p-elipse">{item ?? "--"}</div>),
     },
   ];
 
@@ -133,4 +142,4 @@ function Tab6() {
   );
 }
 
-export default Tab6;
+export default Tab5;

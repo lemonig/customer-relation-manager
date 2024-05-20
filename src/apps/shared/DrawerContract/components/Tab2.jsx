@@ -10,14 +10,13 @@ import {
   DatePicker,
   Form,
   Select,
+  Statistic,
 } from "antd";
 
 import moment from "moment";
-import { dealLogs } from "@Api/deal_list";
-import { DealContext } from "../index";
+import { dealPage } from "@Api/deal_list";
 
-function Tab6() {
-  const id = useContext(DealContext);
+function Tab2({ id, word }) {
   const [activeData, setActiveData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [pageMsg, setPagemsg] = useState({
@@ -33,11 +32,11 @@ function Tab6() {
   }, [pageMsg.pagination.current, pageMsg.pagination.pageSize]);
   const getPageData = () => {
     setLoading(true);
-    dealLogs({
+    dealPage({
       page: pageMsg.pagination.current,
       size: pageMsg.pagination.pageSize,
       data: {
-        dealId: id,
+        [word]: id,
       },
     }).then((res) => {
       setData(res.data);
@@ -54,46 +53,40 @@ function Tab6() {
 
   const columns = [
     {
-      title: "序号",
-      key: "index",
-      width: 60,
-      render: (_, record, index) =>
-        pageMsg.pagination.pageSize * (pageMsg.pagination.current - 1) +
-        index +
-        1,
+      title: "商机名称",
+      dataIndex: "title",
+      key: "title",
     },
     {
-      title: "变更时间",
+      title: "商机金额（元）",
+      dataIndex: "value",
+      key: "value",
+      render: (value, record) => (
+        <Statistic value={value} valueStyle={{ fontSize: "12px" }} />
+      ),
+    },
+
+    {
+      title: "客户",
+      dataIndex: "orgName",
+      key: "orgName",
+    },
+
+    {
+      title: "商机状态",
+      dataIndex: "statusName",
+      key: "status",
+    },
+    {
+      title: "商机所有人",
+      dataIndex: "ownerUserName",
+      key: "ownerUserName",
+    },
+
+    {
+      title: "创建时间",
       dataIndex: "createTime",
       key: "createTime",
-    },
-    {
-      title: "变更人",
-      dataIndex: "createUserName",
-      key: "createUserName",
-    },
-    {
-      title: "变更字段",
-      dataIndex: "propertyList",
-      key: "propertyList",
-      render: (value, record) =>
-        value.map((item) => <div className="p-elipse">{item ?? "--"}</div>),
-    },
-
-    {
-      title: "变更前",
-      dataIndex: "beforeList",
-      key: "beforeList",
-      render: (value, record) =>
-        value.map((item) => <div className="p-elipse">{item ?? "--"}</div>),
-    },
-
-    {
-      title: "变更后",
-      dataIndex: "afterList",
-      key: "afterList",
-      render: (value, record) =>
-        value.map((item) => <div className="p-elipse">{item ?? "--"}</div>),
     },
   ];
 
@@ -133,4 +126,4 @@ function Tab6() {
   );
 }
 
-export default Tab6;
+export default Tab2;

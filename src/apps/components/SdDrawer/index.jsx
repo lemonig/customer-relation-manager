@@ -43,9 +43,9 @@ const Index = ({
       >
         <div className="header">
           <div className="main">
-            <button className="drawer-close" onClick={handleClose}>
+            {/* <button className="drawer-close" onClick={handleClose}>
               Close
-            </button>
+            </button> */}
             <div className="title">{title}</div>
           </div>
         </div>

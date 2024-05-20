@@ -1,23 +1,25 @@
 import React, { useState, useEffect, useContext } from "react";
 import {
   Input,
+  Select,
   Button,
   Space,
   Table,
+  Tag,
   Modal,
-  message,
-  PageHeader,
-  DatePicker,
   Form,
-  Select,
+  message,
+  Typography,
+  Tooltip,
+  PageHeader,
 } from "antd";
 
 import moment from "moment";
-import { dealLogs } from "@Api/deal_list";
+import { customerInfo } from "@Api/info_customer";
 import { DealContext } from "../index";
 
-function Tab6() {
-  const id = useContext(DealContext);
+function Tab2({ id, word }) {
+  // const id = useContext(DealContext);
   const [activeData, setActiveData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [pageMsg, setPagemsg] = useState({
@@ -33,11 +35,11 @@ function Tab6() {
   }, [pageMsg.pagination.current, pageMsg.pagination.pageSize]);
   const getPageData = () => {
     setLoading(true);
-    dealLogs({
+    customerInfo({
       page: pageMsg.pagination.current,
       size: pageMsg.pagination.pageSize,
       data: {
-        dealId: id,
+        [word]: id,
       },
     }).then((res) => {
       setData(res.data);
@@ -54,46 +56,50 @@ function Tab6() {
 
   const columns = [
     {
-      title: "序号",
-      key: "index",
-      width: 60,
-      render: (_, record, index) =>
-        pageMsg.pagination.pageSize * (pageMsg.pagination.current - 1) +
-        index +
-        1,
+      title: "姓名",
+      dataIndex: "name",
+      key: "name",
     },
     {
-      title: "变更时间",
-      dataIndex: "createTime",
-      key: "createTime",
+      title: "手机",
+      dataIndex: "phone",
+      key: "phone",
     },
     {
-      title: "变更人",
+      title: "职务",
+      dataIndex: "jobTitle",
+      key: "jobTitle",
+    },
+
+    {
+      title: "关键决策人",
+      dataIndex: "isKdm",
+      key: "isKdm",
+      render: (val) => (val ? "是" : "否"),
+    },
+
+    {
+      title: "备注",
+      dataIndex: "description",
+      key: "description",
+      ellipsis: {
+        showTitle: false,
+      },
+      render: (description) => (
+        <Tooltip placement="topLeft" title={description}>
+          {description}
+        </Tooltip>
+      ),
+    },
+    {
+      title: "创建人",
       dataIndex: "createUserName",
       key: "createUserName",
     },
     {
-      title: "变更字段",
-      dataIndex: "propertyList",
-      key: "propertyList",
-      render: (value, record) =>
-        value.map((item) => <div className="p-elipse">{item ?? "--"}</div>),
-    },
-
-    {
-      title: "变更前",
-      dataIndex: "beforeList",
-      key: "beforeList",
-      render: (value, record) =>
-        value.map((item) => <div className="p-elipse">{item ?? "--"}</div>),
-    },
-
-    {
-      title: "变更后",
-      dataIndex: "afterList",
-      key: "afterList",
-      render: (value, record) =>
-        value.map((item) => <div className="p-elipse">{item ?? "--"}</div>),
+      title: "创建时间",
+      dataIndex: "createTime",
+      key: "createTime",
     },
   ];
 
@@ -133,4 +139,4 @@ function Tab6() {
   );
 }
 
-export default Tab6;
+export default Tab2;

@@ -68,7 +68,6 @@ function DealList() {
   const dispatch = useDispatch();
   let resolvedPath = useResolvedPath();
   const { form: preForm } = useSelector((state) => state.searchSlice);
-  console.log(preForm);
 
   useEffect(() => {
     getSalesmanList();
@@ -76,7 +75,6 @@ function DealList() {
   }, []);
 
   useEffect(() => {
-    console.log("get");
     getPageData();
   }, [pageMsg.pagination.current, pageMsg.pagination.pageSize]);
 
@@ -266,9 +264,7 @@ function DealList() {
   ];
 
   const gotoDealDetail = (id) => {
-    console.log(searchForm);
     let values = searchForm.getFieldsValue();
-    console.log(values);
     dispatch(SAVE_FORM(values));
 
     navigate({

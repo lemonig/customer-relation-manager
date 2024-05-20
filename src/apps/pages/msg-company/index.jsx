@@ -128,6 +128,7 @@ function MsgCompany() {
       title: "客户名称",
       dataIndex: "name",
       key: "name",
+      fixed: "left",
     },
     {
       title: "省份",
@@ -138,6 +139,24 @@ function MsgCompany() {
       title: "商机数量",
       dataIndex: "dealNum",
       key: "dealNum",
+      sorter: true,
+    },
+    {
+      title: "进行中商机额",
+      dataIndex: "processDealValue",
+      key: "processDealValue",
+      sorter: true,
+    },
+    {
+      title: "赢单商机额",
+      dataIndex: "winDealValue",
+      key: "winDealValue",
+      sorter: true,
+    },
+    {
+      title: "流失商机额",
+      dataIndex: "unWinDealValue",
+      key: "unWinDealValue",
       sorter: true,
     },
     {
@@ -296,6 +315,9 @@ function MsgCompany() {
         pagination={pageMsg.pagination}
         rowKey={(record) => record.id}
         onChange={handleTableChange}
+        scroll={{
+          x: columns.length * 150,
+        }}
       />
       {/* 弹出表单 */}
       {isModalOpen && (

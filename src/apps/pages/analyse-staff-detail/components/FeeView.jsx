@@ -241,8 +241,6 @@ function ContractView() {
   };
 
   const formItemChange = (changedValues, allValues) => {
-    console.log(changedValues);
-    console.log(allValues);
     getPageData();
   };
 
@@ -459,7 +457,6 @@ function PieChart({ params }) {
   };
 
   const getPageData = () => {
-    console.log(params);
     feePieOverview({ ...params }).then((res) => {
       setData(res.data);
     });

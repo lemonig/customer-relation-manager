@@ -155,7 +155,6 @@ function CalendarChart() {
     };
   };
   const onChartClick = (params) => {
-    console.log(params);
     if (params.componentSubType === "heatmap") {
       const selectedDate = params.value[0];
       if (selectedDate) {

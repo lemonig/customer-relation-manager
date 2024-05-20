@@ -42,7 +42,6 @@ function Panel4({ params }) {
 export default Panel4;
 
 function BarCharet({ params }) {
-  console.log(params);
   const [data, setData] = useState(null);
   useEffect(() => {
     if (params.filterBy && params.timeBy) {
@@ -52,7 +51,6 @@ function BarCharet({ params }) {
 
   const getPageData = () => {
     funnelByDealValue({ ...params }).then((res) => {
-      console.log(res);
       setData(res.data);
     });
   };

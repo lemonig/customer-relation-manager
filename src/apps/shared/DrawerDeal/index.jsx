@@ -21,6 +21,7 @@ import Tab2 from "./components/Tab2";
 import Tab3 from "./components/Tab3";
 import Tab4 from "./components/Tab4";
 import Tab5 from "./components/Tab5";
+import Tab6 from "./components/Tab6";
 
 export const DealContext = React.createContext();
 
@@ -30,7 +31,7 @@ function Index(props) {
     <DealContext.Provider value={props.id}>
       <SdDrawer
         {...props}
-        title={<PageHeader className="site-page-header" title="任务" />}
+        title={<PageHeader className="site-page-header" title={props.title} />}
       >
         <Tabs
           defaultActiveKey="1"
@@ -44,7 +45,7 @@ function Index(props) {
             {
               label: `联系人`,
               key: "2",
-              children: <Tab2></Tab2>,
+              children: <Tab2 id={props.id} word="dealId"></Tab2>,
             },
             {
               label: `任务`,
@@ -57,8 +58,13 @@ function Index(props) {
               children: <Tab4></Tab4>,
             },
             {
-              label: `合同`,
+              label: `变更日志`,
               key: "5",
+              children: <Tab6></Tab6>,
+            },
+            {
+              label: `合同`,
+              key: "6",
               children: <Tab5></Tab5>,
             },
           ]}

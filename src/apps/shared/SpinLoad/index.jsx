@@ -84,7 +84,6 @@ function SpinLoad() {
   // let hasToken = store.getters['user/token']
   const isLogin = async () => {
     const urlParams = paramObj(window.location.href.replace("#/", ""));
-    console.log(urlParams);
     if (urlParams.ticket) {
       // await store.dispatch('user/exchangeToken', urlParams.ticket)
       await getTicket(urlParams.ticket);
@@ -94,7 +93,6 @@ function SpinLoad() {
       return;
     }
     let token = localStorage.getItem("token");
-    console.log(token);
     if (token) {
       let menuList = localStorage.getItem("menuList");
       if (!menuList) {

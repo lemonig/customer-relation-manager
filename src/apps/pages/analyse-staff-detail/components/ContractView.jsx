@@ -377,7 +377,6 @@ function PieChart({ params }) {
   };
 
   const getPageData = () => {
-    console.log(params);
     contractPieOverview({ ...params }).then((res) => {
       setData(res.data);
     });

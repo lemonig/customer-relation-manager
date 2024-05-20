@@ -19,7 +19,7 @@ const Tab1 = () => {
   };
 
   return (
-    <Descriptions title="User Info">
+    <Descriptions title="">
       <Descriptions.Item label="任务状态">{data.statusName}</Descriptions.Item>
       <Descriptions.Item label="任务类型" span={2}>
         {data.typeName}
@@ -33,9 +33,7 @@ const Tab1 = () => {
       <Descriptions.Item label="其他参与人">
         {data.participant}
       </Descriptions.Item>
-      <Descriptions.Item label="地点" span={2}>
-        {data.address}
-      </Descriptions.Item>
+      <Descriptions.Item label="地点">{data.address}</Descriptions.Item>
       <Descriptions.Item label="实际费用">{data.fee}</Descriptions.Item>
       <Descriptions.Item label="完成纪要" span={3}>
         {data.description}
@@ -46,7 +44,7 @@ const Tab1 = () => {
       <Descriptions.Item label="创建时间">{data.createTime}</Descriptions.Item>
       <Descriptions.Item label="完成时间">{data.doneTime}</Descriptions.Item>
       <Descriptions.Item label="OA推送状态" span={3}>
-        {data.isSync}
+        {data.isSync ? "已同步" : "未同步"}
       </Descriptions.Item>
       <Descriptions.Item label="照片" span={3}>
         {data.fileList?.map((item) => (

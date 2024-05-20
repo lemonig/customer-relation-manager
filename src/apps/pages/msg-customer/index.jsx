@@ -37,7 +37,6 @@ function MsgCustomer() {
   const [data, setData] = useState([]);
 
   useEffect(() => {
-    console.log(pageMsg);
     getPageData();
   }, [JSON.stringify(pageMsg)]);
 
@@ -69,7 +68,6 @@ function MsgCustomer() {
         name: searchVal,
       },
     }).then((res) => {
-      console.log(pageMsg);
       setData(res.data);
       setLoading(false);
       setPagemsg({
@@ -258,7 +256,6 @@ function MsgCustomer() {
 
   const handleTableChange = (pagination, filters, sorter) => {
     // if filters not changed, don't update pagination.current
-    console.log(sorter);
     setPagemsg({
       pagination,
       filters,

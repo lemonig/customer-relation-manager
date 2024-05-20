@@ -85,7 +85,6 @@ const salePanel = [
 ];
 
 function Panel2({ params }) {
-  console.log(params);
   const [data, setData] = useState(null);
   useEffect(() => {
     if (params.filterBy && params.timeBy) {

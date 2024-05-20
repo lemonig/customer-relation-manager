@@ -386,7 +386,6 @@ function TaskView() {
   };
 
   const onSwitchChange = (checked) => {
-    console.log(`switch to ${checked}`);
     setShowFee(checked);
   };
 

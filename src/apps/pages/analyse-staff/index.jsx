@@ -25,7 +25,6 @@ function DealList() {
   const [searchForm] = Form.useForm();
   let dispatch = useDispatch();
   const { form: preForm } = useSelector((state) => state.searchSlice);
-  console.log(preForm);
   const [loading, setLoading] = useState(false);
   const [treeVis, setTreeVis] = useState(false);
   const [data, setData] = useState([]);
@@ -120,10 +119,6 @@ function DealList() {
   };
 
   const handleTableChange = (pagination, filters, sorter) => {
-    // if filters not changed, don't update pagination.current
-    console.log(sorter);
-    console.log(filters);
-    console.log(pagination);
     setPagemsg({
       pagination,
       filters,
@@ -211,18 +206,17 @@ function DealList() {
             <Button type="primary" htmlType="submit">
               查询
             </Button>
+            <Button
+              type="link"
+              onClick={showPeopleTree}
+              icon={<EyeOutlined />}
+              style={{ color: "#000000E0" }}
+            >
+              按人员
+            </Button>
           </Form.Item>
         </Form>
-        <div>
-          <Button
-            type="link"
-            onClick={showPeopleTree}
-            icon={<EyeOutlined />}
-            style={{ color: "#000000E0" }}
-          >
-            按人员
-          </Button>
-        </div>
+        <div></div>
       </div>
 
       <Table

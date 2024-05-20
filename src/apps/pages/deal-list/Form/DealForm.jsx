@@ -88,7 +88,6 @@ function DealForm({ isModalOpen, closeModal, data }) {
 
   const getProSelected = (confirm, row) => {
     if (confirm) {
-      console.log(row);
       // form.setFieldValue("orgId", row[0].id);
       // setLinkSelected(row[0]);
       setProductSelected(row);

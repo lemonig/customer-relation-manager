@@ -133,6 +133,23 @@ function Index({ open, getRowSelected, defaultId, url }) {
         );
       },
     },
+    {
+      title: "状态",
+      key: "status",
+      dataIndex: "status",
+      width: 100,
+      render: (status) => {
+        return (
+          <>
+            {status == 1 ? (
+              <Badge status="success" text="已激活" />
+            ) : (
+              <Badge status="error" text="禁用" />
+            )}
+          </>
+        );
+      },
+    },
   ];
 
   // 表格转态初始化
@@ -143,7 +160,6 @@ function Index({ open, getRowSelected, defaultId, url }) {
   };
   // 表格选中
   const onSelectChange = (newSelectedRowKeys, selectedRows) => {
-    console.log(newSelectedRowKeys);
     setSelectedRowKeys(newSelectedRowKeys);
     setSelectedStaff(selectedRows);
   };

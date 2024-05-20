@@ -7,7 +7,6 @@ import { useParams, useNavigate, NavLink, useLocation } from "react-router-dom";
 function Index() {
   let navigate = useNavigate();
   const { state } = useLocation();
-  console.log(state);
   const name = state?.name;
 
   const { id } = useParams();

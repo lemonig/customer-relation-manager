@@ -53,7 +53,6 @@ function ProductLink({ open, getRowSelected, defaultId, url }) {
   const getPageData = () => {
     setLoading(true);
     productList({}).then((res) => {
-      console.log(defaultId);
       if (res.success) {
         if (defaultId.length) {
           res.data.forEach((item) => {
@@ -65,7 +64,6 @@ function ProductLink({ open, getRowSelected, defaultId, url }) {
             });
           });
         }
-        console.log(res.data);
         setData(res.data);
 
         // setPagemsg({
@@ -129,7 +127,6 @@ function ProductLink({ open, getRowSelected, defaultId, url }) {
     if (flag) getPageData();
   };
   const stepChange = (event, idx) => {
-    console.log(event);
     data[idx].value = event;
     setData([...data]);
     // let idx = event.currentTarget.dataset.index;
@@ -146,7 +143,6 @@ function ProductLink({ open, getRowSelected, defaultId, url }) {
   };
 
   const modalConfirm = () => {
-    console.log(data);
     let productMsg = data
       .map((item) => {
         if (item.checked) {

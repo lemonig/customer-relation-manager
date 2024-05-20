@@ -54,7 +54,6 @@ function DealList() {
     },
   ];
 
-  console.log(id);
   return (
     <div className="detail-page">
       <Head></Head>

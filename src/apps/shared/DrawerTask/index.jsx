@@ -27,7 +27,7 @@ function Index(props) {
     <TaskContext.Provider value={props.id}>
       <SdDrawer
         {...props}
-        title={<PageHeader className="site-page-header" title="任务" />}
+        title={<PageHeader className="site-page-header" title={props.title} />}
       >
         <Tabs
           defaultActiveKey="1"

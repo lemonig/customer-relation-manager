@@ -30,10 +30,14 @@ import { useParams } from "react-router-dom";
 import DrawerTask from "@Shared/DrawerTask";
 import DrawerDeal from "@Shared/DrawerDeal";
 import DrawerLinkman from "@Shared/DrawerLinkman";
+import DrawerCustomer from "@Shared/DrawerCustomer";
+import StaffTree from "@Shared/StaffTree";
+import { InfoCircleFilled, EyeOutlined } from "@ant-design/icons";
 const { RangePicker } = DatePicker;
 
 function WorkPlan() {
   const [loading, setLoading] = useState(false);
+  const [treeVis, setTreeVis] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedRowKeys, setSelectedRowKeys] = useState([]); //表格选中key
   const [selectedTable, setSelecteTable] = useState([]); //表格选中staff
@@ -53,9 +57,11 @@ function WorkPlan() {
     task: false,
     deal: false,
     linkman: false,
+    customer: false,
   });
   const [operateId, setOperateId] = useState(null);
-
+  const [operateTxt, setOperateTxt] = useState(null);
+  const [userId, setUserId] = useState([]);
   let navigate = useNavigate();
 
   useEffect(() => {
@@ -65,12 +71,10 @@ function WorkPlan() {
   }, []);
   useEffect(() => {
     getPageData();
-  }, [
-    pageMsg.pagination.current,
-    pageMsg.pagination.pageSize,
-    JSON.stringify(pageMsg.filters),
-  ]);
-
+  }, [JSON.stringify(pageMsg)]);
+  useEffect(() => {
+    getPageData();
+  }, [userId]);
   //销售人员
   const getSalesmanList = async () => {
     let { data } = await salesmanList();
@@ -106,20 +110,42 @@ function WorkPlan() {
       message.error(msg);
     }
   };
+  const showPeopleTree = () => {
+    setTreeVis(true);
+  };
 
+  const getRowSelected = (flag, val) => {
+    setTreeVis(false);
+    if (flag) {
+      setUserId(val);
+    }
+  };
   const columns = [
     {
       title: "创建人",
       dataIndex: "createUserName",
       key: "createUserName",
+      fixed: "left",
+      width: 80,
     },
     {
       title: "任务类型",
       dataIndex: "typeName",
       key: "typeName",
+      fixed: "left",
       render: (val, { id }) => {
         return (
-          <Button type="link" onClick={() => openTaskDrawer(id)}>
+          <Button
+            type="link"
+            onClick={() => {
+              setOperateId(id);
+              setOperateTxt(val);
+              setDrawerVis({
+                ...drawerVis,
+                task: true,
+              });
+            }}
+          >
             {val}
           </Button>
         );
@@ -161,10 +187,10 @@ function WorkPlan() {
       dataIndex: "dealName",
       render: (val, { dealId }) => {
         return (
-          <Button
-            type="link"
+          <a
             onClick={() => {
               setOperateId(dealId);
+              setOperateTxt(val);
               setDrawerVis({
                 ...drawerVis,
                 deal: true,
@@ -172,7 +198,7 @@ function WorkPlan() {
             }}
           >
             {val}
-          </Button>
+          </a>
         );
       },
     },
@@ -180,6 +206,22 @@ function WorkPlan() {
       title: "关联客户",
       dataIndex: "orgName",
       key: "orgName",
+      render: (val, { orgId }) => {
+        return (
+          <a
+            onClick={() => {
+              setOperateId(orgId);
+              setOperateTxt(val);
+              setDrawerVis({
+                ...drawerVis,
+                customer: true,
+              });
+            }}
+          >
+            {val}
+          </a>
+        );
+      },
     },
 
     {
@@ -188,10 +230,10 @@ function WorkPlan() {
       key: "personName",
       render: (val, { personId }) => {
         return (
-          <Button
-            type="link"
+          <a
             onClick={() => {
               setOperateId(personId);
+              setOperateTxt(val);
               setDrawerVis({
                 ...drawerVis,
                 linkman: true,
@@ -199,27 +241,22 @@ function WorkPlan() {
             }}
           >
             {val}
-          </Button>
+          </a>
         );
       },
     },
 
     {
-      title: "费用",
+      title: "实际费用",
       dataIndex: "fee",
       key: "fee",
+      sorter: true,
     },
     // {
     //   title: "任务主题",
     //   dataIndex: "subject",
     //   key: "subject",
     // },
-
-    {
-      title: "联系人电话",
-      dataIndex: "personPhone",
-      key: "personPhone",
-    },
 
     {
       title: "创建时间",
@@ -230,7 +267,7 @@ function WorkPlan() {
       title: "OA推送状态",
       dataIndex: "isSync",
       key: "isSync",
-      render: (val) => (val ? "是" : "否"),
+      render: (val) => (val ? "已同步" : "未同步"),
     },
 
     // {
@@ -286,10 +323,11 @@ function WorkPlan() {
       page: pageMsg.pagination.current,
       size: pageMsg.pagination.pageSize,
       sort: pageMsg?.order
-        ? [pageMsg?.columnKey, pageMsg?.order.substring(0, 3)]
+        ? [`${pageMsg?.columnKey},${pageMsg?.order}`]
         : undefined,
       data: {
         ...values,
+        userIdList: userId,
         typeIdList: pageMsg?.filters?.typeName,
         statusList: pageMsg?.filters?.status,
       },
@@ -340,7 +378,7 @@ function WorkPlan() {
 
   const handleTableChange = (pagination, filters, sorter, extra) => {
     // if filters not changed, don't update pagination.current
-
+    console.log(sorter);
     setPagemsg({
       pagination,
       filters,
@@ -382,30 +420,20 @@ function WorkPlan() {
     );
   };
 
-  const openTaskDrawer = (id) => {
-    setOperateId(id);
-    setDrawerVis({
-      ...drawerVis,
-      task: true,
-    });
-  };
-
   return (
     <div>
       <PageHeader className="site-page-header" title="销售计划" />
       <div className="search">
         <Form layout="inline" form={searchForm} onFinish={search}>
-          <Form.Item label="" name="name">
+          {/* <Form.Item label="" name="name">
             <Input
               placeholder="请输入商机名称、任务编号、任务名称、客户公司"
               style={{ width: 300 }}
               // value={searchVal}
             />
-          </Form.Item>
-          <Form.Item label="" name="time">
-            <RangePicker />
-          </Form.Item>
-          <Form.Item label="" name="deptIdList">
+          </Form.Item> */}
+
+          {/* <Form.Item label="" name="deptIdList">
             <TreeSelect
               style={{ width: "180px" }}
               fieldNames={{
@@ -431,12 +459,12 @@ function WorkPlan() {
               mode="multiple"
               maxTagCount="responsive"
             />
-          </Form.Item>
+          </Form.Item> */}
           <Form.Item label="" name="statusList">
             <Select
               style={{ width: 200 }}
               options={activeData}
-              placeholder="状态"
+              placeholder="类型"
               fieldNames={{
                 label: "text",
                 value: "id",
@@ -459,6 +487,9 @@ function WorkPlan() {
               placeholder="状态"
             />
           </Form.Item>
+          <Form.Item label="" name="time">
+            <RangePicker />
+          </Form.Item>
           <Form.Item>
             <Space>
               <Button type="primary" htmlType="submit">
@@ -476,18 +507,27 @@ function WorkPlan() {
               {selectedRowKeys.length === 1 ? (
                 <Button onClick={handleEdit}>编辑</Button>
               ) : null}
+              <Button
+                type="link"
+                onClick={showPeopleTree}
+                icon={<EyeOutlined />}
+                style={{ color: "#000000E0" }}
+              >
+                按人员
+              </Button>
             </Space>
           </Form.Item>
         </Form>
       </div>
       <Table
         columns={columns}
-        rowSelection={rowSelection}
+        // rowSelection={rowSelection}
         dataSource={data}
         loading={loading}
         pagination={pageMsg.pagination}
         rowKey={(record) => record.id}
         onChange={handleTableChange}
+        scroll={{ x: columns.length * 150 }}
         title={() => (
           <div style={{ textAlign: "right", fontSize: "12px" }}>
             共{pageMsg.pagination.total}项数据，任务费用{" "}
@@ -529,6 +569,7 @@ function WorkPlan() {
             })
           }
           id={operateId}
+          title={operateTxt}
         />
       )}
 
@@ -543,6 +584,7 @@ function WorkPlan() {
             })
           }
           id={operateId}
+          title={operateTxt}
         />
       )}
       {drawerVis.linkman && (
@@ -556,8 +598,24 @@ function WorkPlan() {
             })
           }
           id={operateId}
+          title={operateTxt}
         />
       )}
+      {drawerVis.customer && (
+        <DrawerCustomer
+          width="800"
+          visible={drawerVis.customer}
+          onClose={() =>
+            setDrawerVis({
+              ...drawerVis,
+              customer: false,
+            })
+          }
+          id={operateId}
+          title={operateTxt}
+        />
+      )}
+      <StaffTree open={treeVis} getRowSelected={getRowSelected} />
     </div>
   );
 }

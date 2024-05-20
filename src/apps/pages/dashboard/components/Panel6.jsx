@@ -42,7 +42,6 @@ function Panel6({ params }) {
 export default Panel6;
 
 function BarCharet({ params }) {
-  console.log(params);
   const [data, setData] = useState(null);
   useEffect(() => {
     if (params.filterBy && params.timeBy) {

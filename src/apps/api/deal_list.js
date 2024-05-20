@@ -177,13 +177,7 @@ export function productpage(data) {
   })
 }
 
-// 商机-日志记录 
-export function historypage(data) {
-  return _post({
-    url: `/api/deal/history/page`,
-    data
-  })
-}
+
 
 // 商机-合同
 export function contractpage(data) {

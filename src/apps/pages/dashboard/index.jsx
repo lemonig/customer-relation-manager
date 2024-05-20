@@ -82,11 +82,9 @@ function Dashboard() {
 
   const handleChange = (value) => {
     setValue(value);
-    console.log(`selected ${value}`);
   };
   const handleChange1 = (value) => {
     setValue1(value);
-    console.log(`selected ${value}`);
   };
 
   return (

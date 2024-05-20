@@ -14,17 +14,15 @@ const Tab1 = () => {
     customerGet({
       id,
     }).then((res) => {
-      if (res.success) {
-        setData(res.data);
-      }
+      setData(res.data);
     });
   };
 
   return (
-    <Descriptions title="">
+    <Descriptions title="User Info">
       <Descriptions.Item label="姓名">{data.name}</Descriptions.Item>
       <Descriptions.Item label="性别">
-        {data.gender ? "男" : " 女"}
+        {data.gender ? "男" : "女"}
       </Descriptions.Item>
       <Descriptions.Item label="联系电话" span={2}>
         {data.phone}

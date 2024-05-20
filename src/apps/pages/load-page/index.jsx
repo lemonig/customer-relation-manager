@@ -59,7 +59,6 @@ const LoadPage = () => {
   const getUserInfo = async () => {
     const { data } = await owner();
     if (data) {
-      console.log(data);
       dispatch(SET_USER(data));
       localStorage.setItem("user", JSON.stringify(data));
     }
