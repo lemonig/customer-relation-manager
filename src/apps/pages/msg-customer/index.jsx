@@ -63,7 +63,7 @@ function MsgCustomer() {
     customerInfo({
       page: pageMsg.pagination.current,
       size: pageMsg.pagination.pageSize,
-      sort: [pageMsg.field, pageMsg.order],
+      sort: pageMsg.order ? [`${pageMsg.field},${pageMsg.order}`] : undefined,
       data: {
         name: searchVal,
       },

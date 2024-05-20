@@ -65,9 +65,7 @@ function WorkPlan() {
   let navigate = useNavigate();
 
   useEffect(() => {
-    getSalesmanList();
     getActiveData();
-    getDeptList();
   }, []);
   useEffect(() => {
     getPageData();
@@ -91,11 +89,8 @@ function WorkPlan() {
   const getActiveData = async () => {
     setLoading(true);
     let { data } = await activeList();
-    let list = data.map((item) => ({
-      text: item.name,
-      value: item.id,
-    }));
-    setActiveData(list);
+
+    setActiveData(data);
   };
   //转变完成状态
   const handleChangeOver = async (id, val) => {
@@ -314,22 +309,23 @@ function WorkPlan() {
   const getPageData = () => {
     setLoading(true);
     let values = searchForm.getFieldsValue();
+    console.log(values);
     if (Array.isArray(values?.time) && values?.time.length > 0) {
       values.beginTime = moment(values.time[0]).format("YYYYMMDD");
       values.endTime = moment(values.time[1]).format("YYYYMMDD");
     }
     if (values.deptIdList) values.deptIdList = [values.deptIdList];
+    if (values.statusList) values.statusList = [values.statusList];
+    if (values.typeIdList) values.typeIdList = [values.typeIdList];
     actPage({
       page: pageMsg.pagination.current,
       size: pageMsg.pagination.pageSize,
-      sort: pageMsg?.order
-        ? [`${pageMsg?.columnKey},${pageMsg?.order}`]
-        : undefined,
+      sort: pageMsg.order ? [`${pageMsg.field},${pageMsg.order}`] : undefined,
       data: {
         ...values,
         userIdList: userId,
-        typeIdList: pageMsg?.filters?.typeName,
-        statusList: pageMsg?.filters?.status,
+        // typeIdList: pageMsg?.filters?.typeName,
+        // statusList: pageMsg?.filters?.status,
       },
     }).then((res) => {
       setData(res.data);
@@ -422,7 +418,7 @@ function WorkPlan() {
 
   return (
     <div>
-      <PageHeader className="site-page-header" title="销售计划" />
+      <PageHeader className="site-page-header" title="任务" />
       <div className="search">
         <Form layout="inline" form={searchForm} onFinish={search}>
           {/* <Form.Item label="" name="name">
@@ -460,13 +456,13 @@ function WorkPlan() {
               maxTagCount="responsive"
             />
           </Form.Item> */}
-          <Form.Item label="" name="statusList">
+          <Form.Item label="" name="typeIdList">
             <Select
               style={{ width: 200 }}
               options={activeData}
               placeholder="类型"
               fieldNames={{
-                label: "text",
+                label: "name",
                 value: "id",
               }}
             />
@@ -508,12 +504,11 @@ function WorkPlan() {
                 <Button onClick={handleEdit}>编辑</Button>
               ) : null}
               <Button
-                type="link"
+                type="text"
                 onClick={showPeopleTree}
                 icon={<EyeOutlined />}
-                style={{ color: "#000000E0" }}
               >
-                按人员
+                按人员筛选
               </Button>
             </Space>
           </Form.Item>

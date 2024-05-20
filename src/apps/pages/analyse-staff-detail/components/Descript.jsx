@@ -33,7 +33,7 @@ function Desript() {
 
   const $descLabel = (val) => (
     <>
-      <span>{val.label}</span>
+      <span style={{ marginRight: "5px" }}>{val.label}</span>
       <Tooltip title={val.description}>
         <span style={{ fontSize: "14px", cursor: "pointer" }}>
           <InfoCircleFilled style={{ color: "rgba(0,0,0,0.4)" }} />

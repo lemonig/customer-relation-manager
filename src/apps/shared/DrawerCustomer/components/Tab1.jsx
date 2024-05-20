@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import { customerGet } from "@Api/info_customer";
+import { organizationGet } from "@Api/info_company";
 import { Descriptions, Image } from "antd";
 import { Context } from "../index";
 
@@ -11,10 +11,11 @@ const Tab1 = () => {
     getPageData();
   }, []);
   const getPageData = () => {
-    customerGet({
+    organizationGet({
       id,
     }).then((res) => {
-      setData(res.data);
+      console.log(res);
+      if (res.success) setData(res.data);
     });
   };
 

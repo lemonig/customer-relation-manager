@@ -70,8 +70,8 @@ function Table1() {
   };
   const $title = () => (
     <>
-      <span>停滞商机</span>
-      <Tooltip title="在某个销售阶段停留时间过长的进行汇商机，按进入销售阶段的时间排序">
+      <span className="margin-right-5">停滞商机</span>
+      <Tooltip title="在某个销售阶段停留时间过长的进行中商机，按进入销售阶段的时间排序">
         <span style={{ fontSize: "14px", cursor: "pointer" }}>
           <InfoCircleFilled style={{ color: "rgba(0,0,0,0.4)" }} />
         </span>

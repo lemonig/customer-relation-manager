@@ -70,7 +70,7 @@ function Table1() {
   };
   const $title = () => (
     <>
-      <span>商机推进</span>
+      <span className="margin-right-5">商机推进</span>
       <Tooltip title="进行中商机里，发生销售阶段变化的商机，按变化时间排序">
         <span style={{ fontSize: "14px", cursor: "pointer" }}>
           <InfoCircleFilled style={{ color: "rgba(0,0,0,0.4)" }} />

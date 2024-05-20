@@ -200,7 +200,7 @@ function Index({ open, getRowSelected, defaultId, url }) {
           open={open}
           onOk={() => getRowSelected(true, selectedRowKeys)}
           onCancel={() => getRowSelected(false)}
-          width={800}
+          width={600}
           destroyOnClose
           bodyStyle={{
             padding: "8px",
@@ -262,6 +262,7 @@ function Index({ open, getRowSelected, defaultId, url }) {
                 />
               </Content>
             </Layout>
+            <div>已选：{selectedRowKeys.length}人</div>
           </div>
         </Modal>
       )}

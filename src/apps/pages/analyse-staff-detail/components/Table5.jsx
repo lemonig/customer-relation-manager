@@ -69,7 +69,7 @@ function Table1() {
   };
   const $title = () => (
     <>
-      <span>商机赢单</span>
+      <span className="margin-right-5">商机赢单</span>
       <Tooltip title="历史赢单商机，按赢单时间排序">
         <span style={{ fontSize: "14px", cursor: "pointer" }}>
           <InfoCircleFilled style={{ color: "rgba(0,0,0,0.4)" }} />

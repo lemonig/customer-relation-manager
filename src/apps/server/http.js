@@ -29,6 +29,9 @@ axios.interceptors.response.use(
         window.location.href = window.location.origin + "/loading";
       } else if (response.data.code === 403) {
       }
+      else if (!response.data.success) {
+        return Promise.reject(response);
+      }
       return Promise.resolve(response);
     } else {
       message.error(response.data.message);
@@ -50,7 +53,7 @@ axios.interceptors.response.use(
           message.error("403");
           window.location.href = window.location.origin + "/403";
 
-          setTimeout(() => {}, 1000);
+          setTimeout(() => { }, 1000);
           break;
         case 404:
           message.error("404");
@@ -84,6 +87,7 @@ export const _get = ({ url, params }) => {
         rlv(res);
       })
       .catch((err) => {
+        message.error(err.message)
         rej(err);
       });
   });
@@ -104,6 +108,9 @@ export const _post = ({ url, data }) => {
         rlv(res.data);
       })
       .catch((err) => {
+        console.log(err);
+
+        message.error('error code:' + err.data.code + '   ' + err.data.message)
         rej(err.data);
       });
   });

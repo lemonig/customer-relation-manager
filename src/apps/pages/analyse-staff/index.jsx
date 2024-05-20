@@ -206,13 +206,8 @@ function DealList() {
             <Button type="primary" htmlType="submit">
               查询
             </Button>
-            <Button
-              type="link"
-              onClick={showPeopleTree}
-              icon={<EyeOutlined />}
-              style={{ color: "#000000E0" }}
-            >
-              按人员
+            <Button type="text" onClick={showPeopleTree} icon={<EyeOutlined />}>
+              按人员筛选
             </Button>
           </Form.Item>
         </Form>

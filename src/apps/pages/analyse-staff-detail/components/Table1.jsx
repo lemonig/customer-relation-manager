@@ -101,7 +101,7 @@ function Table1() {
 
   const $title = () => (
     <>
-      <span>任务费用对商机贡献分析</span>
+      <span className="margin-right-5">任务费用对商机贡献分析</span>
       <Tooltip
         title="当年完成的带费用的任务(按开始时间发生年份为当
 年)，对商机阶段推进的贡献分析，查看不同商机阶段

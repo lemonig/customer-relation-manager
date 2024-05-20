@@ -307,9 +307,7 @@ function TaskView() {
     activityOverview({
       page: pageMsg.pagination.current,
       size: pageMsg.pagination.pageSize,
-      sort: pageMsg?.order
-        ? [pageMsg?.columnKey, pageMsg?.order.substring(0, 3)]
-        : undefined,
+      sort: pageMsg.order ? [`${pageMsg.field},${pageMsg.order}`] : undefined,
       data: {
         ...values,
         typeIdList: pageMsg?.filters?.typeName,

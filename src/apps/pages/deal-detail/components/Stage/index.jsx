@@ -8,13 +8,15 @@ function Stage({ msg, detail }) {
           {msg.map((item) => (
             <li key={item.id} className={item.isShow ? `active` : ""}>
               <div className="stage-content">
-                <span className="stagename">{item.days}天</span>
+                <span className="stagename">
+                  {item.name + " " + item.days}天
+                </span>
                 <span className="stage-arrow"></span>
               </div>
             </li>
           ))}
         </ul>
-        <span className="text">{detail.name}</span>
+        {/* <span className="text">{detail.name}</span> */}
       </div>
     )
   );

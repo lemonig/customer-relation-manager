@@ -31,7 +31,12 @@ function Index(props) {
     <DealContext.Provider value={props.id}>
       <SdDrawer
         {...props}
-        title={<PageHeader className="site-page-header" title={props.title} />}
+        title={
+          <PageHeader
+            className="site-page-header"
+            title={"商机-" + props.title}
+          />
+        }
       >
         <Tabs
           defaultActiveKey="1"
