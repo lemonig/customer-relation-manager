@@ -35,7 +35,7 @@ function Index({ open, getRowSelected, defaultId, url }) {
   const [pageMsg, setPagemsg] = useState({
     pagination: {
       current: 1,
-      pageSize: 10,
+      pageSize: 1000,
     },
   });
   const [searchVal, setSearchVal] = useState("");
@@ -211,7 +211,7 @@ function Index({ open, getRowSelected, defaultId, url }) {
               <Sider
                 style={{
                   background: "#fff",
-                  height: "600px",
+                  height: "550px",
                   overflow: "auto",
                 }}
                 width="240"
@@ -230,7 +230,6 @@ function Index({ open, getRowSelected, defaultId, url }) {
                   {treeData.length > 0 && (
                     <Tree
                       blockNode
-                      defaultExpandAll={true}
                       // defaultExpandedKeys={[0, 1, 2]}
                       // defaultSelectedKeys={[0]}
                       switcherIcon={<CaretDownOutlined />}
@@ -257,8 +256,9 @@ function Index({ open, getRowSelected, defaultId, url }) {
                   bordered
                   rowSelection={rowSelection}
                   dataSource={data}
-                  pagination={pageMsg.pagination}
+                  pagination={false}
                   onChange={handleTableChange}
+                  scroll={{ y: 500 }}
                 />
               </Content>
             </Layout>

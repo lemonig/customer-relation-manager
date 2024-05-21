@@ -439,7 +439,10 @@ function TaskView() {
         scroll={{
           x: (columns.length - 1) * 150,
         }}
-        pagination={pageMsg.pagination}
+        pagination={{
+          showSizeChanger: true,
+          ...pageMsg.pagination,
+        }}
         rowKey={(record) => record.id}
         onChange={handleTableChange}
         title={() => (

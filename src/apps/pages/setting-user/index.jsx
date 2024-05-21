@@ -475,7 +475,10 @@ function Staff() {
               bordered
               rowSelection={rowSelection}
               dataSource={data}
-              pagination={pageMsg.pagination}
+              pagination={{
+                showSizeChanger: true,
+                ...pageMsg.pagination,
+              }}
               onChange={handleTableChange}
             />
           </Content>

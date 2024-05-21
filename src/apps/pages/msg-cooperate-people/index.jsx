@@ -257,7 +257,10 @@ function MsgCoopratePeople() {
         columns={columns}
         dataSource={data}
         loading={loading}
-        pagination={pageMsg.pagination}
+        pagination={{
+          showSizeChanger: true,
+          ...pageMsg.pagination,
+        }}
         rowKey={(record) => record.id}
         onChange={handleTableChange}
       />

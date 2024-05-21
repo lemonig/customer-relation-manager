@@ -22,9 +22,7 @@ import Summary from "./components/Summary";
 const { Option } = Select;
 
 function MsgCooprate() {
-  const onChange = (key) => {
-    console.log(key);
-  };
+  const onChange = (key) => {};
   const items = [
     {
       key: "1",

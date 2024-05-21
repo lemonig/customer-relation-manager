@@ -23,7 +23,6 @@ axios.interceptors.request.use(
 
 axios.interceptors.response.use(
   (response) => {
-    console.log(response);
     store.dispatch(SHIFT_LOADING());
     if (response.data && response.status === 200) {
       if (response.data.code === 401) {
@@ -43,7 +42,6 @@ axios.interceptors.response.use(
   (error) => {
     SHIFT_LOADING();
     if (error.response.status) {
-      console.log(error);
       switch (error.response.status) {
         case 401:
           message.error("401");
@@ -109,7 +107,6 @@ export const _post = ({ url, data }) => {
         rlv(res.data);
       })
       .catch((err) => {
-        console.log(err);
 
         message.error('error code:' + err.data.code + '   ' + err.data.message)
         rej(err.data);

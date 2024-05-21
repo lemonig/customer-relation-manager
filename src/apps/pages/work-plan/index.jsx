@@ -309,7 +309,6 @@ function WorkPlan() {
   const getPageData = () => {
     setLoading(true);
     let values = searchForm.getFieldsValue();
-    console.log(values);
     if (Array.isArray(values?.time) && values?.time.length > 0) {
       values.beginTime = moment(values.time[0]).format("YYYYMMDD");
       values.endTime = moment(values.time[1]).format("YYYYMMDD");
@@ -374,7 +373,6 @@ function WorkPlan() {
 
   const handleTableChange = (pagination, filters, sorter, extra) => {
     // if filters not changed, don't update pagination.current
-    console.log(sorter);
     setPagemsg({
       pagination,
       filters,
@@ -461,6 +459,7 @@ function WorkPlan() {
               style={{ width: 200 }}
               options={activeData}
               placeholder="类型"
+              allowClear
               fieldNames={{
                 label: "name",
                 value: "id",
@@ -470,9 +469,10 @@ function WorkPlan() {
           <Form.Item label="" name="statusList">
             <Select
               style={{ width: 200 }}
+              allowClear
               options={[
                 {
-                  label: "代办",
+                  label: "待办",
                   value: "1",
                 },
                 {
@@ -519,7 +519,10 @@ function WorkPlan() {
         // rowSelection={rowSelection}
         dataSource={data}
         loading={loading}
-        pagination={pageMsg.pagination}
+        pagination={{
+          showSizeChanger: true,
+          ...pageMsg.pagination,
+        }}
         rowKey={(record) => record.id}
         onChange={handleTableChange}
         scroll={{ x: columns.length * 150 }}

@@ -14,7 +14,6 @@ const Tab1 = () => {
     organizationGet({
       id,
     }).then((res) => {
-      console.log(res);
       if (res.success) setData(res.data);
     });
   };
