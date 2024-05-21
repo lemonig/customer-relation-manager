@@ -53,13 +53,13 @@ function Index({ open, getRowSelected, defaultId, url }) {
   // 获取部门
   const getDeptList = async () => {
     let { data } = await deptList();
-    data[0].icon = <IconFont iconName="gongsi1" size="18" />; //加icon
+    let temp = data.find(({ id }) => id == 1);
     let res = arrayToTree(data);
-
+    res[0].icon = <IconFont iconName="gongsi1" size="18" />; //加icon
     setTreeData(res);
     setDeptData(data);
-    setSelectTreeId([data[0].id]);
-    setSelectTree(data[0]);
+    setSelectTreeId([temp.id]);
+    setSelectTree(temp);
   };
   useEffect(() => {
     if (selectTreeId.length > 0) getUserData();
@@ -124,14 +124,7 @@ function Index({ open, getRowSelected, defaultId, url }) {
     {
       title: "姓名",
       key: "nickname",
-      render: (row) => {
-        return (
-          <Space>
-            {row.nickname}
-            {row.isDeptOwner ? <Tag color="warning">负责人</Tag> : null}
-          </Space>
-        );
-      },
+      dataIndex: "nickname",
     },
     {
       title: "状态",

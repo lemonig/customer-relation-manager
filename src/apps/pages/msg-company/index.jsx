@@ -16,7 +16,7 @@ import { tianyancha } from "@Api/public.js";
 import { ExclamationCircleOutlined } from "@ant-design/icons";
 import { organize } from "@Utils/data";
 import FormComy from "./components/FormComy";
-
+import DrawerCustomer from "@Shared/DrawerCustomer";
 const { Option } = Select;
 
 function MsgCompany() {
@@ -32,7 +32,11 @@ function MsgCompany() {
   const [searchVal, setSearchVal] = useState("");
   const [selectVal, setSelectVal] = useState("");
   const [data, setData] = useState([]);
-
+  const [drawerVis, setDrawerVis] = useState({
+    customer: false,
+  });
+  const [operateId, setOperateId] = useState(null);
+  const [operateTxt, setOperateTxt] = useState(null);
   useEffect(() => {
     getPageData();
   }, [JSON.stringify(pageMsg)]);
@@ -64,7 +68,7 @@ function MsgCompany() {
       sort: pageMsg.order ? [`${pageMsg.field},${pageMsg.order}`] : undefined,
       data: {
         name: searchVal,
-        orgType: selectVal,
+        // orgType: selectVal,
       },
     }).then((res) => {
       setData(res.data);
@@ -129,6 +133,22 @@ function MsgCompany() {
       dataIndex: "name",
       key: "name",
       fixed: "left",
+      render: (val, { id: orgId }) => {
+        return (
+          <a
+            onClick={() => {
+              setOperateId(orgId);
+              setOperateTxt(val);
+              setDrawerVis({
+                ...drawerVis,
+                customer: true,
+              });
+            }}
+          >
+            {val}
+          </a>
+        );
+      },
     },
     {
       title: "省份",
@@ -289,19 +309,7 @@ function MsgCompany() {
             // value={searchVal}
             onChange={handleInputChange}
           />
-          <Select
-            style={{ width: 120 }}
-            onChange={handleSelectChange}
-            options={[
-              {
-                label: "全部",
-                value: "",
-              },
-              ...organize,
-            ]}
-            placeholder="机构类型"
-            allowClear
-          />
+
           <Button type="primary" onClick={search}>
             查询
           </Button>
@@ -321,10 +329,29 @@ function MsgCompany() {
         scroll={{
           x: columns.length * 150,
         }}
+        title={() => (
+          <div style={{ textAlign: "right", fontSize: "12px" }}>
+            共{pageMsg.pagination.total}项数据
+          </div>
+        )}
       />
       {/* 弹出表单 */}
       {isModalOpen && (
         <FormComy open={isModalOpen} closeModal={closeModal} record={operate} />
+      )}
+      {drawerVis.customer && (
+        <DrawerCustomer
+          width="800"
+          visible={drawerVis.customer}
+          onClose={() =>
+            setDrawerVis({
+              ...drawerVis,
+              customer: false,
+            })
+          }
+          id={operateId}
+          title={operateTxt}
+        />
       )}
     </div>
   );

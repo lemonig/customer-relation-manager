@@ -37,7 +37,10 @@ import { CanvasRenderer } from "echarts/renderers";
 import { arrayToTree } from "@Utils/util";
 import { useDispatch, useSelector } from "react-redux";
 import { SAVE_FORM, DELETE_FORM } from "@Store/features/searchFormSlice.js";
+import DrawerDeal from "@Shared/DrawerDeal";
 import "./index.less";
+import StaffTree from "@Shared/StaffTree";
+import { EyeOutlined } from "@ant-design/icons";
 
 const { RangePicker } = DatePicker;
 echarts.use([
@@ -49,6 +52,7 @@ echarts.use([
   LegendComponent,
 ]);
 function DealList() {
+  const [treeVis, setTreeVis] = useState(false);
   const [searchForm] = Form.useForm();
   const [loading, setLoading] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -64,20 +68,29 @@ function DealList() {
       pageSize: 10,
     },
   });
+  const [drawerVis, setDrawerVis] = useState({
+    deal: false,
+  });
+  const [operateId, setOperateId] = useState(null);
+  const [operateTxt, setOperateTxt] = useState(null);
+  const [userId, setUserId] = useState([]);
+
   let navigate = useNavigate();
   const dispatch = useDispatch();
   let resolvedPath = useResolvedPath();
   const { form: preForm } = useSelector((state) => state.searchSlice);
 
   useEffect(() => {
-    getSalesmanList();
-    getDeptList();
+    // getSalesmanList();
+    // getDeptList();
   }, []);
 
   useEffect(() => {
     getPageData();
   }, [pageMsg.pagination.current, pageMsg.pagination.pageSize]);
-
+  useEffect(() => {
+    getPageData();
+  }, [userId]);
   // useEffect(() => {
   //   const unlisten = navigate.listen((location, action) => {
   //     if (action === "POP") {
@@ -126,14 +139,15 @@ function DealList() {
       values.beginTime = moment(values.time[0]).format("YYYYMMDD");
       values.endTime = moment(values.time[1]).format("YYYYMMDD");
     }
-    if (values.deptIdList) values.deptIdList = [values.deptIdList];
-    if (values.userIdList) values.userIdList = [values.userIdList];
     if (values.valueList) values.valueList = values.valueList.split(",");
     values.pipelineId = 1;
     dealPage({
       page: pageMsg.pagination.current,
       size: pageMsg.pagination.pageSize,
-      data: values,
+      data: {
+        ...values,
+        userIdList: userId,
+      },
     }).then((res) => {
       setData(res.data);
       setLoading(false);
@@ -163,16 +177,22 @@ function DealList() {
       title: "商机编号",
       dataIndex: "code",
       key: "code",
-      render: (value, record) => (
-        <Space>
-          <a>{value}</a>
-        </Space>
-      ),
-      onCell: (record) => ({
-        onClick: (event) => {
-          gotoDealDetail(record.id);
-        },
-      }),
+      render: (val, { id: dealId }) => {
+        return (
+          <a
+            onClick={() => {
+              setOperateId(dealId);
+              setOperateTxt(val);
+              setDrawerVis({
+                ...drawerVis,
+                deal: true,
+              });
+            }}
+          >
+            {val}
+          </a>
+        );
+      },
     },
     {
       title: "商机名称",
@@ -480,7 +500,16 @@ function DealList() {
   const handleChartChange = (e) => {
     setChartVis(e.target.checked);
   };
+  const showPeopleTree = () => {
+    setTreeVis(true);
+  };
 
+  const getRowSelected = (flag, val) => {
+    setTreeVis(false);
+    if (flag) {
+      setUserId(val);
+    }
+  };
   return (
     <div className="deal-page">
       <PageHeader className="site-page-header" title="商机列表" />
@@ -497,32 +526,6 @@ function DealList() {
             <RangePicker />
           </Form.Item>
 
-          <Form.Item label="" name="deptIdList">
-            <TreeSelect
-              style={{ width: "180px" }}
-              fieldNames={{
-                label: "label",
-                value: "key",
-              }}
-              treeData={deptList}
-              dropdownStyle={{ maxHeight: 400, overflow: "auto" }}
-              placeholder="选择部门"
-              allowClear
-              treeDefaultExpandAll
-            />
-          </Form.Item>
-          <Form.Item label="" name="userIdList">
-            <Select
-              style={{ width: 120 }}
-              options={salerList}
-              placeholder="销售人员"
-              fieldNames={{
-                label: "name",
-                value: "id",
-              }}
-              allowClear
-            />
-          </Form.Item>
           <Form.Item label="" name="valueList">
             <Select
               style={{ width: 120 }}
@@ -584,6 +587,9 @@ function DealList() {
               <Button onClick={handleAdd}>新建</Button>
             </BtnAuth>
           </Form.Item>
+          <Button type="text" onClick={showPeopleTree} icon={<EyeOutlined />}>
+            按人员筛选
+          </Button>
         </Form>
         <Checkbox onChange={handleChartChange}>隐藏统计</Checkbox>
       </div>
@@ -651,6 +657,21 @@ function DealList() {
       {isModalOpen && (
         <DealForm isModalOpen={isModalOpen} closeModal={closeModal} />
       )}
+      {drawerVis.deal && (
+        <DrawerDeal
+          width="800"
+          visible={drawerVis.deal}
+          onClose={() =>
+            setDrawerVis({
+              ...drawerVis,
+              deal: false,
+            })
+          }
+          id={operateId}
+          title={operateTxt}
+        />
+      )}
+      <StaffTree open={treeVis} getRowSelected={getRowSelected} />
     </div>
   );
 }

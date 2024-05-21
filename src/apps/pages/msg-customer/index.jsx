@@ -21,6 +21,7 @@ import {
 } from "@Api/info_customer.js";
 import { ExclamationCircleOutlined, DownOutlined } from "@ant-design/icons";
 import FormCum from "./components/FormCum";
+import DrawerCustomer from "@Shared/DrawerCustomer";
 const { Option } = Select;
 
 function MsgCustomer() {
@@ -35,7 +36,11 @@ function MsgCustomer() {
   });
   const [searchVal, setSearchVal] = useState("");
   const [data, setData] = useState([]);
-
+  const [drawerVis, setDrawerVis] = useState({
+    customer: false,
+  });
+  const [operateId, setOperateId] = useState(null);
+  const [operateTxt, setOperateTxt] = useState(null);
   useEffect(() => {
     getPageData();
   }, [JSON.stringify(pageMsg)]);
@@ -125,11 +130,31 @@ function MsgCustomer() {
       title: "姓名",
       dataIndex: "name",
       key: "name",
+      fixed: "left",
+      width: 100,
     },
     {
       title: "客户",
       dataIndex: "orgName",
       key: "orgName",
+      fixed: "left",
+      width: 200,
+      render: (val, { orgId }) => {
+        return (
+          <a
+            onClick={() => {
+              setOperateId(orgId);
+              setOperateTxt(val);
+              setDrawerVis({
+                ...drawerVis,
+                customer: true,
+              });
+            }}
+          >
+            {val}
+          </a>
+        );
+      },
     },
     {
       title: "手机",
@@ -291,10 +316,32 @@ function MsgCustomer() {
         }}
         rowKey={(record) => record.id}
         onChange={handleTableChange}
+        scroll={{
+          x: columns.length * 150,
+        }}
+        title={() => (
+          <div style={{ textAlign: "right", fontSize: "12px" }}>
+            共{pageMsg.pagination.total}项数据
+          </div>
+        )}
       />
       {/* 弹出表单 */}
       {isModalOpen && (
         <FormCum open={isModalOpen} closeModal={closeModal} record={operate} />
+      )}
+      {drawerVis.customer && (
+        <DrawerCustomer
+          width="800"
+          visible={drawerVis.customer}
+          onClose={() =>
+            setDrawerVis({
+              ...drawerVis,
+              customer: false,
+            })
+          }
+          id={operateId}
+          title={operateTxt}
+        />
       )}
     </div>
   );

@@ -82,16 +82,6 @@ function DealList() {
       setOtherdata(res.additional_data.totalList);
       setLoading(false);
       let temp = [
-        {
-          title: "序号",
-          key: "index",
-          width: 60,
-          fixed: "left",
-          render: (_, record, index) =>
-            pageMsg.pagination.pageSize * (pageMsg.pagination.current - 1) +
-            index +
-            1,
-        },
         ...res.additional_data.columnList.map((item, idx) => ({
           fixed: idx == 0 ? "left" : false,
           title: function () {
@@ -218,7 +208,19 @@ function DealList() {
         scroll={{
           x: (column.length - 1) * 150 + 60,
         }}
-        columns={column}
+        columns={[
+          {
+            title: "序号",
+            key: "index",
+            width: 60,
+            fixed: "left",
+            render: (_, record, index) =>
+              pageMsg.pagination.pageSize * (pageMsg.pagination.current - 1) +
+              index +
+              1,
+          },
+          ...column,
+        ]}
         dataSource={data}
         loading={loading}
         pagination={{
@@ -227,6 +229,11 @@ function DealList() {
         }}
         rowKey={(record) => record.id}
         onChange={handleTableChange}
+        title={() => (
+          <div style={{ textAlign: "right", fontSize: "12px" }}>
+            共{pageMsg.pagination.total}项数据
+          </div>
+        )}
         summary={() => (
           <Table.Summary fixed={"bottom"}>
             <Table.Summary.Row>

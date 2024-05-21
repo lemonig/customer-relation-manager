@@ -135,13 +135,13 @@ function Staff() {
   // 获取部门
   const getDeptList = async () => {
     let { data } = await deptList();
-    data[0].icon = <IconFont iconName="gongsi1" size="18" />; //加icon
+    let temp = data.find(({ id }) => id == 1);
     let res = arrayToTree(data);
-
+    res[0].icon = <IconFont iconName="gongsi1" size="18" />; //加icon
     setTreeData(res);
     setDeptData(data);
-    setSelectTreeId([data[0].id]);
-    setSelectTree(data[0]);
+    setSelectTreeId([temp.id]);
+    setSelectTree(temp);
   };
 
   useEffect(() => {

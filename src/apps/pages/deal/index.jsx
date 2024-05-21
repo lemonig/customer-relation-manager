@@ -22,9 +22,14 @@ import {
 import { saleList } from "@Api/set_sale";
 import moment from "moment";
 import { arrayToTree } from "@Utils/util";
+
+import StaffTree from "@Shared/StaffTree";
+import { EyeOutlined } from "@ant-design/icons";
+
 const { RangePicker } = DatePicker;
 
 function Deal() {
+  const [treeVis, setTreeVis] = useState(false);
   let [stageArr, setstageArr] = useState([]);
   const [stageMsg, setStageMsg] = useState(null);
   const [searchForm] = Form.useForm();
@@ -33,6 +38,8 @@ function Deal() {
   const [deptList, setDeptList] = useState([]);
   const [loading, setLoading] = useState(false);
 
+  const [userId, setUserId] = useState([]);
+
   useEffect(() => {
     getSalesmanList();
     getDeptList();
@@ -40,6 +47,9 @@ function Deal() {
       getPageData();
     });
   }, []);
+  useEffect(() => {
+    getPageData();
+  }, [userId]);
   const getPlpeline = async () => {
     setLoading(true);
     let { data } = await saleList();
@@ -67,11 +77,12 @@ function Deal() {
       values.beginTime = moment(values.time[0]).format("YYYYMMDD");
       values.endTime = moment(values.time[1]).format("YYYYMMDD");
     }
-    if (values.deptIdList) values.deptIdList = [values.deptIdList];
-    if (values.userIdList) values.userIdList = [values.userIdList];
     if (values.valueList) values.valueList = values.valueList.split(",");
     values.pipelineId = 1;
-    let { data } = await dealFunnel(values);
+    let { data } = await dealFunnel({
+      ...values,
+      userIdList: userId,
+    });
     setstageArr(data.detailCount);
     setStageMsg(data.totalCount);
     setLoading(false);
@@ -88,7 +99,16 @@ function Deal() {
       res.data.push(i);
     }
   };
+  const showPeopleTree = () => {
+    setTreeVis(true);
+  };
 
+  const getRowSelected = (flag, val) => {
+    setTreeVis(false);
+    if (flag) {
+      setUserId(val);
+    }
+  };
   return (
     <Spin spinning={loading}>
       <div className="search" style={{ marginBottom: "0px" }}>
@@ -121,32 +141,7 @@ function Deal() {
               options={pipeline}
             />
           </Form.Item> */}
-          <Form.Item label="" name="deptIdList">
-            <TreeSelect
-              style={{ width: "180px" }}
-              fieldNames={{
-                label: "label",
-                value: "key",
-              }}
-              treeData={deptList}
-              dropdownStyle={{ maxHeight: 400, overflow: "auto" }}
-              placeholder="选择部门"
-              allowClear
-              treeDefaultExpandAll
-            />
-          </Form.Item>
-          <Form.Item label="" name="userIdList">
-            <Select
-              style={{ width: 120 }}
-              options={salerList}
-              placeholder="销售人员"
-              fieldNames={{
-                label: "name",
-                value: "id",
-              }}
-              allowClear
-            />
-          </Form.Item>
+
           <Form.Item label="" name="valueList">
             <Select
               style={{ width: 120 }}
@@ -203,6 +198,9 @@ function Deal() {
               查询
             </Button>
           </Form.Item>
+          <Button type="text" onClick={showPeopleTree} icon={<EyeOutlined />}>
+            按人员筛选
+          </Button>
           {/* <Form.Item>
             <Button onClick={handleAdd}>新建</Button>
           </Form.Item> */}
@@ -246,6 +244,8 @@ function Deal() {
               ))}
           </div>
         </div>
+
+        <StaffTree open={treeVis} getRowSelected={getRowSelected} />
       </div>
     </Spin>
   );

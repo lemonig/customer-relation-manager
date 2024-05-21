@@ -142,6 +142,11 @@ function Index() {
         }}
         rowKey={(record) => record.id}
         onChange={handleTableChange}
+        title={() => (
+          <div style={{ textAlign: "right", fontSize: "12px" }}>
+            共{pageMsg.pagination.total}项数据
+          </div>
+        )}
       />
     </div>
   );

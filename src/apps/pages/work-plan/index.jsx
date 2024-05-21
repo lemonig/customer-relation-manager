@@ -32,7 +32,7 @@ import DrawerDeal from "@Shared/DrawerDeal";
 import DrawerLinkman from "@Shared/DrawerLinkman";
 import DrawerCustomer from "@Shared/DrawerCustomer";
 import StaffTree from "@Shared/StaffTree";
-import { InfoCircleFilled, EyeOutlined } from "@ant-design/icons";
+import { EyeOutlined } from "@ant-design/icons";
 const { RangePicker } = DatePicker;
 
 function WorkPlan() {

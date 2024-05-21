@@ -2,13 +2,15 @@ import { useDrag } from "react-dnd";
 import { ItemTypes } from "./ItemTypes.js";
 import IconFont from "@Components/IconFont";
 import SdTag from "@Components/SdTag";
+import React, { useEffect, useLayoutEffect, useState } from "react";
 import { Avatar, Image, Tag, Statistic } from "antd";
 import { useNavigate } from "react-router-dom";
+import DrawerDeal from "@Shared/DrawerDeal";
+
 import "./index.less";
 const style = {};
 
 export const Box = function Box({ data }) {
-  let navigate = useNavigate();
   // const [{ isDragging }, drag] = useDrag(() => ({
   //   type: ItemTypes.BOX,
   //   item: data,
@@ -24,6 +26,12 @@ export const Box = function Box({ data }) {
   //   }),
   // }));
   // const opacity = isDragging ? 0 : 1; //灵魂出窍时，本尊透明度
+
+  const [drawerVis, setDrawerVis] = useState({
+    deal: false,
+  });
+  const [operateId, setOperateId] = useState(null);
+  const [operateTxt, setOperateTxt] = useState(null);
   const getbgColor = () => {
     let color = "";
     switch (data.status) {
@@ -78,86 +86,103 @@ export const Box = function Box({ data }) {
     }
   };
 
-  const gotoDealDetail = () => {
-    navigate({
-      pathname: "/pipeline",
-      search: `?pipelineId=${data.id}`,
-    });
-  };
   return (
-    <div
-      // ref={drag}
-      style={{
-        ...style,
-        // opacity,
-        backgroundColor: getbgColor(),
-      }}
-      data-testid={`box`}
-      onClick={gotoDealDetail}
-    >
-      <div className="box-warp">
-        <div className="box-inner flex-row-base">
-          <div className="left">
-            <span className="title">{data?.title}</span>
-            <div>{data?.orgName}</div>
-            <div>
-              <span style={{ marginRight: "4px" }}>
-                {data.avatar ? (
-                  <Avatar
-                    shape="square"
-                    src={
-                      <Image
-                        src={data.avatar}
-                        style={{
-                          width: 32,
-                        }}
-                      />
-                    }
-                  />
-                ) : (
-                  <IconFont iconName="ren" size={18}></IconFont>
+    <>
+      <div
+        // ref={drag}
+        style={{
+          ...style,
+          // opacity,
+          backgroundColor: getbgColor(),
+        }}
+        data-testid={`box`}
+        onClick={() => {
+          setOperateId(data.id);
+          setOperateTxt(data.orgName);
+          setDrawerVis({
+            ...drawerVis,
+            deal: true,
+          });
+        }}
+      >
+        <div className="box-warp">
+          <div className="box-inner flex-row-base">
+            <div className="left">
+              <span className="title">{data?.title}</span>
+              <div>{data?.orgName}</div>
+              <div>
+                <span style={{ marginRight: "4px" }}>
+                  {data.avatar ? (
+                    <Avatar
+                      shape="square"
+                      src={
+                        <Image
+                          src={data.avatar}
+                          style={{
+                            width: 32,
+                          }}
+                        />
+                      }
+                    />
+                  ) : (
+                    <IconFont iconName="ren" size={18}></IconFont>
+                  )}
+                </span>
+                {data.ownerUserName}
+                {data.status == "1" || !data.status ? null : (
+                  <Tag
+                    color={getColor(data)}
+                    style={{ margin: "0 4px", borderRadius: "8px" }}
+                  >
+                    {data.statusName}
+                  </Tag>
                 )}
-              </span>
-              {data.ownerUserName}
-              {data.status == "1" || !data.status ? null : (
-                <Tag
-                  color={getColor(data)}
-                  style={{ margin: "0 4px", borderRadius: "8px" }}
-                >
-                  {data.statusName}
-                </Tag>
-              )}
-              {!data.stayDayCount ? null : (
-                <Tag
-                  color="#cf1322"
-                  style={{
-                    margin: "0 4px",
-                    borderRadius: "22px",
-                    fontSize: "10px",
-                    padding: "0 5px",
-                  }}
-                >
-                  {data.stayDayCount}d
-                </Tag>
-              )}
-              {/* <IconFont
+                {!data.stayDayCount ? null : (
+                  <Tag
+                    color="#cf1322"
+                    style={{
+                      margin: "0 4px",
+                      borderRadius: "22px",
+                      fontSize: "10px",
+                      padding: "0 5px",
+                    }}
+                  >
+                    {data.stayDayCount}d
+                  </Tag>
+                )}
+                {/* <IconFont
                 iconName="renminbi"
                 size={18}
                 color="#d48806"
               ></IconFont> */}
-              <Statistic
-                value={data?.value}
-                valueStyle={{ fontSize: "12px" }}
-                prefix={"￥"}
-                // suffix="元"
-              />
+                <Statistic
+                  value={data?.value}
+                  valueStyle={{ fontSize: "12px" }}
+                  prefix={"￥"}
+                  // suffix="元"
+                />
+              </div>
             </div>
-          </div>
-          <div className="flex-colum-base flex-align-center right">
-            <div className="flex-row-base icon-wrap">{getActiveIcon()}</div>
+            <div className="flex-colum-base flex-align-center right">
+              <div className="flex-row-base icon-wrap">{getActiveIcon()}</div>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+      {drawerVis.deal && (
+        <DrawerDeal
+          width="800"
+          visible={drawerVis.deal}
+          onClose={() =>
+            setDrawerVis({
+              ...drawerVis,
+              deal: false,
+            })
+          }
+          id={operateId}
+          title={operateTxt}
+        />
+      )}
+    </>
   );
 };
