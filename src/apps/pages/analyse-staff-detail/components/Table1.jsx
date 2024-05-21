@@ -15,7 +15,7 @@ import { useParams, NavLink } from "react-router-dom";
 import SdTitle from "@Components/SdTitle";
 import { InfoCircleFilled } from "@ant-design/icons";
 
-function Table1() {
+function Table1({ clickCallback }) {
   const [searchForm] = Form.useForm();
   const { id } = useParams();
   const [data, setData] = useState([]);
@@ -64,7 +64,7 @@ function Table1() {
           dataIndex: item.key,
           key: item.key,
           width: 150,
-          render: (value) => tableRender(value, flag),
+          render: (value) => tableRender(value, flag, clickCallback),
           sorter: item.sortable
             ? (a, b) => a[item.key]["value"] - b[item.key]["value"]
             : false,
@@ -205,7 +205,7 @@ function Table1() {
 }
 
 export default Table1;
-function tableRender(value, showTask) {
+function tableRender(value, showTask, clickCallback) {
   const dir = {
     赢单: "#389e0d",
     输单: "#ff4d4f",
@@ -216,7 +216,9 @@ function tableRender(value, showTask) {
   }
   if ("id" in value) {
     return (
-      <NavLink to={`/pipeline?pipelineId=${value.id}`}>{value.value}</NavLink>
+      <NavLink onClick={() => clickCallback(value.value, value.id)}>
+        {value.value}
+      </NavLink>
     );
   }
 

@@ -5,7 +5,7 @@ import { useParams, NavLink } from "react-router-dom";
 import SdTitle from "@Components/SdTitle";
 import { InfoCircleFilled } from "@ant-design/icons";
 
-function Table1() {
+function Table1({ clickCallback }) {
   const { id } = useParams();
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -47,7 +47,7 @@ function Table1() {
         title: item.label,
         dataIndex: item.key,
         key: item.key,
-        render: (value) => tableRender(value),
+        render: (value) => tableRender(value, clickCallback),
       })),
     ];
     setColumn(temp);
@@ -90,13 +90,15 @@ function Table1() {
 
 export default Table1;
 
-function tableRender(value) {
+function tableRender(value, clickCallback) {
   if (!value) {
     return "-";
   }
   if ("id" in value) {
     return (
-      <NavLink to={`/pipeline?pipelineId=${value.id}`}>{value.value}</NavLink>
+      <NavLink onClick={() => clickCallback(value.value, value.id)}>
+        {value.value}
+      </NavLink>
     );
   }
   return <>{<span>{value.value}</span>}</>;

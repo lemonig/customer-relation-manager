@@ -95,6 +95,16 @@ function Tab3({ id, word }) {
       dataIndex: "personName",
       key: "personName",
     },
+    {
+      title: "标题",
+      dataIndex: "subject",
+      key: "subject",
+    },
+    {
+      title: "纪要",
+      dataIndex: "description",
+      key: "description",
+    },
 
     {
       title: "创建时间",
