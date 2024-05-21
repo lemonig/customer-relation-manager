@@ -55,6 +55,8 @@ function Tab3({ id, word }) {
       title: "任务类型",
       dataIndex: "typeName",
       key: "typeName",
+      width: 100,
+      fixed: "left",
     },
     {
       title: "开始日期",
@@ -132,6 +134,7 @@ function Tab3({ id, word }) {
           showSizeChanger: true,
           ...pageMsg.pagination,
         }}
+        scroll={{ x: columns.length * 100 }}
         rowKey={(record) => record.id}
         onChange={handleTableChange}
         onHeaderCell={() => "onHeaderCell"}

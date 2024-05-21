@@ -22,6 +22,7 @@ import {
 import { ExclamationCircleOutlined, DownOutlined } from "@ant-design/icons";
 import FormCum from "./components/FormCum";
 import DrawerCustomer from "@Shared/DrawerCustomer";
+import DrawerLinkman from "@Shared/DrawerLinkman";
 const { Option } = Select;
 
 function MsgCustomer() {
@@ -132,6 +133,22 @@ function MsgCustomer() {
       key: "name",
       fixed: "left",
       width: 100,
+      render: (val, { id }) => {
+        return (
+          <a
+            onClick={() => {
+              setOperateId(id);
+              setOperateTxt(val);
+              setDrawerVis({
+                ...drawerVis,
+                linkman: true,
+              });
+            }}
+          >
+            {val}
+          </a>
+        );
+      },
     },
     {
       title: "客户",
@@ -337,6 +354,20 @@ function MsgCustomer() {
             setDrawerVis({
               ...drawerVis,
               customer: false,
+            })
+          }
+          id={operateId}
+          title={operateTxt}
+        />
+      )}
+      {drawerVis.linkman && (
+        <DrawerLinkman
+          width="800"
+          visible={drawerVis.linkman}
+          onClose={() =>
+            setDrawerVis({
+              ...drawerVis,
+              linkman: false,
             })
           }
           id={operateId}

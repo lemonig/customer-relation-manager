@@ -177,12 +177,12 @@ function DealList() {
       title: "商机编号",
       dataIndex: "code",
       key: "code",
-      render: (val, { id: dealId }) => {
+      render: (val, { id: dealId, title }) => {
         return (
           <a
             onClick={() => {
               setOperateId(dealId);
-              setOperateTxt(val);
+              setOperateTxt(title);
               setDrawerVis({
                 ...drawerVis,
                 deal: true,
