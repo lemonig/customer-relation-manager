@@ -62,7 +62,6 @@ function Tab3({ id, word }) {
       title: "开始日期",
       dataIndex: "startTime",
       key: "startTime",
-      sorter: true,
     },
     {
       title: "商机名称",

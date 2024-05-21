@@ -231,7 +231,7 @@ function DealList() {
         onChange={handleTableChange}
         title={() => (
           <div style={{ textAlign: "right", fontSize: "12px" }}>
-            共{pageMsg.pagination.total}项数据
+            共{data.length}项数据
           </div>
         )}
         summary={() => (

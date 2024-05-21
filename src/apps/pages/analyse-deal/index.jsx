@@ -15,6 +15,7 @@ import { useNavigate, NavLink } from "react-router-dom";
 import { saleList } from "@Api/set_sale";
 import { salesmanList } from "@Api/set_user";
 import { changeDealList } from "@Api/deal_list";
+import DrawerDeal from "@Shared/DrawerDeal";
 
 const { Option } = Select;
 
@@ -34,6 +35,11 @@ function AnalyseDeal() {
   const [deptList, setDeptList] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [columns, setColumns] = useState([]);
+  const [drawerVis, setDrawerVis] = useState({
+    deal: false,
+  });
+  const [operateId, setOperateId] = useState(null);
+  const [operateTxt, setOperateTxt] = useState(null);
 
   let navigate = useNavigate();
   useEffect(() => {
@@ -135,6 +141,30 @@ function AnalyseDeal() {
     });
   };
 
+  function tableRender(value) {
+    if (!value) {
+      return "-";
+    }
+
+    if (value.key == "key_2") {
+      return (
+        <NavLink
+          onClick={() => {
+            setOperateId(value.id);
+            setOperateTxt(value.value);
+            setDrawerVis({
+              ...drawerVis,
+              deal: true,
+            });
+          }}
+        >
+          {value.value}
+        </NavLink>
+      );
+    }
+    return <>{<span>{value.value}</span>}</>;
+  }
+
   return (
     <div>
       <PageHeader className="site-page-header" title="商机变化" />
@@ -215,31 +245,23 @@ function AnalyseDeal() {
           </div>
         )}
       />
+
+      {drawerVis.deal && (
+        <DrawerDeal
+          width="800"
+          visible={drawerVis.deal}
+          onClose={() =>
+            setDrawerVis({
+              ...drawerVis,
+              deal: false,
+            })
+          }
+          id={operateId}
+          title={operateTxt}
+        />
+      )}
     </div>
   );
 }
 
 export default AnalyseDeal;
-
-function tableRender(value) {
-  if (!value) {
-    return "-";
-  }
-
-  if (value.key == "key_1") {
-    return <NavLink to={`/analyseStaff/${value.id}`}>{value.value}</NavLink>;
-  }
-  if (value.key == "key_2") {
-    return (
-      <NavLink to={`/pipeline?pipelineId=${value.id}`}>{value.value}</NavLink>
-    );
-  }
-  if (value.key == "key_3") {
-    return (
-      <NavLink to={`/analyseCustom/${value.id}`} state={{ name: value.value }}>
-        {value.value}
-      </NavLink>
-    );
-  }
-  return <>{<span>{value.value}</span>}</>;
-}
