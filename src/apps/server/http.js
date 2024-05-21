@@ -29,7 +29,7 @@ axios.interceptors.response.use(
         window.location.href = window.location.origin + "/loading";
       } else if (response.data.code === 403) {
       }
-      else if (!response.data.success) {
+      else if (response.data.code = 1000) {
         return Promise.reject(response);
       }
       return Promise.resolve(response);
