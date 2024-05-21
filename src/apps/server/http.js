@@ -23,13 +23,14 @@ axios.interceptors.request.use(
 
 axios.interceptors.response.use(
   (response) => {
+    console.log(response);
     store.dispatch(SHIFT_LOADING());
     if (response.data && response.status === 200) {
       if (response.data.code === 401) {
         window.location.href = window.location.origin + "/loading";
       } else if (response.data.code === 403) {
       }
-      else if (response.data.code = 1000) {
+      else if (response.data.code !== 200) {
         return Promise.reject(response);
       }
       return Promise.resolve(response);
