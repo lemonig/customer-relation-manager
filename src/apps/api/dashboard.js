@@ -43,3 +43,24 @@ export function chartByContractReceivedValue(data) {
     data
   })
 }
+// 任务
+export function activityPage(data) {
+  return _post({
+    url: `/api/v2/jump/activity/page`,
+    data
+  })
+}
+// 商机
+export function dealPage(data) {
+  return _post({
+    url: `/api/v2/jump/deal/page`,
+    data
+  })
+}
+// 合同 
+export function contractPage(data) {
+  return _post({
+    url: `/api/v2/jump/contract/page`,
+    data
+  })
+}
