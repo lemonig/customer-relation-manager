@@ -24,7 +24,11 @@ import BtnAuth from "@Shared/BtnAuth";
 import { dealPage } from "@Api/dashboard.js";
 const { RangePicker } = DatePicker;
 
-function TaskView({ open, getRowSelected, params: { type, label } }) {
+function TaskView({
+  open,
+  getRowSelected,
+  params: { type, label, timeBy, userIdList },
+}) {
   const [loading, setLoading] = useState(false);
   const [pageMsg, setPagemsg] = useState({
     pagination: {
@@ -215,6 +219,8 @@ function TaskView({ open, getRowSelected, params: { type, label } }) {
 
       data: {
         type,
+        timeBy,
+        userIdList,
       },
     }).then((res) => {
       setData(res.data);

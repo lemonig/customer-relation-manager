@@ -166,6 +166,8 @@ function Panel2() {
           params={{
             type: selectType,
             label: selectLabel,
+            timeBy: context.timeBy,
+            userIdList: context.userIdList,
           }}
         />
       )}
@@ -176,6 +178,8 @@ function Panel2() {
           params={{
             type: selectType,
             label: selectLabel,
+            timeBy: context.timeBy,
+            userIdList: context.userIdList,
           }}
         />
       )}
@@ -186,6 +190,8 @@ function Panel2() {
           params={{
             type: selectType,
             label: selectLabel,
+            timeBy: context.timeBy,
+            userIdList: context.userIdList,
           }}
         />
       )}
