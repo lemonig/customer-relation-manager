@@ -52,7 +52,7 @@ function BarCharet({ params }) {
   }, [JSON.stringify(context)]);
 
   const getPageData = () => {
-    chartByContractValue({ ...context }).then((res) => {
+    chartByContractValue({ ...context, filterBy: 4 }).then((res) => {
       setData(res.data);
     });
   };

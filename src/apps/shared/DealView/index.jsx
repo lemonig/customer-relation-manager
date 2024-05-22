@@ -221,6 +221,7 @@ function TaskView({
         type,
         timeBy,
         userIdList,
+        filterBy: 4,
       },
     }).then((res) => {
       setData(res.data);

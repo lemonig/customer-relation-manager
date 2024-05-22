@@ -50,7 +50,7 @@ function BarCharet({ params }) {
     }
   }, [JSON.stringify(context)]);
   const getPageData = () => {
-    funnelByDealValue({ ...context }).then((res) => {
+    funnelByDealValue({ ...context, filterBy: 4 }).then((res) => {
       setData(res.data);
     });
   };
