@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import Box from "./Box";
 
 import { chartByContractValue } from "@Api/dashboard";
@@ -16,6 +16,7 @@ import {
   CanvasRenderer,
   // SVGRenderer,
 } from "echarts/renderers";
+import { MyContext } from "../context";
 
 echarts.use([
   TitleComponent,
@@ -42,15 +43,16 @@ function Panel3({ params }) {
 export default Panel3;
 
 function BarCharet({ params }) {
+  const context = useContext(MyContext);
   const [data, setData] = useState(null);
   useEffect(() => {
-    if (params.filterBy && params.timeBy) {
+    if (context.timeBy) {
       getPageData();
     }
-  }, [params.timeBy, params.filterBy]);
+  }, [JSON.stringify(context)]);
 
   const getPageData = () => {
-    chartByContractValue({ ...params }).then((res) => {
+    chartByContractValue({ ...context }).then((res) => {
       setData(res.data);
     });
   };
@@ -66,7 +68,7 @@ function BarCharet({ params }) {
     }
     return {
       title: {
-        text: "合同额",
+        text: "",
         left: "center",
       },
       legend: {

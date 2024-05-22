@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import Box from "./Box";
 
 import { chartByContractValue } from "@Api/dashboard";
@@ -12,6 +12,7 @@ import {
   TitleComponent,
   LegendComponent,
 } from "echarts/components";
+import { MyContext } from "../context";
 import {
   CanvasRenderer,
   // SVGRenderer,
@@ -42,15 +43,16 @@ function Panel5({ params }) {
 export default Panel5;
 
 function BarCharet({ params }) {
+  const context = useContext(MyContext);
   const [data, setData] = useState(null);
   useEffect(() => {
-    if (params.filterBy && params.timeBy) {
+    if (context.timeBy) {
       getPageData();
     }
-  }, [params.timeBy, params.filterBy]);
+  }, [JSON.stringify(context)]);
 
   const getPageData = () => {
-    chartByContractValue({ ...params }).then((res) => {
+    chartByContractValue({ ...context }).then((res) => {
       setData(res.data);
     });
   };
@@ -66,7 +68,7 @@ function BarCharet({ params }) {
     }
     return {
       title: {
-        text: "回款额",
+        text: "",
         left: "center",
       },
       legend: {

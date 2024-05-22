@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import Box from "./Box";
 import Block from "./Block";
 import { Col, Divider, Row } from "antd";
@@ -7,6 +7,7 @@ import ContractView from "@Shared/ContractView";
 import TaskView from "@Shared/TaskViewp";
 import DealView from "@Shared/DealView";
 import "./index.less";
+import { MyContext } from "../context";
 
 const style = {
   background: "#0092ff",
@@ -97,7 +98,8 @@ const salePanel = [
   },
 ];
 
-function Panel2({ params }) {
+function Panel2() {
+  const context = useContext(MyContext);
   const [data, setData] = useState(null);
   const [modalVis, setModalVis] = useState({
     contract: false,
@@ -107,13 +109,13 @@ function Panel2({ params }) {
   const [selectType, setSelectType] = useState();
   const [selectLabel, setSelectLabel] = useState();
   useEffect(() => {
-    if (params.filterBy && params.timeBy) {
+    if (context.timeBy) {
       getPageData();
     }
-  }, [params.timeBy, params.filterBy]);
+  }, [JSON.stringify(context)]);
 
   const getPageData = () => {
-    saleSimpleReport({ ...params }).then((res) => {
+    saleSimpleReport({ ...context }).then((res) => {
       setData(res.data);
     });
   };

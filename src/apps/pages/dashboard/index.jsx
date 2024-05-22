@@ -20,31 +20,16 @@ import Panel3 from "./components/Panel3";
 import Panel4 from "./components/Panel4";
 import Panel5 from "./components/Panel5";
 import Panel6 from "./components/Panel6";
+import StaffTree from "@Shared/StaffTree";
+import { EyeOutlined } from "@ant-design/icons";
+import { MyContext } from "./context";
 
 function Dashboard() {
-  const [value, setValue] = useState("3");
   const [value1, setValue1] = useState("1");
-
+  const [treeVis, setTreeVis] = useState(false);
+  const [userId, setUserId] = useState([]);
   useEffect(() => {}, []);
 
-  const option = [
-    {
-      label: "仅本人",
-      value: "1",
-    },
-    {
-      label: "我下属的",
-      value: "2",
-    },
-    {
-      label: "我及我下属的",
-      value: "3",
-    },
-    {
-      label: "按部门与人员",
-      value: "4",
-    },
-  ];
   const option1 = [
     {
       label: "本周",
@@ -80,51 +65,68 @@ function Dashboard() {
     },
   ];
 
-  const handleChange = (value) => {
-    setValue(value);
-  };
   const handleChange1 = (value) => {
     setValue1(value);
   };
+  const showPeopleTree = () => {
+    setTreeVis(true);
+  };
 
+  const getRowSelected = (flag, val) => {
+    setTreeVis(false);
+    if (flag) {
+      setUserId(val);
+    }
+  };
   return (
-    <div className="board-page">
-      <PageHeader className="site-page-header" title="CRM仪表盘" />
-      <div className="search-tool">
-        <div>
-          <Select
-            style={{ width: 120 }}
-            options={option}
-            value={value}
-            onChange={handleChange}
-          />
+    <MyContext.Provider value={{ timeBy: value1, userIdList: userId }}>
+      <div className="board-page">
+        <PageHeader className="site-page-header" title="CRM仪表盘" />
+        <div className="search-tool">
+          <div>
+            <Button type="text" onClick={showPeopleTree} icon={<EyeOutlined />}>
+              按人员筛选
+            </Button>
+          </div>
+          <div>
+            <Select
+              style={{ width: 120 }}
+              options={option1}
+              value={value1}
+              onChange={handleChange1}
+            />
+          </div>
         </div>
-        <div>
-          <Select
-            style={{ width: 120 }}
-            options={option1}
-            value={value1}
-            onChange={handleChange1}
-          />
+        <div className="main">
+          {value1 && (
+            <>
+              <div className="left">
+                <Panel1
+                  params={{
+                    timeBy: value1,
+                    userIdList: userId,
+                  }}
+                />
+                <Panel3
+                  params={{
+                    timeBy: value1,
+                    userIdList: userId,
+                  }}
+                />
+                <Panel5 params={{ timeBy: value1 }} />
+              </div>
+              <div className="right">
+                <Panel2 params={{ timeBy: value1 }} />
+                <Panel4 params={{ timeBy: value1 }} />
+                <Panel6 params={{ timeBy: value1 }} />
+              </div>
+            </>
+          )}
         </div>
       </div>
-      <div className="main">
-        {value && (
-          <>
-            <div className="left">
-              <Panel1 params={{ filterBy: value, timeBy: value1 }} />
-              <Panel3 params={{ filterBy: value, timeBy: value1 }} />
-              <Panel5 params={{ filterBy: value, timeBy: value1 }} />
-            </div>
-            <div className="right">
-              <Panel2 params={{ filterBy: value, timeBy: value1 }} />
-              <Panel4 params={{ filterBy: value, timeBy: value1 }} />
-              <Panel6 params={{ filterBy: value, timeBy: value1 }} />
-            </div>
-          </>
-        )}
-      </div>
-    </div>
+
+      <StaffTree open={treeVis} getRowSelected={getRowSelected} />
+    </MyContext.Provider>
   );
 }
 

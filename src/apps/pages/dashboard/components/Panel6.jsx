@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import Box from "./Box";
 
 import { funnelByDealNum } from "@Api/dashboard";
@@ -16,7 +16,7 @@ import {
   CanvasRenderer,
   // SVGRenderer,
 } from "echarts/renderers";
-
+import { MyContext } from "../context";
 echarts.use([
   TitleComponent,
   TooltipComponent,
@@ -42,15 +42,16 @@ function Panel6({ params }) {
 export default Panel6;
 
 function BarCharet({ params }) {
+  const context = useContext(MyContext);
   const [data, setData] = useState(null);
   useEffect(() => {
-    if (params.filterBy && params.timeBy) {
+    if (context.timeBy) {
       getPageData();
     }
-  }, [params.timeBy, params.filterBy]);
+  }, [JSON.stringify(context)]);
 
   const getPageData = () => {
-    funnelByDealNum({ ...params }).then((res) => {
+    funnelByDealNum({ ...context }).then((res) => {
       setData(res.data);
     });
   };
@@ -66,7 +67,7 @@ function BarCharet({ params }) {
     }
     const option = {
       title: {
-        text: "商机数量",
+        text: "",
         left: "center",
       },
       tooltip: {
