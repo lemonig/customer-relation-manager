@@ -51,11 +51,17 @@ function TaskView({
       },
     },
     {
+      title: "销售人员",
+      dataIndex: "ownerUserName",
+      key: "ownerUserName",
+    },
+    {
       title: "开始时间",
       dataIndex: "startTime",
       key: "startTime",
       sorter: true,
     },
+
     {
       title: "商机名称",
       key: "dealName",

@@ -29,3 +29,11 @@ export function deptUpdate(data) {
     data,
   });
 }
+// 部门修改
+export function userDeptList(data) {
+  return _post({
+    url: `/api/user/dept/list`,
+    method: "post",
+    data,
+  });
+}

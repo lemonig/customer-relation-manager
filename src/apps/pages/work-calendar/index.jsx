@@ -21,7 +21,6 @@ function WorkCalender() {
   const [searchForm] = Form.useForm();
   const [data, setData] = useState({});
   const [datese, setDatese] = useState(moment().format());
-  const [activeData, setActiveData] = useState([]);
   const [drawerVis, setDrawerVis] = useState({
     task: false,
     deal: false,
@@ -38,15 +37,9 @@ function WorkCalender() {
   useEffect(() => {
     getPageData();
   }, [userId]);
-  useEffect(() => {
-    getActiveData();
-  }, []);
-  const getActiveData = async () => {
-    let { data } = await activeList();
-    setActiveData(data);
-  };
 
   const getPageData = async () => {
+    setData([]);
     let values = {};
     values.year = moment(datese).year();
     values.month = moment(datese).month() + 1;

@@ -26,6 +26,7 @@ function TaskView({
       dataIndex: "code",
       key: "code",
     },
+
     {
       title: "合同名称",
       dataIndex: "name",
@@ -38,6 +39,11 @@ function TaskView({
           {name}
         </Tooltip>
       ),
+    },
+    {
+      title: "销售人员",
+      dataIndex: "ownerUserName",
+      key: "ownerUserName",
     },
     {
       title: "客户名称",
@@ -97,11 +103,6 @@ function TaskView({
       title: "签约日期",
       dataIndex: "signedDate",
       key: "signedDate",
-    },
-    {
-      title: "销售人员",
-      dataIndex: "ownerUserName",
-      key: "ownerUserName",
     },
   ];
 

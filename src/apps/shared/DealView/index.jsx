@@ -54,6 +54,11 @@ function TaskView({
       },
     },
     {
+      title: "销售人员",
+      dataIndex: "ownerUserName",
+      key: "ownerUserName",
+    },
+    {
       title: "预算金额",
       dataIndex: "value",
       key: "value",
@@ -107,11 +112,7 @@ function TaskView({
       dataIndex: "statusName",
       key: "statusName",
     },
-    {
-      title: "销售人员",
-      dataIndex: "ownerUserName",
-      key: "ownerUserName",
-    },
+
     {
       title: "创建时间",
       dataIndex: "createTime",

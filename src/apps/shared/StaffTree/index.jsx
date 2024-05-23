@@ -14,14 +14,14 @@ import {
 } from "antd";
 import { CaretDownOutlined } from "@ant-design/icons";
 
-import { userList } from "@Api/set_user.js";
-import { deptList } from "@Api/set_dept.js";
+import { userList, personList } from "@Api/set_user.js";
+import { deptList, userDeptList } from "@Api/set_dept.js";
 import { arrayToTree } from "@Utils/util";
 import IconFont from "@Components/IconFont";
 import { useDispatch, useSelector } from "react-redux";
 import { SAVE_ID, DELETE_ID } from "@Store/features/staffTreeSlice";
 
-function Index({ open, getRowSelected, defaultId, url }) {
+function Index({ open, getRowSelected, defaultId, url, author = false }) {
   let dispatch = useDispatch();
   const { userIdList } = useSelector((state) => state.staffTreeSlice);
   const [form] = Form.useForm();
@@ -52,7 +52,9 @@ function Index({ open, getRowSelected, defaultId, url }) {
   }, []);
   // 获取部门
   const getDeptList = async () => {
-    let { data } = await deptList();
+    let response = void 0;
+    author ? (response = await userDeptList()) : (response = await deptList());
+    let { data } = response;
     let temp = data.find(({ id }) => id == 1);
     let res = arrayToTree(data);
     res[0].icon = <IconFont iconName="gongsi1" size="18" />; //加icon
@@ -84,24 +86,28 @@ function Index({ open, getRowSelected, defaultId, url }) {
     }
   };
   // 获取用户
-  const getUserData = () => {
+  const getUserData = async () => {
     setLoading(true);
-    userList({
+    let response = void 0;
+    let params = {
       page: pageMsg.pagination.current,
       size: pageMsg.pagination.pageSize,
       data: {
         deptId: selectTreeId[0],
       },
-    }).then((res) => {
-      setData(res.data);
-      setLoading(false);
-      setPagemsg({
-        ...pageMsg,
-        pagination: {
-          ...pageMsg.pagination,
-          total: res.additional_data.pagination.total,
-        },
-      });
+    };
+    author
+      ? (response = await personList(params))
+      : (response = await userList(params));
+    let { data, additional_data } = response;
+    setData(data);
+    setLoading(false);
+    setPagemsg({
+      ...pageMsg,
+      pagination: {
+        ...pageMsg.pagination,
+        total: additional_data.pagination.total,
+      },
     });
   };
   const handleTableChange = (pagination, filters, sorter) => {

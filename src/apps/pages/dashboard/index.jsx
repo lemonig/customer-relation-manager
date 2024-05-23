@@ -78,7 +78,7 @@ function Dashboard() {
         </div>
       </div>
 
-      <StaffTree open={treeVis} getRowSelected={getRowSelected} />
+      <StaffTree open={treeVis} getRowSelected={getRowSelected} author={true} />
     </MyContext.Provider>
   );
 }
