@@ -73,9 +73,9 @@ function BarCharet({ params }) {
     let yData1 = [];
     let yData2 = [];
     data.forEach((ele) => {
-      xData.unshift(ele.name);
-      yData1.unshift((ele.prevValue / 10000).toFixed(4)); //预测值value
-      yData2.unshift((ele.value / 10000).toFixed(4)); //预算值
+      xData.push(ele.name);
+      yData1.push((ele.prevValue / 10000).toFixed(4)); //预测值value
+      yData2.push((ele.value / 10000).toFixed(4)); //预算值
     });
     const option = {
       title: {
