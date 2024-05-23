@@ -111,13 +111,14 @@ function Panel1() {
   const [selectType, setSelectType] = useState();
   const [selectLabel, setSelectLabel] = useState();
   useEffect(() => {
-    if (context.timeBy) {
+    if (context) {
       getPageData();
     }
   }, [JSON.stringify(context)]);
 
   const getPageData = () => {
-    saleCount({ ...context }).then((res) => {
+    const { userIdList } = context;
+    saleCount({ userIdList }).then((res) => {
       setData(res.data);
     });
   };
@@ -169,7 +170,6 @@ function Panel1() {
           params={{
             type: selectType,
             label: selectLabel,
-            timeBy: context.timeBy,
             userIdList: context.userIdList,
           }}
         />
@@ -181,7 +181,6 @@ function Panel1() {
           params={{
             type: selectType,
             label: selectLabel,
-            timeBy: context.timeBy,
             userIdList: context.userIdList,
           }}
         />
@@ -193,7 +192,6 @@ function Panel1() {
           params={{
             type: selectType,
             label: selectLabel,
-            timeBy: context.timeBy,
             userIdList: context.userIdList,
           }}
         />

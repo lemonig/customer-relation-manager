@@ -51,7 +51,8 @@ function BarCharet({ params }) {
   }, [JSON.stringify(context)]);
 
   const getPageData = () => {
-    funnelByDealNum({ ...context, filterBy: 4 }).then((res) => {
+    const { userIdList } = context;
+    funnelByDealNum({ userIdList, filterBy: 4 }).then((res) => {
       setData(res.data);
     });
   };

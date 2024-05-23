@@ -1,28 +1,7 @@
 import React, { useState, useEffect } from "react";
-import {
-  Input,
-  Button,
-  Space,
-  Table,
-  Modal,
-  message,
-  PageHeader,
-  DatePicker,
-  Form,
-  Select,
-  Tooltip,
-  Image,
-  Switch,
-} from "antd";
-import { actPage, actDelete, actExport, actUpdate } from "@Api/act_adm.js";
-import { activityOverview } from "@Api/analyse_staff";
-import { ExclamationCircleOutlined } from "@ant-design/icons";
-import { useNavigate, useParams } from "react-router-dom";
-import moment from "moment";
+import { Button, Table, Modal } from "antd";
 import { activityPage } from "@Api/dashboard.js";
-import IconFont from "@Components/IconFont";
-import BtnAuth from "@Shared/BtnAuth";
-const { RangePicker } = DatePicker;
+import DrawerTask from "@Shared/DrawerTask";
 
 function TaskView({
   open,
@@ -37,38 +16,39 @@ function TaskView({
     },
   });
   const [data, setData] = useState([]);
-  const [activeData, setActiveData] = useState([]);
-  const [showFee, setShowFee] = useState(true);
-
-  let navigate = useNavigate();
+  const [drawerVis, setDrawerVis] = useState({
+    task: false,
+  });
+  const [operateId, setOperateId] = useState(null);
+  const [operateTxt, setOperateTxt] = useState(null);
 
   useEffect(() => {
     getPageData();
-  }, [
-    pageMsg.pagination.current,
-    pageMsg.pagination.pageSize,
-    // JSON.stringify(pageMsg.filters),
-  ]);
-
-  //转变完成状态
-  const handleChangeOver = async (id, val) => {
-    let { success, message: msg } = await actUpdate({
-      id: id,
-      done: !val,
-    });
-    if (success) {
-      message.success("更新成功！");
-      search();
-    } else {
-      message.error(msg);
-    }
-  };
+  }, [pageMsg.pagination.current, pageMsg.pagination.pageSize]);
 
   const columns = [
     {
       title: "任务类型",
       dataIndex: "typeName",
       key: "typeName",
+      fixed: "left",
+      render: (val, { id }) => {
+        return (
+          <Button
+            type="link"
+            onClick={() => {
+              setOperateId(id);
+              setOperateTxt(val);
+              setDrawerVis({
+                ...drawerVis,
+                task: true,
+              });
+            }}
+          >
+            {val}
+          </Button>
+        );
+      },
     },
     {
       title: "开始时间",
@@ -96,16 +76,6 @@ function TaskView({
       title: "状态",
       dataIndex: "statusName",
       key: "status",
-      // filters: [
-      //   {
-      //     text: "代办",
-      //     value: "1",
-      //   },
-      //   {
-      //     text: "已完成",
-      //     value: "2",
-      //   },
-      // ],
     },
 
     {
@@ -114,17 +84,6 @@ function TaskView({
       key: "createTime",
     },
   ];
-
-  const gotoDealDetail = (id) => {
-    navigate({
-      pathname: "/pipeline",
-      search: `?pipelineId=${id}`,
-    });
-  };
-
-  const gotoCusDetail = ({ id, name }) => {
-    navigate(`/analyseCustom/${id}`, { state: { name } });
-  };
 
   // 查询
   const search = () => {
@@ -142,11 +101,9 @@ function TaskView({
   };
   const getPageData = () => {
     setLoading(true);
-
     activityPage({
       page: pageMsg.pagination.current,
       size: pageMsg.pagination.pageSize,
-
       data: {
         type,
         timeBy,
@@ -166,16 +123,7 @@ function TaskView({
     });
   };
 
-  const gotoLinkPeople = (record) => {
-    navigate({
-      pathname: "/msgCoopratePeople",
-      search: `?linkId=${record.id}&linkName=${record.name}`,
-    });
-  };
-
   const handleTableChange = (pagination, filters, sorter, extra) => {
-    // if filters not changed, don't update pagination.current
-
     setPagemsg({
       pagination,
       filters,
@@ -211,6 +159,7 @@ function TaskView({
                 showSizeChanger: true,
                 ...pageMsg.pagination,
               }}
+              scroll={{ x: columns.length * 150 }}
               rowKey={(record) => record.id}
               onChange={handleTableChange}
               title={() => (
@@ -222,6 +171,20 @@ function TaskView({
             />
           </div>
         </Modal>
+      )}
+      {drawerVis.task && (
+        <DrawerTask
+          width="800"
+          visible={drawerVis.task}
+          onClose={() =>
+            setDrawerVis({
+              ...drawerVis,
+              task: false,
+            })
+          }
+          id={operateId}
+          title={operateTxt}
+        />
       )}
     </>
   );

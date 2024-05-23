@@ -1,28 +1,7 @@
 import React, { useState, useEffect } from "react";
-import {
-  Input,
-  Button,
-  Space,
-  Table,
-  Modal,
-  message,
-  PageHeader,
-  DatePicker,
-  Form,
-  Select,
-  Tooltip,
-  Image,
-  Statistic,
-} from "antd";
-import { actPage, actDelete, actExport, actUpdate } from "@Api/act_adm.js";
-import { activityOverview } from "@Api/analyse_staff";
-import { ExclamationCircleOutlined } from "@ant-design/icons";
-import { useNavigate, useParams } from "react-router-dom";
-import moment from "moment";
-import IconFont from "@Components/IconFont";
-import BtnAuth from "@Shared/BtnAuth";
+import { Table, Modal, Statistic } from "antd";
 import { dealPage } from "@Api/dashboard.js";
-const { RangePicker } = DatePicker;
+import DrawerDeal from "@Shared/DrawerDeal";
 
 function TaskView({
   open,
@@ -37,78 +16,42 @@ function TaskView({
     },
   });
   const [data, setData] = useState([]);
-  const [activeData, setActiveData] = useState([]);
-  const [showFee, setShowFee] = useState(true);
-
-  let navigate = useNavigate();
+  const [drawerVis, setDrawerVis] = useState({
+    task: false,
+    deal: false,
+    linkman: false,
+    customer: false,
+  });
+  const [operateId, setOperateId] = useState(null);
+  const [operateTxt, setOperateTxt] = useState(null);
 
   useEffect(() => {
     getPageData();
-  }, [
-    pageMsg.pagination.current,
-    pageMsg.pagination.pageSize,
-    // JSON.stringify(pageMsg.filters),
-  ]);
-
-  //转变完成状态
-  const handleChangeOver = async (id, val) => {
-    let { success, message: msg } = await actUpdate({
-      id: id,
-      done: !val,
-    });
-    if (success) {
-      message.success("更新成功！");
-      search();
-    } else {
-      message.error(msg);
-    }
-  };
+  }, [pageMsg.pagination.current, pageMsg.pagination.pageSize]);
 
   const columns = [
-    {
-      title: "序号",
-      key: "index",
-      width: 60,
-      render: (_, record, index) =>
-        pageMsg.pagination.pageSize * (pageMsg.pagination.current - 1) +
-        index +
-        1,
-    },
-
-    {
-      title: "商机编号",
-      dataIndex: "code",
-      key: "code",
-      // render: (val, { id: dealId, title }) => {
-      //   return (
-      //     <a
-      //       onClick={() => {
-      //         setOperateId(dealId);
-      //         setOperateTxt(title);
-      //         setDrawerVis({
-      //           ...drawerVis,
-      //           deal: true,
-      //         });
-      //       }}
-      //     >
-      //       {val}
-      //     </a>
-      //   );
-      // },
-    },
     {
       title: "商机名称",
       dataIndex: "title",
       width: "300",
       key: "title",
-      // ellipsis: {
-      //   showTitle: false,
-      // },
-      // render: (title) => (
-      //   <Tooltip placement="topLeft" title={title}>
-      //     {title}
-      //   </Tooltip>
-      // ),
+      fixed: "left",
+      render: (val, { id }) => {
+        return (
+          <a
+            onClick={() => {
+              setOperateId(id);
+              setOperateTxt(val);
+              setDrawerVis({
+                ...drawerVis,
+                deal: true,
+              });
+            }}
+          >
+            {val}
+          </a>
+        );
+      },
     },
     {
       title: "预算金额",
@@ -143,16 +86,7 @@ function TaskView({
       dataIndex: "personName",
       key: "personName",
     },
-    // {
-    //   title: "竞争对手(个)",
-    //   dataIndex: "competitorNum",
-    //   key: "competitorNum",
-    // },
-    // {
-    //   title: "销售流程",
-    //   dataIndex: "pipelineName",
-    //   key: "pipelineName",
-    // },
+
     {
       title: "销售流程阶段",
       dataIndex: "pipelineStageName",
@@ -185,31 +119,6 @@ function TaskView({
     },
   ];
 
-  const gotoDealDetail = (id) => {
-    navigate({
-      pathname: "/pipeline",
-      search: `?pipelineId=${id}`,
-    });
-  };
-
-  const gotoCusDetail = ({ id, name }) => {
-    navigate(`/analyseCustom/${id}`, { state: { name } });
-  };
-
-  // 查询
-  const search = () => {
-    if (pageMsg.pagination.current === 1) {
-      getPageData();
-    } else {
-      setPagemsg({
-        ...pageMsg,
-        pagination: {
-          ...pageMsg.pagination,
-          current: 1,
-        },
-      });
-    }
-  };
   const getPageData = () => {
     setLoading(true);
 
@@ -236,16 +145,7 @@ function TaskView({
     });
   };
 
-  const gotoLinkPeople = (record) => {
-    navigate({
-      pathname: "/msgCoopratePeople",
-      search: `?linkId=${record.id}&linkName=${record.name}`,
-    });
-  };
-
   const handleTableChange = (pagination, filters, sorter, extra) => {
-    // if filters not changed, don't update pagination.current
-
     setPagemsg({
       pagination,
       filters,
@@ -281,6 +181,7 @@ function TaskView({
                 showSizeChanger: true,
                 ...pageMsg.pagination,
               }}
+              scroll={{ x: columns.length * 150 }}
               rowKey={(record) => record.id}
               onChange={handleTableChange}
               title={() => (
@@ -292,6 +193,20 @@ function TaskView({
             />
           </div>
         </Modal>
+      )}
+      {drawerVis.deal && (
+        <DrawerDeal
+          width="800"
+          visible={drawerVis.deal}
+          onClose={() =>
+            setDrawerVis({
+              ...drawerVis,
+              deal: false,
+            })
+          }
+          id={operateId}
+          title={operateTxt}
+        />
       )}
     </>
   );

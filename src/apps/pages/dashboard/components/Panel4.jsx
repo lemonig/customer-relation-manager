@@ -1,8 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import Box from "./Box";
-
 import { funnelByDealValue } from "@Api/dashboard";
-
 import ReactEChartsCore from "echarts-for-react/lib/core";
 import * as echarts from "echarts/core";
 import { BarChart } from "echarts/charts";
@@ -12,10 +10,7 @@ import {
   TitleComponent,
   LegendComponent,
 } from "echarts/components";
-import {
-  CanvasRenderer,
-  // SVGRenderer,
-} from "echarts/renderers";
+import { CanvasRenderer } from "echarts/renderers";
 import { MyContext } from "../context";
 echarts.use([
   TitleComponent,
@@ -45,12 +40,13 @@ function BarCharet({ params }) {
   const context = useContext(MyContext);
   const [data, setData] = useState(null);
   useEffect(() => {
-    if (context.timeBy) {
+    if (context) {
       getPageData();
     }
   }, [JSON.stringify(context)]);
   const getPageData = () => {
-    funnelByDealValue({ ...context, filterBy: 4 }).then((res) => {
+    const { userIdList } = context;
+    funnelByDealValue({ userIdList, filterBy: 4 }).then((res) => {
       setData(res.data);
     });
   };
