@@ -21,7 +21,7 @@ import IconFont from "@Components/IconFont";
 import { useDispatch, useSelector } from "react-redux";
 import { SAVE_ID, DELETE_ID } from "@Store/features/staffTreeSlice";
 
-function Index({ open, getRowSelected, defaultId, url, author = false }) {
+function Index({ open, getRowSelected, defaultId, url, author = true }) {
   let dispatch = useDispatch();
   const { userIdList } = useSelector((state) => state.staffTreeSlice);
   const [form] = Form.useForm();
