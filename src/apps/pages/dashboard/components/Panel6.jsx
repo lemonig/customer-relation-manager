@@ -29,7 +29,7 @@ echarts.use([
 function Panel6({ params }) {
   return (
     <div>
-      <Box title="商机统计">
+      <Box title="商机数量">
         <div className="search"></div>
         <div>
           <BarCharet params={params}></BarCharet>

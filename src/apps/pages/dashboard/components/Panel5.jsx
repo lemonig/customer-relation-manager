@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import Box from "./Box";
 
-import { chartByContractValue } from "@Api/dashboard";
+import { chartByContractReceivedValue } from "@Api/dashboard";
 
 import ReactEChartsCore from "echarts-for-react/lib/core";
 import * as echarts from "echarts/core";
@@ -30,7 +30,7 @@ echarts.use([
 function Panel5({ params }) {
   return (
     <div>
-      <Box title="合同金额">
+      <Box title="回款金额">
         <div className="search"></div>
         <div>
           <BarCharet params={params}></BarCharet>
@@ -52,7 +52,7 @@ function BarCharet({ params }) {
   }, [JSON.stringify(context)]);
 
   const getPageData = () => {
-    chartByContractValue({ ...context, filterBy: 4 }).then((res) => {
+    chartByContractReceivedValue({ ...context, filterBy: 4 }).then((res) => {
       setData(res.data);
     });
   };

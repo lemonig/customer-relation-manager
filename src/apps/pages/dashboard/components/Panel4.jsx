@@ -24,7 +24,7 @@ echarts.use([
 function Panel4({ params }) {
   return (
     <div>
-      <Box title="商机统计">
+      <Box title="商机金额">
         <div className="search"></div>
         <div>
           <BarCharet params={params}></BarCharet>
@@ -35,7 +35,17 @@ function Panel4({ params }) {
 }
 
 export default Panel4;
+//echarts 配置
+const toolTipFun = (params) => {
+  let html = `<div>${params[0].axisValue}</div>`;
 
+  params.map((item) => {
+    if (item.value || item.value === 0) {
+      html += `<div>${item.marker} ${item.seriesName}：${item.value} 万元</div>`;
+    }
+  });
+  return html;
+};
 function BarCharet({ params }) {
   const context = useContext(MyContext);
   const [data, setData] = useState(null);
@@ -59,74 +69,85 @@ function BarCharet({ params }) {
         },
       };
     }
+    let xData = [];
+    let yData1 = [];
+    let yData2 = [];
+    data.forEach((ele) => {
+      xData.unshift(ele.name);
+      yData1.unshift((ele.prevValue / 10000).toFixed(4)); //预测值value
+      yData2.unshift((ele.value / 10000).toFixed(4)); //预算值
+    });
     const option = {
       title: {
-        text: "",
+        text: "商机金额统计",
         left: "center",
+        top: "0",
+      },
+      legend: {
+        right: "center",
+        top: "10%",
       },
       tooltip: {
         trigger: "axis",
         axisPointer: {
           type: "shadow",
         },
+        formatter: function (params) {
+          return toolTipFun(params);
+        },
       },
-      // legend: {
-      //   data: ['2011年', '2012年']
-      // },
-
+      grid: {
+        left: "5%",
+        right: "10%",
+        bottom: "0%",
+        containLabel: true,
+      },
       xAxis: {
-        // type: 'none',
-        splitLine: {
-          show: true,
-          lineStyle: {
-            type: "linner",
-            color: "rgba(255,255,255,0.75)",
-          },
-        },
-        minInterval: 1,
-        axisLine: {
-          //x轴颜色
-          lineStyle: {
-            // color: "#fff",
-          },
-        },
-        axisTick: {
-          show: false,
-        },
-        nameTextStyle: {
-          color: "#000",
-          fontSize: 1,
-        },
-        // boundaryGap: [0, 0.01]
+        type: "value",
+        boundaryGap: [0, 0.01],
+        // max: 100,
       },
       yAxis: {
         type: "category",
-        axisTick: {
-          show: false,
-        },
-        data: data.map((item) => item.name),
-        axisLine: {
-          //x轴颜色
-          lineStyle: {
-            // color: "#fff",
-          },
+        data: xData,
+        axisLabel: {
+          interval: 0,
+          // rotate: 30,
         },
       },
       series: [
         {
-          // name: 'wu',
+          name: "预算金额",
           type: "bar",
-          data: data.map((item) => item.value),
+          data: yData2,
+          itemStyle: {
+            normal: {
+              color: "#DA4688",
+            },
+          },
           label: {
             show: true,
             position: "outside",
-            formatter: " {@score}万",
+            formatter: " {@score}万元",
           },
+          barMaxWidth: "20",
+        },
+        {
+          name: "预测金额",
+          barGap: 0,
+          type: "bar",
+          data: yData1,
           itemStyle: {
             normal: {
-              color: "#0B49B0",
+              color: "#1C47BF",
             },
           },
+          label: {
+            show: true,
+            position: "outside",
+            formatter: " {@score}万元",
+          },
+          barMaxWidth: "20",
         },
       ],
     };
