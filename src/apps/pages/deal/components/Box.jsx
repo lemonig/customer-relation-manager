@@ -80,9 +80,9 @@ export const Box = function Box({ data }) {
     if (undoneCount == 0) {
       return <IconFont iconName="icon-test" size="16" />;
     } else if (overTimeCount) {
-      return <IconFont iconName="icon-warn2" color="#119143" size="16" />;
+      return <IconFont iconName="icon-warn1" color="#d81e06" size="16" />;
     } else if (undoneCount) {
-      return <IconFont iconName="icon-warn1" size="16" />;
+      return <IconFont iconName="icon-warn2" color="#119143" size="16" />;
     }
   };
 
