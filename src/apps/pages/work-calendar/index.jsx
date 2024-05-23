@@ -7,7 +7,10 @@ import { useState } from "react";
 import { Button, Form, Input, Select } from "antd";
 import { activeList } from "@Api/set_active.js";
 import IconFont from "@Components/IconFont";
+import DrawerTask from "@Shared/DrawerTask";
 
+import StaffTree from "@Shared/StaffTree";
+import { EyeOutlined } from "@ant-design/icons";
 const getMonthData = (value) => {
   if (value.month() === 8) {
     return 1394;
@@ -19,10 +22,22 @@ function WorkCalender() {
   const [data, setData] = useState({});
   const [datese, setDatese] = useState(moment().format());
   const [activeData, setActiveData] = useState([]);
+  const [drawerVis, setDrawerVis] = useState({
+    task: false,
+    deal: false,
+    linkman: false,
+    customer: false,
+  });
+  const [operateId, setOperateId] = useState(null);
+  const [operateTxt, setOperateTxt] = useState(null);
+  const [userId, setUserId] = useState([]);
+  const [treeVis, setTreeVis] = useState(false);
   useEffect(() => {
     getPageData();
   }, [JSON.stringify(datese)]);
-
+  useEffect(() => {
+    getPageData();
+  }, [userId]);
   useEffect(() => {
     getActiveData();
   }, []);
@@ -32,11 +47,15 @@ function WorkCalender() {
   };
 
   const getPageData = async () => {
-    let values = searchForm.getFieldsValue();
+    let values = {};
     values.year = moment(datese).year();
     values.month = moment(datese).month() + 1;
 
-    let { data } = await activeCalendar(values);
+    let { data } = await activeCalendar({
+      year: moment(datese).year(),
+      month: moment(datese).month() + 1,
+      userIdList: userId,
+    });
     setData(data);
   };
 
@@ -52,6 +71,15 @@ function WorkCalender() {
           <li
             key={item.content}
             style={{ color: item.type ? "gray" : "black" }}
+            onClick={() => {
+              if (!item.id) return;
+              setOperateId(item.id);
+              setOperateTxt(item.subject);
+              setDrawerVis({
+                ...drawerVis,
+                task: true,
+              });
+            }}
           >
             {item.type ? (
               <IconFont
@@ -81,73 +109,50 @@ function WorkCalender() {
       return res.map((item) => ({
         type: item.done,
         content: item.subject,
+        ...item,
       }));
     } else {
       return [];
     }
   };
+  const showPeopleTree = () => {
+    setTreeVis(true);
+  };
 
+  const getRowSelected = (flag, val) => {
+    setTreeVis(false);
+    if (flag) {
+      setUserId(val);
+    }
+  };
   return (
     <>
       <div className="search" style={{ marginBottom: "0px" }}>
-        <Form layout="inline" form={searchForm} onFinish={getPageData}>
-          <Form.Item label="" name="name">
-            <Input
-              placeholder="请输入商机名称、客户公司名称"
-              style={{ width: 240 }}
-              // value={searchVal}
-            />
-          </Form.Item>
-
-          <Form.Item label="" name="typeIdList">
-            <Select
-              style={{ width: 240 }}
-              fieldNames={{
-                label: "name",
-                value: "id",
-              }}
-              allowClear
-              options={activeData}
-              placeholder="任务类型"
-              mode="multiple"
-            />
-          </Form.Item>
-
-          <Form.Item label="" name="statusList">
-            <Select
-              style={{ width: 240 }}
-              options={[
-                {
-                  label: "待办",
-                  value: "1",
-                },
-                // {
-                //   label: "超时待办",
-                //   value: "3",
-                // },
-                {
-                  label: "已完成",
-                  value: "2",
-                },
-              ]}
-              placeholder="任务状态"
-              mode="multiple"
-            />
-          </Form.Item>
-
-          <Form.Item>
-            <Button type="primary" htmlType="submit">
-              查询
-            </Button>
-          </Form.Item>
-        </Form>
+        <Button type="text" onClick={showPeopleTree} icon={<EyeOutlined />}>
+          按人员筛选
+        </Button>
       </div>
       {data && (
         <Calendar
           dateCellRender={dateCellRender}
           onPanelChange={handledateSelect}
         />
+      )}{" "}
+      {drawerVis.task && (
+        <DrawerTask
+          width="800"
+          visible={drawerVis.task}
+          onClose={() =>
+            setDrawerVis({
+              ...drawerVis,
+              task: false,
+            })
+          }
+          id={operateId}
+          title={operateTxt}
+        />
       )}
+      <StaffTree open={treeVis} getRowSelected={getRowSelected} />
     </>
   );
 }
