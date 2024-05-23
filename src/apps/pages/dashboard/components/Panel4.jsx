@@ -74,8 +74,8 @@ function BarCharet({ params }) {
     let yData2 = [];
     data.forEach((ele) => {
       xData.push(ele.name);
-      yData1.push((ele.prevValue / 10000).toFixed(4)); //预测值value
-      yData2.push((ele.value / 10000).toFixed(4)); //预算值
+      yData1.push(ele.prevValue); //预测值value
+      yData2.push(ele.value); //预算值
     });
     const option = {
       title: {
