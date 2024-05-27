@@ -195,8 +195,8 @@ function DealConfirm() {
 
     {
       title: "最近跟进时间",
-      dataIndex: "actionTime",
-      key: "actionTime",
+      dataIndex: "latestFollowUpTime",
+      key: "latestFollowUpTime",
     },
     {
       title: "商机状态变更",

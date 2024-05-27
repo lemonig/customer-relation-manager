@@ -22,9 +22,35 @@ import DealView from "./components/DealView";
 import TaskView from "./components/TaskView";
 import ContractView from "./components/ContractView";
 import FeeView from "./components/FeeView";
+import DrawerDeal from "@Shared/DrawerDeal";
+import DrawerLinkman from "@Shared/DrawerLinkman";
+import DrawerCustomer from "@Shared/DrawerCustomer";
+import DrawerTask from "@Shared/DrawerTask";
 
 function DealList() {
   const { id } = useParams();
+  const [drawerVis, setDrawerVis] = useState({
+    deal: false,
+    customer: false,
+  });
+  const [operateId, setOperateId] = useState(null);
+  const [operateTxt, setOperateTxt] = useState(null);
+  const clickCallback = (txt, id) => {
+    setOperateId(id);
+    setOperateTxt(txt);
+    setDrawerVis({
+      ...drawerVis,
+      deal: true,
+    });
+  };
+  const clickCallback1 = (txt, id) => {
+    setOperateId(id);
+    setOperateTxt(txt);
+    setDrawerVis({
+      ...drawerVis,
+      customer: true,
+    });
+  };
 
   const items = [
     {
@@ -35,12 +61,17 @@ function DealList() {
     {
       key: "2",
       label: "商机",
-      children: <DealView></DealView>,
+      children: <DealView clickCallback={clickCallback} />,
     },
     {
       key: "3",
       label: "任务",
-      children: <TaskView></TaskView>,
+      children: (
+        <TaskView
+          clickCallback={clickCallback}
+          clickCallback1={clickCallback1}
+        />
+      ),
     },
     {
       key: "4",
@@ -55,16 +86,47 @@ function DealList() {
   ];
 
   return (
-    <div className="detail-page">
-      <Head></Head>
-      <div className="search" style={{ marginBottom: "0px" }}></div>
-      <Tabs
-        defaultActiveKey="1"
-        items={items}
-        destroyInactiveTabPane
-        centered={true}
-      />
-    </div>
+    <>
+      <div className="detail-page">
+        <Head></Head>
+        <div className="search" style={{ marginBottom: "0px" }}></div>
+        <Tabs
+          defaultActiveKey="1"
+          items={items}
+          destroyInactiveTabPane
+          centered={true}
+        />
+      </div>
+      {drawerVis.customer && (
+        <DrawerCustomer
+          width="800"
+          visible={drawerVis.customer}
+          onClose={() =>
+            setDrawerVis({
+              ...drawerVis,
+              customer: false,
+            })
+          }
+          id={operateId}
+          title={operateTxt}
+        />
+      )}
+
+      {drawerVis.deal && (
+        <DrawerDeal
+          width="800"
+          visible={drawerVis.deal}
+          onClose={() =>
+            setDrawerVis({
+              ...drawerVis,
+              deal: false,
+            })
+          }
+          id={operateId}
+          title={operateTxt}
+        />
+      )}
+    </>
   );
 }
 

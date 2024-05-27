@@ -231,8 +231,8 @@ function MsgCustomer() {
     },
     {
       title: "最近跟进时间",
-      dataIndex: "updateTime",
-      key: "updateTime",
+      dataIndex: "latestFollowUpTime",
+      key: "latestFollowUpTime",
       sorter: true,
     },
     {

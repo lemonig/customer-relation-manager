@@ -2,7 +2,8 @@ import React, { useState, useEffect } from "react";
 import { Button, Table, Modal } from "antd";
 import { activityPage } from "@Api/dashboard.js";
 import DrawerTask from "@Shared/DrawerTask";
-
+import DrawerDeal from "@Shared/DrawerDeal";
+import DrawerCustomer from "@Shared/DrawerCustomer";
 function TaskView({
   open,
   getRowSelected,
@@ -18,6 +19,9 @@ function TaskView({
   const [data, setData] = useState([]);
   const [drawerVis, setDrawerVis] = useState({
     task: false,
+    deal: false,
+    linkman: false,
+    customer: false,
   });
   const [operateId, setOperateId] = useState(null);
   const [operateTxt, setOperateTxt] = useState(null);
@@ -66,12 +70,44 @@ function TaskView({
       title: "商机名称",
       key: "dealName",
       dataIndex: "dealName",
+      render: (val, { dealId }) => {
+        return (
+          <a
+            onClick={() => {
+              setOperateId(dealId);
+              setOperateTxt(val);
+              setDrawerVis({
+                ...drawerVis,
+                deal: true,
+              });
+            }}
+          >
+            {val}
+          </a>
+        );
+      },
     },
 
     {
       title: "客户",
       dataIndex: "orgName",
       key: "orgName",
+      render: (val, { orgId }) => {
+        return (
+          <a
+            onClick={() => {
+              setOperateId(orgId);
+              setOperateTxt(val);
+              setDrawerVis({
+                ...drawerVis,
+                customer: true,
+              });
+            }}
+          >
+            {val}
+          </a>
+        );
+      },
     },
     {
       title: "费用",
@@ -186,6 +222,36 @@ function TaskView({
             setDrawerVis({
               ...drawerVis,
               task: false,
+            })
+          }
+          id={operateId}
+          title={operateTxt}
+        />
+      )}
+
+      {drawerVis.deal && (
+        <DrawerDeal
+          width="800"
+          visible={drawerVis.deal}
+          onClose={() =>
+            setDrawerVis({
+              ...drawerVis,
+              deal: false,
+            })
+          }
+          id={operateId}
+          title={operateTxt}
+        />
+      )}
+
+      {drawerVis.customer && (
+        <DrawerCustomer
+          width="800"
+          visible={drawerVis.customer}
+          onClose={() =>
+            setDrawerVis({
+              ...drawerVis,
+              customer: false,
             })
           }
           id={operateId}

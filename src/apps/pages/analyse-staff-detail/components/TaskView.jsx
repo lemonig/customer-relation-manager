@@ -24,7 +24,7 @@ import IconFont from "@Components/IconFont";
 import BtnAuth from "@Shared/BtnAuth";
 const { RangePicker } = DatePicker;
 
-function TaskView() {
+function TaskView({ clickCallback, clickCallback1 }) {
   const { id } = useParams();
   const [loading, setLoading] = useState(false);
   const [selectedRowKeys, setSelectedRowKeys] = useState([]); //表格选中key
@@ -207,7 +207,7 @@ function TaskView() {
       ),
       onCell: (record) => ({
         onClick: (event) => {
-          gotoDealDetail(record.dealId);
+          clickCallback(record.dealName, record.dealId);
         },
       }),
     },
@@ -223,7 +223,7 @@ function TaskView() {
       ),
       onCell: (record) => ({
         onClick: (event) => {
-          gotoCusDetail(record.organization);
+          clickCallback1(record.orgName, record.orgId);
         },
       }),
     },

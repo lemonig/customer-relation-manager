@@ -39,7 +39,7 @@ echarts.use([
   CanvasRenderer,
   LegendComponent,
 ]);
-function DealView() {
+function DealView({ clickCallback }) {
   let navigate = useNavigate();
   const { id } = useParams();
   const [searchForm] = Form.useForm();
@@ -130,7 +130,7 @@ function DealView() {
       ),
       onCell: (record) => ({
         onClick: (event) => {
-          gotoDealDetail(record.id);
+          clickCallback(record.title, record.id);
         },
       }),
     },

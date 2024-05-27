@@ -34,7 +34,7 @@ const salePanel = [
   {
     label: "回款金额",
     val: "5",
-    unit: "个",
+    unit: "",
     link: "contract",
     key: "contractReceivedValue",
     type: 4,
