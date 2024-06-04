@@ -50,6 +50,7 @@ function FormTrans({ open, closeModal, pipelineId }) {
       onCancel={() => closeModal(false)}
       maskClosable={false}
       destroyOnClose
+      zIndex={1002}
     >
       <Form
         name="basic"

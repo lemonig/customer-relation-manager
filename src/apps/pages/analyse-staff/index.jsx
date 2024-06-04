@@ -85,7 +85,7 @@ function DealList() {
         ...res.additional_data.columnList.map((item, idx) => ({
           fixed: idx == 0 ? "left" : false,
           title: function () {
-            if ([6, 7, 8, 9].includes(Number(item["key"].substring(4)))) {
+            if ([7, 8, 9, 10].includes(Number(item["key"].substring(4)))) {
               return (
                 <span style={{ fontWeight: "bold" }} key={item.key}>
                   {item.label}
