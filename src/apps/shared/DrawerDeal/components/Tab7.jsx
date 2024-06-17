@@ -1,24 +1,10 @@
 import React, { useState, useEffect, useContext } from "react";
-import {
-  Input,
-  Button,
-  Space,
-  Table,
-  Modal,
-  message,
-  PageHeader,
-  DatePicker,
-  Form,
-  Select,
-} from "antd";
-
-import moment from "moment";
+import { Table, Tooltip } from "antd";
 import { biddingAgencypage } from "@Api/deal_list";
 import { DealContext } from "../index";
 
 function Tab7() {
   const id = useContext(DealContext);
-  const [activeData, setActiveData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [pageMsg, setPagemsg] = useState({
     pagination: {
@@ -72,12 +58,18 @@ function Tab7() {
       title: "备注",
       dataIndex: "description",
       key: "description",
+      ellipsis: {
+        showTitle: false,
+      },
+      render: (val) => (
+        <Tooltip placement="topLeft" title={val}>
+          {val}
+        </Tooltip>
+      ),
     },
   ];
 
   const handleTableChange = (pagination, filters, sorter, extra) => {
-    // if filters not changed, don't update pagination.current
-
     setPagemsg({
       pagination,
       filters,

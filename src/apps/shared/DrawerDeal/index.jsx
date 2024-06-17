@@ -66,16 +66,6 @@ function Index(props) {
               children: <Tab4></Tab4>,
             },
             {
-              label: `变更日志`,
-              key: "5",
-              children: <Tab6></Tab6>,
-            },
-            {
-              label: `合同`,
-              key: "6",
-              children: <Tab5></Tab5>,
-            },
-            {
               label: `招标代理`,
               key: "7",
               children: <Tab7></Tab7>,
@@ -89,6 +79,16 @@ function Index(props) {
               label: `竞争对手`,
               key: "9",
               children: <Tab9></Tab9>,
+            },
+            {
+              label: `变更日志`,
+              key: "5",
+              children: <Tab6></Tab6>,
+            },
+            {
+              label: `合同`,
+              key: "6",
+              children: <Tab5></Tab5>,
             },
           ]}
         />

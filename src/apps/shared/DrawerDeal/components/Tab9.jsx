@@ -1,18 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
-import {
-  Input,
-  Button,
-  Space,
-  Table,
-  Modal,
-  message,
-  PageHeader,
-  DatePicker,
-  Form,
-  Select,
-} from "antd";
+import { Table, Tooltip } from "antd";
 
-import moment from "moment";
 import { competitorpage } from "@Api/deal_list";
 import { DealContext } from "../index";
 
@@ -62,22 +50,44 @@ function Tab9() {
       title: "优势分析",
       dataIndex: "strength",
       key: "strength",
+      ellipsis: {
+        showTitle: false,
+      },
+      render: (val) => (
+        <Tooltip placement="topLeft" title={val}>
+          {val}
+        </Tooltip>
+      ),
     },
     {
       title: "劣势分析",
       dataIndex: "weakness",
       key: "weakness",
+      ellipsis: {
+        showTitle: false,
+      },
+      render: (val) => (
+        <Tooltip placement="topLeft" title={val}>
+          {val}
+        </Tooltip>
+      ),
     },
     {
       title: "备注",
       dataIndex: "description",
       key: "description",
+      ellipsis: {
+        showTitle: false,
+      },
+      render: (val) => (
+        <Tooltip placement="topLeft" title={val}>
+          {val}
+        </Tooltip>
+      ),
     },
   ];
 
   const handleTableChange = (pagination, filters, sorter, extra) => {
-    // if filters not changed, don't update pagination.current
-
     setPagemsg({
       pagination,
       filters,
