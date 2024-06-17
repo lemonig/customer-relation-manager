@@ -186,3 +186,24 @@ export function contractpage(data) {
     data
   })
 }
+// 商机-招标代理记录
+export function biddingAgencypage(data) {
+  return _post({
+    url: `/api/deal/biddingAgency/page`,
+    data
+  })
+}
+// 商机-合作伙伴记录
+export function partnerpage(data) {
+  return _post({
+    url: `/api/deal/partner/page`,
+    data
+  })
+}
+// 商机-竞争对手记录
+export function competitorpage(data) {
+  return _post({
+    url: `/api/deal/competitor/page`,
+    data
+  })
+}

@@ -31,7 +31,9 @@ const Tab1 = () => {
       <Descriptions.Item label="部门">{data.department}</Descriptions.Item>
       <Descriptions.Item label="职位">{data.jobTitle}</Descriptions.Item>
       <Descriptions.Item label="关键决策人">{data.isKdm}</Descriptions.Item>
-      <Descriptions.Item label="办公地址">{data.address}</Descriptions.Item>
+      <Descriptions.Item label="办公地址">
+        {data.officeAddress}
+      </Descriptions.Item>
       <Descriptions.Item label="家庭地址">{data.address}</Descriptions.Item>
       <Descriptions.Item label="备注">{data.description}</Descriptions.Item>
       <Descriptions.Item label="创建时间" span={2}>

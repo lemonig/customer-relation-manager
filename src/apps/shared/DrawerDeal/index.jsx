@@ -22,6 +22,9 @@ import Tab3 from "./components/Tab3";
 import Tab4 from "./components/Tab4";
 import Tab5 from "./components/Tab5";
 import Tab6 from "./components/Tab6";
+import Tab7 from "./components/Tab7";
+import Tab8 from "./components/Tab8";
+import Tab9 from "./components/Tab9";
 
 export const DealContext = React.createContext();
 
@@ -71,6 +74,21 @@ function Index(props) {
               label: `合同`,
               key: "6",
               children: <Tab5></Tab5>,
+            },
+            {
+              label: `招标代理`,
+              key: "7",
+              children: <Tab7></Tab7>,
+            },
+            {
+              label: `合作伙伴`,
+              key: "8",
+              children: <Tab8></Tab8>,
+            },
+            {
+              label: `竞争对手`,
+              key: "9",
+              children: <Tab9></Tab9>,
             },
           ]}
         />

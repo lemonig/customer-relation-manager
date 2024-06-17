@@ -44,7 +44,7 @@ function FormTrans({ open, closeModal, pipelineId }) {
 
   return (
     <Modal
-      title="转机商机所属人"
+      title="转移商机所属人"
       open={open}
       onOk={handleOk}
       onCancel={() => closeModal(false)}
