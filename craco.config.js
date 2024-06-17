@@ -125,7 +125,6 @@ module.exports = {
     plugins: [
       ...whenProd(
         () => [
-          new webpackBundleAnalyzer(),
           new MomentLocalesPlugin({
             localesToKeep: ["zh-cn"],
           }),
