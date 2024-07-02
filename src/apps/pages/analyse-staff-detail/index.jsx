@@ -99,7 +99,7 @@ function DealList() {
       </div>
       {drawerVis.customer && (
         <DrawerCustomer
-          width="800"
+          width="1000"
           visible={drawerVis.customer}
           onClose={() =>
             setDrawerVis({
@@ -114,7 +114,7 @@ function DealList() {
 
       {drawerVis.deal && (
         <DrawerDeal
-          width="800"
+          width="1000"
           visible={drawerVis.deal}
           onClose={() =>
             setDrawerVis({

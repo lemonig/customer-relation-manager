@@ -171,7 +171,7 @@ export const Box = function Box({ data }) {
       </div>
       {drawerVis.deal && (
         <DrawerDeal
-          width="800"
+          width="1000"
           visible={drawerVis.deal}
           onClose={() =>
             setDrawerVis({

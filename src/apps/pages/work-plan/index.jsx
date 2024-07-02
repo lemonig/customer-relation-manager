@@ -558,7 +558,7 @@ function WorkPlan() {
       )}
       {drawerVis.task && (
         <DrawerTask
-          width="800"
+          width="1000"
           visible={drawerVis.task}
           onClose={() =>
             setDrawerVis({
@@ -573,7 +573,7 @@ function WorkPlan() {
 
       {drawerVis.deal && (
         <DrawerDeal
-          width="800"
+          width="1000"
           visible={drawerVis.deal}
           onClose={() =>
             setDrawerVis({
@@ -587,7 +587,7 @@ function WorkPlan() {
       )}
       {drawerVis.linkman && (
         <DrawerLinkman
-          width="800"
+          width="1000"
           visible={drawerVis.linkman}
           onClose={() =>
             setDrawerVis({
@@ -601,7 +601,7 @@ function WorkPlan() {
       )}
       {drawerVis.customer && (
         <DrawerCustomer
-          width="800"
+          width="1000"
           visible={drawerVis.customer}
           onClose={() =>
             setDrawerVis({

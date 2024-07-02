@@ -38,6 +38,8 @@ import { arrayToTree } from "@Utils/util";
 import { useDispatch, useSelector } from "react-redux";
 import { SAVE_FORM, DELETE_FORM } from "@Store/features/searchFormSlice.js";
 import DrawerDeal from "@Shared/DrawerDeal";
+import DrawerCustomer from "@Shared/DrawerCustomer";
+import DrawerLinkman from "@Shared/DrawerLinkman";
 import "./index.less";
 import StaffTree from "@Shared/StaffTree";
 import { EyeOutlined } from "@ant-design/icons";
@@ -70,6 +72,8 @@ function DealList() {
   });
   const [drawerVis, setDrawerVis] = useState({
     deal: false,
+    customer: false,
+    linkman: false,
   });
   const [operateId, setOperateId] = useState(null);
   const [operateTxt, setOperateTxt] = useState(null);
@@ -87,7 +91,12 @@ function DealList() {
 
   useEffect(() => {
     getPageData();
-  }, [pageMsg.pagination.current, pageMsg.pagination.pageSize]);
+  }, [
+    pageMsg.pagination.current,
+    pageMsg.pagination.pageSize,
+    pageMsg?.order,
+    pageMsg?.field,
+  ]);
   useEffect(() => {
     getPageData();
   }, [userId]);
@@ -144,6 +153,7 @@ function DealList() {
     dealPage({
       page: pageMsg.pagination.current,
       size: pageMsg.pagination.pageSize,
+      sort: pageMsg.order ? [`${pageMsg.field},${pageMsg.order}`] : undefined,
       data: {
         ...values,
         userIdList: userId,
@@ -167,6 +177,8 @@ function DealList() {
       title: "序号",
       key: "index",
       width: 60,
+      fixed: "left",
+
       render: (_, record, index) =>
         pageMsg.pagination.pageSize * (pageMsg.pagination.current - 1) +
         index +
@@ -177,6 +189,7 @@ function DealList() {
       title: "商机编号",
       dataIndex: "code",
       key: "code",
+      fixed: "left",
       render: (val, { id: dealId, title }) => {
         return (
           <a
@@ -212,6 +225,7 @@ function DealList() {
       title: "预算金额",
       dataIndex: "value",
       key: "value",
+      sorter: true,
       render: (value, record) => (
         <Statistic value={value} valueStyle={{ fontSize: "12px" }} />
       ),
@@ -220,11 +234,28 @@ function DealList() {
       title: "客户公司",
       dataIndex: "orgName",
       key: "orgName",
+      render: (val, { orgId }) => {
+        return (
+          <a
+            onClick={() => {
+              setOperateId(orgId);
+              setOperateTxt(val);
+              setDrawerVis({
+                ...drawerVis,
+                customer: true,
+              });
+            }}
+          >
+            {val}
+          </a>
+        );
+      },
     },
     {
       title: "最近跟进时间",
       dataIndex: "latestFollowUpTime",
       key: "latestFollowUpTime",
+      sorter: true,
     },
     {
       title: "下一项工作计划",
@@ -240,6 +271,22 @@ function DealList() {
       title: "客户联系人",
       dataIndex: "personName",
       key: "personName",
+      render: (val, { personId: id }) => {
+        return (
+          <a
+            onClick={() => {
+              setOperateId(id);
+              setOperateTxt(val);
+              setDrawerVis({
+                ...drawerVis,
+                linkman: true,
+              });
+            }}
+          >
+            {val}
+          </a>
+        );
+      },
     },
     // {
     //   title: "竞争对手(个)",
@@ -260,6 +307,7 @@ function DealList() {
       title: "此阶段停留(天)",
       dataIndex: "stayDays",
       key: "stayDays",
+      sorter: true,
       render: (value, record) => (
         <span style={value.isOver ? { color: "#fa4839" } : {}}>
           {value.value}
@@ -280,6 +328,7 @@ function DealList() {
       title: "创建时间",
       dataIndex: "createTime",
       key: "createTime",
+      sorter: true,
     },
   ];
 
@@ -297,7 +346,8 @@ function DealList() {
     setPagemsg({
       pagination,
       filters,
-      ...sorter,
+      order: Array.isArray(sorter) ? undefined : sorter.order,
+      field: Array.isArray(sorter) ? undefined : sorter.field,
     });
   };
 
@@ -652,6 +702,9 @@ function DealList() {
         }}
         rowKey={(record) => record.id}
         onChange={handleTableChange}
+        scroll={{
+          x: "max-content",
+        }}
       />
       {/* 表单 */}
       {isModalOpen && (
@@ -659,7 +712,7 @@ function DealList() {
       )}
       {drawerVis.deal && (
         <DrawerDeal
-          width="800"
+          width="1000"
           visible={drawerVis.deal}
           onClose={() =>
             setDrawerVis({
@@ -672,6 +725,35 @@ function DealList() {
         />
       )}
       <StaffTree open={treeVis} getRowSelected={getRowSelected} />
+
+      {drawerVis.customer && (
+        <DrawerCustomer
+          width="1000"
+          visible={drawerVis.customer}
+          onClose={() =>
+            setDrawerVis({
+              ...drawerVis,
+              customer: false,
+            })
+          }
+          id={operateId}
+          title={operateTxt}
+        />
+      )}
+      {drawerVis.linkman && (
+        <DrawerLinkman
+          width="1000"
+          visible={drawerVis.linkman}
+          onClose={() =>
+            setDrawerVis({
+              ...drawerVis,
+              linkman: false,
+            })
+          }
+          id={operateId}
+          title={operateTxt}
+        />
+      )}
     </div>
   );
 }

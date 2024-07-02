@@ -17,6 +17,7 @@ import {
 import moment from "moment";
 import { personPage } from "@Api/deal_list";
 import { DealContext } from "../index";
+import { ExclamationCircleFilled } from "@ant-design/icons";
 
 function Tab2({ id, word }) {
   // const id = useContext(DealContext);
@@ -113,6 +114,10 @@ function Tab2({ id, word }) {
     });
   };
 
+  const getRowClassName = ({ isRelated }, index) => {
+    return isRelated ? "row-color-1" : "";
+  };
+
   return (
     <div>
       <style jsx="true">
@@ -123,9 +128,17 @@ function Tab2({ id, word }) {
             white-space: nowrap;
             width: 300px;
           }
+
+          .row-color-1 {
+            background-color: #f0f8ff;
+            color: #1890ff;
+          }
         `}
       </style>
-
+      <p>
+        <ExclamationCircleFilled />
+        高亮显示的联系人为商机关联的联系人，其余为商机关联客户其他的联系人
+      </p>
       <Table
         columns={columns}
         dataSource={data}
@@ -137,6 +150,7 @@ function Tab2({ id, word }) {
         rowKey={(record) => record.id}
         onChange={handleTableChange}
         onHeaderCell={() => "onHeaderCell"}
+        rowClassName={getRowClassName}
       />
     </div>
   );

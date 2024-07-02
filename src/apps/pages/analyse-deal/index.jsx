@@ -248,7 +248,7 @@ function AnalyseDeal() {
 
       {drawerVis.deal && (
         <DrawerDeal
-          width="800"
+          width="10000"
           visible={drawerVis.deal}
           onClose={() =>
             setDrawerVis({

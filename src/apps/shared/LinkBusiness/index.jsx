@@ -193,7 +193,7 @@ function LinkBusiness({ open, getRowSelected, defaultId }) {
       open={open}
       onOk={() => getRowSelected(true, rowSelected)}
       onCancel={() => getRowSelected(false)}
-      width={1000}
+      width={800}
       destroyOnClose
       bodyStyle={{
         padding: "8px",

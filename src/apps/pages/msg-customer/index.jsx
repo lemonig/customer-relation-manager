@@ -348,7 +348,7 @@ function MsgCustomer() {
       )}
       {drawerVis.customer && (
         <DrawerCustomer
-          width="800"
+          width="1000"
           visible={drawerVis.customer}
           onClose={() =>
             setDrawerVis({
@@ -362,7 +362,7 @@ function MsgCustomer() {
       )}
       {drawerVis.linkman && (
         <DrawerLinkman
-          width="800"
+          width="1000"
           visible={drawerVis.linkman}
           onClose={() =>
             setDrawerVis({

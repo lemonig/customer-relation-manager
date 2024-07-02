@@ -133,7 +133,7 @@ function WorkCalender() {
       )}{" "}
       {drawerVis.task && (
         <DrawerTask
-          width="800"
+          width="1000"
           visible={drawerVis.task}
           onClose={() =>
             setDrawerVis({

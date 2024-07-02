@@ -341,7 +341,7 @@ function MsgCompany() {
       )}
       {drawerVis.customer && (
         <DrawerCustomer
-          width="800"
+          width="1000"
           visible={drawerVis.customer}
           onClose={() =>
             setDrawerVis({

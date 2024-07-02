@@ -83,11 +83,6 @@ function Tab3({ id, word }) {
       dataIndex: "statusName",
       key: "status",
     },
-    {
-      title: "创建人",
-      dataIndex: "createUserName",
-      key: "createUserName",
-    },
 
     {
       title: "联系人",
@@ -104,7 +99,11 @@ function Tab3({ id, word }) {
       dataIndex: "description",
       key: "description",
     },
-
+    {
+      title: "创建人",
+      dataIndex: "createUserName",
+      key: "createUserName",
+    },
     {
       title: "创建时间",
       dataIndex: "createTime",
