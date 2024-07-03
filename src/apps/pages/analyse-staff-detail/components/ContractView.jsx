@@ -58,7 +58,13 @@ function ContractView() {
 
   useEffect(() => {
     getPageData();
-  }, [pageMsg.pagination.current, pageMsg.pagination.pageSize, year]);
+  }, [
+    pageMsg.pagination.current,
+    pageMsg.pagination.pageSize,
+    pageMsg?.order,
+    pageMsg?.field,
+    year,
+  ]);
 
   // 查询
   const search = () => {
@@ -79,6 +85,7 @@ function ContractView() {
     contractOverview({
       page: pageMsg.pagination.current,
       size: pageMsg.pagination.pageSize,
+      sort: pageMsg.order ? [`${pageMsg.field},${pageMsg.order}`] : undefined,
       data: {
         year,
         userId: id,
@@ -136,6 +143,7 @@ function ContractView() {
       title: "金额",
       dataIndex: "value",
       key: "value",
+      sorter: true,
       render: (value, record) => (
         <Statistic value={value} valueStyle={{ fontSize: "12px" }} />
       ),
@@ -144,12 +152,14 @@ function ContractView() {
     {
       title: "签订日期",
       dataIndex: "signedDate",
+      sorter: true,
       key: "signedDate",
     },
     {
       title: "客户",
       dataIndex: "orgName",
       key: "orgName",
+      sorter: true,
       ellipsis: {
         showTitle: false,
       },
@@ -176,7 +186,8 @@ function ContractView() {
     setPagemsg({
       pagination,
       filters,
-      ...sorter,
+      order: Array.isArray(sorter) ? undefined : sorter.order,
+      field: Array.isArray(sorter) ? undefined : sorter.field,
     });
   };
 

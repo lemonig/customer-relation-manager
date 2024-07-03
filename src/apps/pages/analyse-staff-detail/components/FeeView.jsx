@@ -65,7 +65,13 @@ function ContractView() {
 
   useEffect(() => {
     getPageData();
-  }, [pageMsg.pagination.current, pageMsg.pagination.pageSize, year]);
+  }, [
+    pageMsg.pagination.current,
+    pageMsg.pagination.pageSize,
+    pageMsg?.order,
+    pageMsg?.field,
+    year,
+  ]);
 
   useEffect(() => {
     getDictData();
@@ -94,6 +100,7 @@ function ContractView() {
     feeOverview({
       page: pageMsg.pagination.current,
       size: pageMsg.pagination.pageSize,
+      sort: pageMsg.order ? [`${pageMsg.field},${pageMsg.order}`] : undefined,
       data: {
         ...values,
         userId: id,
@@ -202,6 +209,7 @@ function ContractView() {
       title: "报销金额",
       dataIndex: "feeValue",
       key: "feeValue",
+      sorter: true,
       render: (feeValue, record) => (
         <Statistic value={feeValue} valueStyle={{ fontSize: "12px" }} />
       ),
@@ -228,7 +236,8 @@ function ContractView() {
     setPagemsg({
       pagination,
       filters,
-      ...sorter,
+      order: Array.isArray(sorter) ? undefined : sorter.order,
+      field: Array.isArray(sorter) ? undefined : sorter.field,
     });
   };
 

@@ -14,23 +14,20 @@ const Index = ({
 }) => {
   const [isOpen, setIsOpen] = useState(visible);
 
-  // useEffect(() => {
-  //   if (visible) {
-  //     setIsOpen(true);
-  //   } else {
-  //     // 延迟关闭以显示淡出动画
-  //     const timer = setTimeout(() => setIsOpen(false), 300);
-  //     return () => clearTimeout(timer);
-  //   }
-  // }, [visible]);
+  useEffect(() => {
+    if (visible) {
+      setIsOpen(true);
+    } else {
+      // 延迟关闭以显示淡出动画
+      const timer = setTimeout(() => setIsOpen(false), 300);
+      return () => clearTimeout(timer);
+    }
+  }, [visible]);
 
   const handleClose = () => {
     if (onClose) {
       onClose();
     }
-  };
-  const toggleDrawer = () => {
-    setIsOpen(!isOpen);
   };
 
   const drawerAnimation = useSpring({
@@ -38,13 +35,7 @@ const Index = ({
     to: {
       transform: isOpen ? "translateX(0%)" : "translateX(100%)",
     },
-    // transform: isOpen ? "translateX(0%)" : "translateX(100%)",
-    config: config.wobbly,
-    onRest: () => {
-      if (!isOpen) {
-        drawerAnimation.visibility = "hidden";
-      }
-    },
+    config: config.default,
   });
 
   const maskAnimation = useSpring({
@@ -57,26 +48,9 @@ const Index = ({
       }
     },
   });
+
   return ReactDOM.createPortal(
     <>
-      {/* {isOpen && (
-        <div
-          className={`drawer-overlay ${visible ? "open" : ""}`}
-          onClick={handleClose}
-        ></div>
-      )} */}
-      {/* <div
-        className={`drawer drawer-${direction} ${visible ? "open" : ""}`}
-        style={{ width: width.concat("px") }}
-      >
-        <div className="header">
-          <div className="main">
-  
-            <div className="title">{title}</div>
-          </div>
-        </div>
-        <div className="body">{children}</div>
-      </div> */}
       <animated.div
         style={maskAnimation}
         className="drawer-overlay"

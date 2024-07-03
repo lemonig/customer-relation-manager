@@ -39,7 +39,7 @@ echarts.use([
   CanvasRenderer,
   LegendComponent,
 ]);
-function DealView({ clickCallback }) {
+function DealView({ clickCallback, clickCallback1, clickCallback2 }) {
   let navigate = useNavigate();
   const { id } = useParams();
   const [searchForm] = Form.useForm();
@@ -69,7 +69,12 @@ function DealView({ clickCallback }) {
     if (pipeline.length > 0) {
       getPageData();
     }
-  }, [pageMsg.pagination.current, pageMsg.pagination.pageSize]);
+  }, [
+    pageMsg.pagination.current,
+    pageMsg.pagination.pageSize,
+    pageMsg?.order,
+    pageMsg?.field,
+  ]);
 
   //销售流程
   const getPlpeline = async () => {
@@ -99,6 +104,7 @@ function DealView({ clickCallback }) {
     dealOverview({
       page: pageMsg.pagination.current,
       size: pageMsg.pagination.pageSize,
+      sort: pageMsg.order ? [`${pageMsg.field},${pageMsg.order}`] : undefined,
       data: {
         ...values,
         userId: id,
@@ -153,6 +159,7 @@ function DealView({ clickCallback }) {
       title: "预算金额",
       dataIndex: "value",
       key: "value",
+      sorter: true,
       render: (value, record) => (
         <Statistic value={value} valueStyle={{ fontSize: "12px" }} />
       ),
@@ -161,11 +168,30 @@ function DealView({ clickCallback }) {
       title: "客户公司",
       dataIndex: "orgName",
       key: "orgName",
+      sorter: true,
+      width: 150,
+      ellipsis: {
+        showTitle: false,
+      },
+
+      render: (val, { orgId }) => {
+        return (
+          <Tooltip placement="topLeft" title={val}>
+            {val}
+          </Tooltip>
+        );
+      },
+      onCell: (record) => ({
+        onClick: (event) => {
+          clickCallback1(record.orgName, record.orgId);
+        },
+      }),
     },
     {
       title: "最近跟进时间",
       dataIndex: "latestFollowUpTime",
       key: "latestFollowUpTime",
+      sorter: true,
     },
     {
       title: "下一项工作计划",
@@ -181,26 +207,25 @@ function DealView({ clickCallback }) {
       title: "客户联系人",
       dataIndex: "personName",
       key: "personName",
+      onCell: (record) => ({
+        onClick: (event) => {
+          clickCallback2(record.personName, record.personId);
+        },
+      }),
     },
-    {
-      title: "竞争对手(个)",
-      dataIndex: "competitorNum",
-      key: "competitorNum",
-    },
-    // {
-    //   title: "销售流程",
-    //   dataIndex: "pipelineName",
-    //   key: "pipelineName",
-    // },
     {
       title: "销售流程阶段",
       dataIndex: "pipelineStageName",
       key: "pipelineStageName",
+      sorter: true,
+      width: 90,
     },
     {
       title: "此阶段停留(天)",
       dataIndex: "stayDays",
       key: "stayDays",
+      sorter: true,
+      width: 90,
       render: (value, record) => (
         <span style={value.isOver ? { color: "#fa4839" } : {}}>
           {value.value}
@@ -211,16 +236,22 @@ function DealView({ clickCallback }) {
       title: "商机状态",
       dataIndex: "statusName",
       key: "statusName",
+      sorter: true,
+      width: 90,
     },
     {
       title: "销售人员",
       dataIndex: "ownerUserName",
       key: "ownerUserName",
+      sorter: true,
+      width: 90,
     },
     {
       title: "创建时间",
       dataIndex: "createTime",
       key: "createTime",
+      sorter: true,
+      width: 120,
     },
   ];
 
@@ -235,7 +266,8 @@ function DealView({ clickCallback }) {
     setPagemsg({
       pagination,
       filters,
-      ...sorter,
+      order: Array.isArray(sorter) ? undefined : sorter.order,
+      field: Array.isArray(sorter) ? undefined : sorter.field,
     });
   };
 

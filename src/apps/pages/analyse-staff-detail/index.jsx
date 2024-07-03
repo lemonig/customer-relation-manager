@@ -32,6 +32,8 @@ function DealList() {
   const [drawerVis, setDrawerVis] = useState({
     deal: false,
     customer: false,
+    linkman: false,
+    task: false,
   });
   const [operateId, setOperateId] = useState(null);
   const [operateTxt, setOperateTxt] = useState(null);
@@ -51,6 +53,22 @@ function DealList() {
       customer: true,
     });
   };
+  const clickCallback2 = (txt, id) => {
+    setOperateId(id);
+    setOperateTxt(txt);
+    setDrawerVis({
+      ...drawerVis,
+      linkman: true,
+    });
+  };
+  const clickCallback3 = (txt, id) => {
+    setOperateId(id);
+    setOperateTxt(txt);
+    setDrawerVis({
+      ...drawerVis,
+      task: true,
+    });
+  };
 
   const items = [
     {
@@ -61,7 +79,13 @@ function DealList() {
     {
       key: "2",
       label: "商机",
-      children: <DealView clickCallback={clickCallback} />,
+      children: (
+        <DealView
+          clickCallback={clickCallback}
+          clickCallback1={clickCallback1}
+          clickCallback2={clickCallback2}
+        />
+      ),
     },
     {
       key: "3",
@@ -70,6 +94,8 @@ function DealList() {
         <TaskView
           clickCallback={clickCallback}
           clickCallback1={clickCallback1}
+          clickCallback2={clickCallback2}
+          clickCallback3={clickCallback3}
         />
       ),
     },
@@ -120,6 +146,36 @@ function DealList() {
             setDrawerVis({
               ...drawerVis,
               deal: false,
+            })
+          }
+          id={operateId}
+          title={operateTxt}
+        />
+      )}
+
+      {drawerVis.linkman && (
+        <DrawerLinkman
+          width="1000"
+          visible={drawerVis.linkman}
+          onClose={() =>
+            setDrawerVis({
+              ...drawerVis,
+              linkman: false,
+            })
+          }
+          id={operateId}
+          title={operateTxt}
+        />
+      )}
+
+      {drawerVis.task && (
+        <DrawerTask
+          width="1000"
+          visible={drawerVis.task}
+          onClose={() =>
+            setDrawerVis({
+              ...drawerVis,
+              task: false,
             })
           }
           id={operateId}

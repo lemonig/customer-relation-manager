@@ -131,7 +131,7 @@ function Tab2({ id, word }) {
 
           .row-color-1 {
             background-color: #f0f8ff;
-            color: #1890ff;
+            font-weight: bold;
           }
         `}
       </style>

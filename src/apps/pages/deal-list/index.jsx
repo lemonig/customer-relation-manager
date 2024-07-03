@@ -190,6 +190,7 @@ function DealList() {
       dataIndex: "code",
       key: "code",
       fixed: "left",
+      width: 90,
       render: (val, { id: dealId, title }) => {
         return (
           <a
@@ -210,7 +211,7 @@ function DealList() {
     {
       title: "商机名称",
       dataIndex: "title",
-      width: "300",
+      width: 200,
       key: "title",
       // ellipsis: {
       //   showTitle: false,
@@ -226,6 +227,7 @@ function DealList() {
       dataIndex: "value",
       key: "value",
       sorter: true,
+      width: 90,
       render: (value, record) => (
         <Statistic value={value} valueStyle={{ fontSize: "12px" }} />
       ),
@@ -234,20 +236,28 @@ function DealList() {
       title: "客户公司",
       dataIndex: "orgName",
       key: "orgName",
+      sorter: true,
+      width: 150,
+      ellipsis: {
+        showTitle: false,
+      },
+
       render: (val, { orgId }) => {
         return (
-          <a
-            onClick={() => {
-              setOperateId(orgId);
-              setOperateTxt(val);
-              setDrawerVis({
-                ...drawerVis,
-                customer: true,
-              });
-            }}
-          >
-            {val}
-          </a>
+          <Tooltip placement="topLeft" title={val}>
+            <a
+              onClick={() => {
+                setOperateId(orgId);
+                setOperateTxt(val);
+                setDrawerVis({
+                  ...drawerVis,
+                  customer: true,
+                });
+              }}
+            >
+              {val}
+            </a>
+          </Tooltip>
         );
       },
     },
@@ -256,11 +266,13 @@ function DealList() {
       dataIndex: "latestFollowUpTime",
       key: "latestFollowUpTime",
       sorter: true,
+      width: 90,
     },
     {
       title: "下一项工作计划",
       dataIndex: "nextActivity",
       key: "nextActivity",
+      width: 90,
       render: (value, record) => (
         <span style={value.isOver ? { color: "#fa4839" } : {}}>
           {value.value}
@@ -271,6 +283,7 @@ function DealList() {
       title: "客户联系人",
       dataIndex: "personName",
       key: "personName",
+      width: 90,
       render: (val, { personId: id }) => {
         return (
           <a
@@ -302,12 +315,15 @@ function DealList() {
       title: "销售流程阶段",
       dataIndex: "pipelineStageName",
       key: "pipelineStageName",
+      sorter: true,
+      width: 90,
     },
     {
       title: "此阶段停留(天)",
       dataIndex: "stayDays",
       key: "stayDays",
       sorter: true,
+      width: 90,
       render: (value, record) => (
         <span style={value.isOver ? { color: "#fa4839" } : {}}>
           {value.value}
@@ -318,17 +334,22 @@ function DealList() {
       title: "商机状态",
       dataIndex: "statusName",
       key: "statusName",
+      sorter: true,
+      width: 90,
     },
     {
       title: "销售人员",
       dataIndex: "ownerUserName",
       key: "ownerUserName",
+      sorter: true,
+      width: 90,
     },
     {
       title: "创建时间",
       dataIndex: "createTime",
       key: "createTime",
       sorter: true,
+      width: 120,
     },
   ];
 
@@ -564,7 +585,14 @@ function DealList() {
     <div className="deal-page">
       <PageHeader className="site-page-header" title="商机列表" />
       <div className="search" style={{ marginBottom: "0px" }}>
-        <Form layout="inline" form={searchForm} onFinish={search}>
+        <Form
+          layout="inline"
+          form={searchForm}
+          onFinish={search}
+          initialValues={{
+            statusList: ["1"],
+          }}
+        >
           <Form.Item label="" name="name">
             <Input
               placeholder="请输入商机名称、商机编号、客户公司"
@@ -703,7 +731,8 @@ function DealList() {
         rowKey={(record) => record.id}
         onChange={handleTableChange}
         scroll={{
-          x: "max-content",
+          x: (columns.length - 1) * 100,
+          // x: "max-content",
         }}
       />
       {/* 表单 */}

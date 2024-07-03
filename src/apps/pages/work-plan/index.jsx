@@ -247,11 +247,6 @@ function WorkPlan() {
       key: "fee",
       sorter: true,
     },
-    // {
-    //   title: "任务主题",
-    //   dataIndex: "subject",
-    //   key: "subject",
-    // },
 
     {
       title: "创建时间",

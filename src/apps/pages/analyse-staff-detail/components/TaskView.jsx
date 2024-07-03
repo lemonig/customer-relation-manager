@@ -24,7 +24,12 @@ import IconFont from "@Components/IconFont";
 import BtnAuth from "@Shared/BtnAuth";
 const { RangePicker } = DatePicker;
 
-function TaskView({ clickCallback, clickCallback1 }) {
+function TaskView({
+  clickCallback,
+  clickCallback1,
+  clickCallback2,
+  clickCallback3,
+}) {
   const { id } = useParams();
   const [loading, setLoading] = useState(false);
   const [selectedRowKeys, setSelectedRowKeys] = useState([]); //表格选中key
@@ -50,7 +55,8 @@ function TaskView({ clickCallback, clickCallback1 }) {
   }, [
     pageMsg.pagination.current,
     pageMsg.pagination.pageSize,
-    // JSON.stringify(pageMsg.filters),
+    pageMsg?.order,
+    pageMsg?.field,
   ]);
 
   const getActiveData = async () => {
@@ -100,9 +106,20 @@ function TaskView({ clickCallback, clickCallback1 }) {
     //       />
     //     ),
     // },
-
     {
-      title: "状态",
+      title: "任务类型",
+      dataIndex: "typeName",
+      key: "typeName",
+      fixed: "left",
+      render: (value, rec) => <Button type="link">{value}</Button>,
+      onCell: (record) => ({
+        onClick: (event) => {
+          clickCallback3(record.typeName, record.typeId);
+        },
+      }),
+    },
+    {
+      title: "任务状态",
       dataIndex: "statusName",
       key: "status",
       fixed: "left",
@@ -117,86 +134,34 @@ function TaskView({ clickCallback, clickCallback1 }) {
       //   },
       // ],
     },
-    {
-      title: "任务编号",
-      dataIndex: "code",
-      key: "code",
-      fixed: "left",
-    },
-    {
-      title: "任务类型",
-      dataIndex: "typeName",
-      key: "typeName",
-      // filters: activeData,
-    },
 
-    // {
-    //   title: "任务主题",
-    //   dataIndex: "subject",
-    //   key: "subject",
-    // },
     {
-      title: "客户联系人",
-      dataIndex: "personName",
-      key: "personName",
-    },
-    {
-      title: "参与人员",
-      dataIndex: "participant",
-      key: "participant",
-    },
-    // {
-    //   title: "联系人电话",
-    //   dataIndex: "personPhone",
-    //   key: "personPhone",
-    // },
-    {
-      title: "任务开始时间",
-      dataIndex: "startTime",
-      key: "startTime",
-      // sorter: true,
-    },
-    {
-      title: "任务描述",
+      title: "标题",
       dataIndex: "subject",
       key: "subject",
       ellipsis: {
         showTitle: false,
       },
-      render: (subject) => (
-        <Tooltip placement="topLeft" title={subject}>
-          {subject}
-        </Tooltip>
-      ),
-    },
-
-    {
-      title: "完成纪要",
-      dataIndex: "description",
-      key: "description",
-      width: 300,
-    },
-    {
-      title: "实际费用",
-      dataIndex: "fee",
-      key: "fee",
-    },
-
-    {
-      title: "地址",
-      dataIndex: "address",
-      key: "address",
-      ellipsis: {
-        showTitle: false,
-      },
-      render: (address) => (
-        <Tooltip placement="topLeft" title={address}>
-          {address}
+      render: (description) => (
+        <Tooltip placement="topLeft" title={description}>
+          {description}
         </Tooltip>
       ),
     },
     {
-      title: "商机",
+      title: "开始时间",
+      dataIndex: "startTime",
+      key: "startTime",
+      sorter: true,
+    },
+    {
+      title: "完成时间",
+      dataIndex: "doneTime",
+      key: "doneTime",
+    },
+
+    {
+      title: "关联商机",
       key: "dealName",
       dataIndex: "dealName",
       // render: (row) => row.deal.name,
@@ -212,7 +177,7 @@ function TaskView({ clickCallback, clickCallback1 }) {
       }),
     },
     {
-      title: "客户",
+      title: "关联客户",
       dataIndex: "orgName",
       key: "orgName",
       width: 300,
@@ -227,19 +192,27 @@ function TaskView({ clickCallback, clickCallback1 }) {
         },
       }),
     },
-
-    // {
-    //   title: "照片",
-    //   dataIndex: "fileList",
-    //   key: "fileList",
-    //   render: (val) => (
-    //     <Space>
-    //       {val.map((item) => (
-    //         <Image width={40} src={item.url} key={item.id} />
-    //       ))}
-    //     </Space>
-    //   ),
-    // },
+    {
+      title: "联系人",
+      dataIndex: "personName",
+      key: "personName",
+      render: (value, record) => (
+        <Space>
+          <a>{value}</a>
+        </Space>
+      ),
+      onCell: (record) => ({
+        onClick: (event) => {
+          clickCallback2(record.personName, record.personId);
+        },
+      }),
+    },
+    {
+      title: "实际费用",
+      dataIndex: "fee",
+      key: "fee",
+      sorter: true,
+    },
 
     {
       title: "创建时间",
@@ -247,27 +220,11 @@ function TaskView({ clickCallback, clickCallback1 }) {
       key: "createTime",
     },
     {
-      title: "完成时间",
-      dataIndex: "doneTime",
-      key: "doneTime",
+      title: "OA推送状态",
+      dataIndex: "isSync",
+      key: "isSync",
+      render: (val) => (val ? "已同步" : "未同步"),
     },
-
-    // {
-    //   title: "创建用户",
-    //   dataIndex: "createUserName",
-    //   key: "createUserName",
-    // },
-
-    // {
-    //   title: "操作",
-    //   key: "operation",
-    //   fixed: "right",
-    //   render: (_, record) => (
-    //     <Space>
-    //       <a onClick={() => handleEdit(record)}>编辑</a>
-    //     </Space>
-    //   ),
-    // },
   ];
 
   const gotoDealDetail = (id) => {
