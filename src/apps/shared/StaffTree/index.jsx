@@ -1,3 +1,10 @@
+/*
+ * @Author: Jonny
+ * @Date: 2024-05-15 16:42:13
+ * @LastEditors: Jonny
+ * @LastEditTime: 2024-08-05 11:35:07
+ * @FilePath: \grean-crm\src\apps\shared\StaffTree\index.jsx
+ */
 import React, { useState, useEffect } from "react";
 import {
   Space,
@@ -11,16 +18,24 @@ import {
   PageHeader,
   Badge,
   message,
+  List,
+  Typography,
 } from "antd";
-import { CaretDownOutlined } from "@ant-design/icons";
+import { CaretDownOutlined, CloseOutlined } from "@ant-design/icons";
 
-import { userList, personList } from "@Api/set_user.js";
+import { userList, personList, userListTree } from "@Api/set_user.js";
 import { deptList, userDeptList } from "@Api/set_dept.js";
 import { arrayToTree } from "@Utils/util";
 import IconFont from "@Components/IconFont";
 import { useDispatch, useSelector } from "react-redux";
 import { SAVE_ID, DELETE_ID } from "@Store/features/staffTreeSlice";
-
+const data = [
+  "Racing car sprays burning fuel into crowd.",
+  "Japanese princess to wed commoner.",
+  "Australian walks 100km after outback crash.",
+  "Man charged over missing wedding girl.",
+  "Los Angeles battles huge wildfires.",
+];
 function Index({ open, getRowSelected, defaultId, url, author = true }) {
   let dispatch = useDispatch();
   const { userIdList } = useSelector((state) => state.staffTreeSlice);
@@ -29,8 +44,8 @@ function Index({ open, getRowSelected, defaultId, url, author = true }) {
   const [treeData, setTreeData] = useState([]); //部门树
   const [selectTreeId, setSelectTreeId] = useState([]); //选中的树key
   const [selectTree, setSelectTree] = useState({}); //选中的树 node
-  const [selectedRowKeys, setSelectedRowKeys] = useState([]); //表格选中key
-  const [selectedStaff, setSelectedStaff] = useState([]); //表格选中staff
+  const [selectedStaff, setSelectedStaff] = useState([]); //选中staff
+  const [selectedDept, setSelectedDept] = useState([]); //选中dept
   const [loading, setLoading] = useState(false);
   const [pageMsg, setPagemsg] = useState({
     pagination: {
@@ -52,24 +67,22 @@ function Index({ open, getRowSelected, defaultId, url, author = true }) {
   }, []);
   // 获取部门
   const getDeptList = async () => {
-    let response = void 0;
-    author ? (response = await userDeptList()) : (response = await deptList());
-    let { data } = response;
-    let temp = data.find(({ id }) => id == 1);
-    let res = arrayToTree(data);
-    res[0].icon = <IconFont iconName="gongsi1" size="18" />; //加icon
-    setTreeData(res);
-    setDeptData(data);
-    setSelectTreeId([temp.id]);
-    setSelectTree(temp);
+    let { data } = await userListTree();
+    // let temp = data.find(({ id }) => id == 1);
+    // let res = arrayToTree(data);
+    // res[0].icon = <IconFont iconName="gongsi1" size="18" />; //加icon
+    setTreeData(data);
+    // setDeptData(data);
+    // setSelectTreeId([temp.id]);
+    // setSelectTree(temp);
   };
-  useEffect(() => {
-    if (selectTreeId.length > 0) getUserData();
-  }, [pageMsg.pagination.current, pageMsg.pagination.pageSize]);
+  // useEffect(() => {
+  //   if (selectTreeId.length > 0) getUserData();
+  // }, [pageMsg.pagination.current, pageMsg.pagination.pageSize]);
 
-  useEffect(() => {
-    if (selectTreeId.length > 0) search();
-  }, [JSON.stringify(selectTreeId)]);
+  // useEffect(() => {
+  //   if (selectTreeId.length > 0) search();
+  // }, [JSON.stringify(selectTreeId)]);
 
   // 查询
   const search = () => {
@@ -118,14 +131,42 @@ function Index({ open, getRowSelected, defaultId, url, author = true }) {
     });
   };
 
-  // 点击部门树
+  //选择/取消
+  const toggleItemInArray = (array, item, key) => {
+    const index = array.findIndex((value, index, arr) => {
+      return value[key] == item[key];
+    });
+    if (index !== -1) {
+      array.splice(index, 1);
+    } else {
+      array.push(item);
+    }
+    return array;
+  };
+  // 点击树
   const onTreeSelect = (selectedKeys, info) => {
     if (info.selected && info.node.id !== selectTreeId[0]) {
-      dispatch(SAVE_ID(selectedKeys));
-      setSelectTreeId(selectedKeys);
-      setSelectTree(info.node);
+      // dispatch(SAVE_ID(selectedKeys));
+      // setSelectTreeId(selectedKeys);
+      // setSelectTree(info.node);
+      let newStaff = toggleItemInArray(selectedStaff, info.node, "key");
+      setSelectedStaff([...newStaff]);
     }
   };
+  const onTreeClick = (selectedKeys, info) => {
+    let newDept = toggleItemInArray(selectedDept, info, "key");
+    setSelectedDept([...newDept]);
+  };
+
+  const delStaff = (staff) => {
+    let newStaff = toggleItemInArray(selectedStaff, staff, "key");
+    setSelectedStaff([...newStaff]);
+  };
+  const delDept = (dept) => {
+    let newDept = toggleItemInArray(selectedStaff, dept, "key");
+    setSelectedDept([...newDept]);
+  };
+
   const columns = [
     {
       title: "姓名",
@@ -151,18 +192,6 @@ function Index({ open, getRowSelected, defaultId, url, author = true }) {
     },
   ];
 
-  // 表格转态初始化
-  const resetTable = () => {
-    setSelectedRowKeys([]);
-    setSelectedStaff([]);
-    getUserData();
-  };
-  // 表格选中
-  const onSelectChange = (newSelectedRowKeys, selectedRows) => {
-    setSelectedRowKeys(newSelectedRowKeys);
-    setSelectedStaff(selectedRows);
-  };
-
   const handleInputChange = (e) => {
     const { value } = e.target;
     setSearchVal(value);
@@ -175,20 +204,54 @@ function Index({ open, getRowSelected, defaultId, url, author = true }) {
     });
   };
 
-  const rowSelection = {
-    selectedRowKeys,
-    preserveSelectedRowKeys: true,
-    onChange: onSelectChange,
-  };
-  // 新建
-  const handleAdd = () => {
-    setIsModalOpen(true);
-  };
   //表单回调
   const closeModal = (flag) => {
     // flag 确定还是取消
     setIsModalOpen(false);
     // if (flag) getPageData();
+  };
+
+  // 自定义节点渲染
+  const titleRender = (nodeData) => {
+    let treeNode = nodeData.isUser ? (
+      <span>
+        <IconFont iconName="ren" size={18}></IconFont> {nodeData.label}
+      </span>
+    ) : (
+      <span onClick={() => onTreeClick(nodeData.key, nodeData)}>
+        <IconFont iconName="gongsi" size={18}></IconFont> {nodeData.label}
+      </span>
+    );
+    return treeNode;
+  };
+
+  //遍历树找到子节点
+  const findLastNOde = (tree) => {
+    const value = [];
+    const traverse = (currentNode) => {
+      if (!currentNode) return;
+      if (currentNode.children.length == 0) {
+        value.push(currentNode.userId);
+      } else {
+        currentNode.children.forEach((ele) => traverse(ele));
+      }
+    };
+    traverse(tree);
+    return value;
+  };
+
+  const findoutKey = (arr) => {
+    return arr.map((ele) => ele.userId);
+  };
+  //确认
+  const confirm = () => {
+    const temp = selectedDept.map((ele) => {
+      return findLastNOde(ele);
+    });
+    const userIds = [...new Set(temp.flat())];
+    const userIds1 = findoutKey(selectedStaff);
+    const res = [...new Set([...userIds, ...userIds1])];
+    getRowSelected(true, res);
   };
 
   return (
@@ -197,7 +260,7 @@ function Index({ open, getRowSelected, defaultId, url, author = true }) {
         <Modal
           title="选择员工"
           open={open}
-          onOk={() => getRowSelected(true, selectedRowKeys)}
+          onOk={confirm}
           onCancel={() => getRowSelected(false)}
           width={600}
           destroyOnClose
@@ -237,7 +300,8 @@ function Index({ open, getRowSelected, defaultId, url, author = true }) {
                       selectedKeys={selectTreeId}
                       showIcon
                       // rootClassName="tree-root"
-                      fieldNames={{ title: "name", key: "id" }}
+                      titleRender={titleRender}
+                      fieldNames={{ title: "label", key: "id" }}
                     />
                   )}
                 </div>
@@ -248,7 +312,59 @@ function Index({ open, getRowSelected, defaultId, url, author = true }) {
                   background: "#fff",
                 }}
               >
-                <Table
+                <List
+                  header={"已选择的成员"}
+                  dataSource={selectedStaff}
+                  size="small"
+                  renderItem={(item) => (
+                    <>
+                      <List.Item onClick={() => delStaff(item)}>
+                        <div
+                          style={{
+                            display: "flex",
+                            justifyContent: "space-between",
+                            alignItems: "center",
+                            width: "100%",
+                          }}
+                        >
+                          <Space>
+                            <IconFont iconName="ren" size={18}></IconFont>
+                            {item.label}
+                          </Space>
+                          <CloseOutlined />
+                        </div>
+                      </List.Item>
+                    </>
+                  )}
+                />
+
+                <List
+                  header={"已选择的成员"}
+                  dataSource={selectedDept}
+                  size="small"
+                  renderItem={(item) => (
+                    <>
+                      <List.Item onClick={() => delDept(item)}>
+                        <div
+                          style={{
+                            display: "flex",
+                            justifyContent: "space-between",
+                            alignItems: "center",
+                            width: "100%",
+                          }}
+                        >
+                          <Space>
+                            <IconFont iconName="gongsi" size={18}></IconFont>
+                            {item.label}
+                          </Space>
+                          <CloseOutlined />
+                        </div>
+                      </List.Item>
+                    </>
+                  )}
+                />
+
+                {/* <Table
                   columns={columns}
                   loading={loading}
                   rowKey={(record) => record.id}
@@ -258,10 +374,10 @@ function Index({ open, getRowSelected, defaultId, url, author = true }) {
                   pagination={false}
                   onChange={handleTableChange}
                   scroll={{ y: 500 }}
-                />
+                /> */}
               </Content>
             </Layout>
-            <div>已选：{selectedRowKeys.length}人</div>
+            {/* <div>已选：{selectedRowKeys.length}人</div> */}
           </div>
         </Modal>
       )}

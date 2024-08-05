@@ -8,12 +8,14 @@ import {
   Select,
   Switch,
   Tooltip,
+  Tag,
 } from "antd";
 import moment from "moment";
 import { activityFeeContribution as activityFeeContributionApi } from "@Api/analyse_staff";
 import { useParams, NavLink } from "react-router-dom";
 import SdTitle from "@Components/SdTitle";
 import { InfoCircleFilled } from "@ant-design/icons";
+import { taskStatusColor } from "@Utils/data";
 
 function Table1({ clickCallback }) {
   const [searchForm] = Form.useForm();
@@ -206,11 +208,6 @@ function Table1({ clickCallback }) {
 
 export default Table1;
 function tableRender(value, showTask, clickCallback) {
-  const dir = {
-    赢单: "#389e0d",
-    输单: "#ff4d4f",
-    终止: "#ff4d4f",
-  };
   if (!value) {
     return "-";
   }
@@ -234,13 +231,14 @@ function tableRender(value, showTask, clickCallback) {
   }
   if (value.key == "key_2") {
     return (
-      <span
-        style={{
-          color: dir[value.value],
-        }}
-      >
-        {value.value}
-      </span>
+      <Tag color={taskStatusColor[value.value]}>{value.value}</Tag>
+      // <span
+      //   style={{
+      //     color: dir[value.value],
+      //   }}
+      // >
+      //   {value.value}
+      // </span>
     );
   }
   return <span>{value.value}</span>;

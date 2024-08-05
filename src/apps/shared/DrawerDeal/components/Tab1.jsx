@@ -20,6 +20,7 @@ import { dealSingleGet, dealwin, dealReopen } from "@Api/deal_list";
 import Stage from "@Pages/deal-detail/components/Stage";
 import TimeLine from "./TimeLine";
 import FormTrans from "@Pages/deal-detail/components/Form/FormTrans";
+import { taskStatusColor } from "@Utils/data";
 
 const Tab1 = () => {
   const id = useContext(DealContext);
@@ -151,7 +152,7 @@ const Tab1 = () => {
                   {data.createTime}
                 </Descriptions.Item>
                 <Descriptions.Item label="商机状态">
-                  {data.statusName}
+                <Tag color={taskStatusColor[data.statusName]}>{data.statusName}</Tag>
                 </Descriptions.Item>
                 <Descriptions.Item label="商机阶段" span={2}>
                   <Stage

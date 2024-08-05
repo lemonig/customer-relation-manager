@@ -23,6 +23,9 @@ import Tab3 from "../DrawerDeal/components/Tab3";
 export const Context = React.createContext();
 
 function Index(props) {
+  if (!props.id) {
+    return;
+  }
   const onChange = () => {};
   let word = "personId";
   return (

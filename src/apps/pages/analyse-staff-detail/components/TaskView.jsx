@@ -114,7 +114,7 @@ function TaskView({
       render: (value, rec) => <Button type="link">{value}</Button>,
       onCell: (record) => ({
         onClick: (event) => {
-          clickCallback3(record.typeName, record.typeId);
+          clickCallback3(record.typeName, record.id);
         },
       }),
     },

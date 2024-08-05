@@ -29,6 +29,9 @@ import Tab9 from "./components/Tab9";
 export const DealContext = React.createContext();
 
 function Index(props) {
+  if (!props.id) {
+    return;
+  }
   const onChange = () => {};
   return (
     <DealContext.Provider value={props.id}>

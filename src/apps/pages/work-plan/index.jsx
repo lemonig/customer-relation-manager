@@ -487,11 +487,11 @@ function WorkPlan() {
                 查询
               </Button>
               <Button onClick={download}>导出</Button>
-              {selectedRowKeys.length === 0 ? (
+              {/* {selectedRowKeys.length === 0 ? (
                 <BtnAuth word="activity:workplan:create">
                   <Button onClick={handleAdd}>新建</Button>
                 </BtnAuth>
-              ) : null}
+              ) : null} */}
               {selectedRowKeys.length > 0 ? (
                 <Button onClick={handleDel}>删除</Button>
               ) : null}

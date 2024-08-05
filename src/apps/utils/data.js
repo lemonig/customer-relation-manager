@@ -16,3 +16,10 @@ export const organize = [
     value: 4,
   },
 ];
+
+export const taskStatusColor = {
+  赢单: "#389e0d",
+  输单: "#ff4d4f",
+  终止: "#ff4d4f",
+  进行中: "#108ee9",
+};

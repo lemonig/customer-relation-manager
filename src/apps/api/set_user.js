@@ -83,3 +83,11 @@ export function personList(data) {
     data,
   });
 }
+
+// 用户列表树
+export function userListTree(data) {
+  return _post({
+    url: `/api/dept/person/tree`,
+    data,
+  });
+}

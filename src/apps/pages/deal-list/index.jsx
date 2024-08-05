@@ -14,6 +14,7 @@ import {
   Tooltip,
   Statistic,
   TreeSelect,
+  Tag,
 } from "antd";
 import { useNavigate, useResolvedPath } from "react-router-dom";
 import moment from "moment";
@@ -43,6 +44,7 @@ import DrawerLinkman from "@Shared/DrawerLinkman";
 import "./index.less";
 import StaffTree from "@Shared/StaffTree";
 import { EyeOutlined } from "@ant-design/icons";
+import { taskStatusColor } from "@Utils/data";
 
 const { RangePicker } = DatePicker;
 echarts.use([
@@ -336,6 +338,9 @@ function DealList() {
       key: "statusName",
       sorter: true,
       width: 90,
+      render: (value, record) => (
+        <Tag color={taskStatusColor[value]}>{value}</Tag>
+      ),
     },
     {
       title: "销售人员",
@@ -660,11 +665,11 @@ function DealList() {
               查询
             </Button>
           </Form.Item>
-          <Form.Item>
+          {/* <Form.Item>
             <BtnAuth word="deal:create">
               <Button onClick={handleAdd}>新建</Button>
             </BtnAuth>
-          </Form.Item>
+          </Form.Item> */}
           <Button type="text" onClick={showPeopleTree} icon={<EyeOutlined />}>
             按人员筛选
           </Button>

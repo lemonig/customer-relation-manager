@@ -13,6 +13,7 @@ import {
   Checkbox,
   Tooltip,
   Statistic,
+  Tag,
 } from "antd";
 import { useNavigate, useParams } from "react-router-dom";
 import { dealOverview } from "@Api/analyse_staff";
@@ -29,6 +30,8 @@ import {
   LegendComponent,
 } from "echarts/components";
 import { CanvasRenderer } from "echarts/renderers";
+
+import { taskStatusColor } from "@Utils/data";
 
 const { RangePicker } = DatePicker;
 echarts.use([
@@ -55,6 +58,7 @@ function DealView({ clickCallback, clickCallback1, clickCallback2 }) {
       pageSize: 10,
     },
   });
+
   useEffect(() => {
     getPlpeline();
   }, []);
@@ -129,7 +133,7 @@ function DealView({ clickCallback, clickCallback1, clickCallback2 }) {
       dataIndex: "code",
       key: "code",
       fixed: "left",
-      render: (value, record) => (
+      render: (value) => (
         <Space>
           <a>{value}</a>
         </Space>
@@ -177,7 +181,9 @@ function DealView({ clickCallback, clickCallback1, clickCallback2 }) {
       render: (val, { orgId }) => {
         return (
           <Tooltip placement="topLeft" title={val}>
-            {val}
+            <Space>
+              <a>{val}</a>
+            </Space>
           </Tooltip>
         );
       },
@@ -207,6 +213,13 @@ function DealView({ clickCallback, clickCallback1, clickCallback2 }) {
       title: "客户联系人",
       dataIndex: "personName",
       key: "personName",
+      render: (val) => {
+        return (
+          <Space>
+            <a>{val}</a>
+          </Space>
+        );
+      },
       onCell: (record) => ({
         onClick: (event) => {
           clickCallback2(record.personName, record.personId);
@@ -225,7 +238,7 @@ function DealView({ clickCallback, clickCallback1, clickCallback2 }) {
       dataIndex: "stayDays",
       key: "stayDays",
       sorter: true,
-      width: 90,
+      width: 110,
       render: (value, record) => (
         <span style={value.isOver ? { color: "#fa4839" } : {}}>
           {value.value}
@@ -237,14 +250,17 @@ function DealView({ clickCallback, clickCallback1, clickCallback2 }) {
       dataIndex: "statusName",
       key: "statusName",
       sorter: true,
-      width: 90,
+      width: 100,
+      render: (value, record) => (
+        <Tag color={taskStatusColor[value]}>{value}</Tag>
+      ),
     },
     {
       title: "销售人员",
       dataIndex: "ownerUserName",
       key: "ownerUserName",
       sorter: true,
-      width: 90,
+      width: 100,
     },
     {
       title: "创建时间",
@@ -476,7 +492,7 @@ function DealView({ clickCallback, clickCallback1, clickCallback2 }) {
           onFinish={search}
           onValuesChange={formItemChange}
           initialValues={{
-            status: "",
+            status: "1",
           }}
         >
           <Form.Item label="" name="status">

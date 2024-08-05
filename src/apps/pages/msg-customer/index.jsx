@@ -320,7 +320,7 @@ function MsgCustomer() {
           <Button type="primary" onClick={search}>
             查询
           </Button>
-          <Button onClick={handleAdd}>新建</Button>
+          {/* <Button onClick={handleAdd}>新建</Button> */}
         </Space>
       </div>
       <Table

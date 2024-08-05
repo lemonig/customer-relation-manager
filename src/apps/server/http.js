@@ -25,6 +25,9 @@ axios.interceptors.response.use(
   (response) => {
     store.dispatch(SHIFT_LOADING());
     if (response.data && response.status === 200) {
+      if (response.data instanceof Blob) {
+        return Promise.resolve(response);
+      }
       if (response.data.code === 401) {
         window.location.href = window.location.origin + "/loading";
       } else if (response.data.code === 403) {
