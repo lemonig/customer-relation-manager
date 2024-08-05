@@ -671,7 +671,7 @@ function DealList() {
             </BtnAuth>
           </Form.Item> */}
           <Button type="text" onClick={showPeopleTree} icon={<EyeOutlined />}>
-            按人员筛选
+            {userId.length ? `已选择 ${userId.length} 人` : "按人员筛选"}
           </Button>
         </Form>
         <Checkbox onChange={handleChartChange}>隐藏统计</Checkbox>

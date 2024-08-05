@@ -38,7 +38,7 @@ function Dashboard() {
         <div className="search-tool">
           <div>
             <Button type="text" onClick={showPeopleTree} icon={<EyeOutlined />}>
-              按人员筛选
+              {userId.length ? `已选择 ${userId.length} 人` : "按人员筛选"}
             </Button>
           </div>
           <div>

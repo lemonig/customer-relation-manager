@@ -163,7 +163,7 @@ function Index({ open, getRowSelected, defaultId, url, author = true }) {
     setSelectedStaff([...newStaff]);
   };
   const delDept = (dept) => {
-    let newDept = toggleItemInArray(selectedStaff, dept, "key");
+    let newDept = toggleItemInArray(selectedDept, dept, "key");
     setSelectedDept([...newDept]);
   };
 
@@ -339,7 +339,7 @@ function Index({ open, getRowSelected, defaultId, url, author = true }) {
                 />
 
                 <List
-                  header={"已选择的成员"}
+                  header={"已选择的部门"}
                   dataSource={selectedDept}
                   size="small"
                   renderItem={(item) => (
