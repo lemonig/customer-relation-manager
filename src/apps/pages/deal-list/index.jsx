@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   Input,
   Button,
@@ -43,7 +43,7 @@ import DrawerCustomer from "@Shared/DrawerCustomer";
 import DrawerLinkman from "@Shared/DrawerLinkman";
 import "./index.less";
 import StaffTree from "@Shared/StaffTree";
-import { EyeOutlined } from "@ant-design/icons";
+import { EyeOutlined, DownOutlined, UpOutlined } from "@ant-design/icons";
 import { taskStatusColor } from "@Utils/data";
 
 const { RangePicker } = DatePicker;
@@ -65,6 +65,9 @@ function DealList() {
   const [salerList, setSalerList] = useState([]);
   const [deptList, setDeptList] = useState([]);
   const [chartVis, setChartVis] = useState(false);
+
+  const [showTimepicker, setShowTimepicker] = useState(false);
+  const staffTreeRef = useRef();
 
   const [pageMsg, setPagemsg] = useState({
     pagination: {
@@ -586,6 +589,15 @@ function DealList() {
       setUserId(val);
     }
   };
+  const resetForm = () => {
+    searchForm.resetFields();
+    setUserId([]);
+    search();
+    if (staffTreeRef.current) {
+      staffTreeRef.current.resetVal(); // 调用子组件的方法
+    }
+  };
+
   return (
     <div className="deal-page">
       <PageHeader className="site-page-header" title="商机列表" />
@@ -598,17 +610,6 @@ function DealList() {
             statusList: ["1"],
           }}
         >
-          <Form.Item label="" name="name">
-            <Input
-              placeholder="请输入商机名称、商机编号、客户公司"
-              style={{ width: 240 }}
-              // value={searchVal}
-            />
-          </Form.Item>
-          <Form.Item label="" name="time">
-            <RangePicker />
-          </Form.Item>
-
           <Form.Item label="" name="valueList">
             <Select
               style={{ width: 120 }}
@@ -660,9 +661,37 @@ function DealList() {
               maxTagCount="responsive"
             />
           </Form.Item>
+          <Form.Item label="" name="name">
+            <Input
+              placeholder="请输入商机名称、商机编号、客户公司"
+              style={{ width: 240 }}
+              // value={searchVal}
+            />
+          </Form.Item>
+          {showTimepicker ? (
+            <Form.Item label="" name="time">
+              <RangePicker />
+            </Form.Item>
+          ) : null}
+
+          <Form.Item>
+            <Button onClick={resetForm}>重置</Button>
+          </Form.Item>
+
           <Form.Item>
             <Button type="primary" htmlType="submit">
               查询
+            </Button>
+          </Form.Item>
+
+          <Form.Item>
+            <Button
+              type="link"
+              onClick={() => setShowTimepicker(!showTimepicker)}
+              icon={!showTimepicker ? <DownOutlined /> : <UpOutlined />}
+              iconPosition="end"
+            >
+              {!showTimepicker ? "展开" : "收起"}
             </Button>
           </Form.Item>
           {/* <Form.Item>
@@ -758,7 +787,11 @@ function DealList() {
           title={operateTxt}
         />
       )}
-      <StaffTree open={treeVis} getRowSelected={getRowSelected} />
+      <StaffTree
+        open={treeVis}
+        getRowSelected={getRowSelected}
+        ref={staffTreeRef}
+      />
 
       {drawerVis.customer && (
         <DrawerCustomer

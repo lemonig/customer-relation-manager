@@ -2,10 +2,15 @@
  * @Author: Jonny
  * @Date: 2024-05-15 16:42:13
  * @LastEditors: Jonny
- * @LastEditTime: 2024-08-05 11:35:07
+ * @LastEditTime: 2024-08-05 14:04:53
  * @FilePath: \grean-crm\src\apps\shared\StaffTree\index.jsx
  */
-import React, { useState, useEffect } from "react";
+import React, {
+  useState,
+  useEffect,
+  forwardRef,
+  useImperativeHandle,
+} from "react";
 import {
   Space,
   Table,
@@ -36,7 +41,7 @@ const data = [
   "Man charged over missing wedding girl.",
   "Los Angeles battles huge wildfires.",
 ];
-function Index({ open, getRowSelected, defaultId, url, author = true }) {
+function Index({ open, getRowSelected, defaultId, url, author = true }, ref) {
   let dispatch = useDispatch();
   const { userIdList } = useSelector((state) => state.staffTreeSlice);
   const [form] = Form.useForm();
@@ -61,6 +66,15 @@ function Index({ open, getRowSelected, defaultId, url, author = true }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const { Header, Footer, Sider, Content } = Layout;
+
+  useImperativeHandle(ref, () => ({
+    resetVal,
+  }));
+
+  const resetVal = () => {
+    setSelectedStaff([]);
+    setSelectedDept([]);
+  };
 
   useEffect(() => {
     getDeptList();
@@ -385,4 +399,6 @@ function Index({ open, getRowSelected, defaultId, url, author = true }) {
   );
 }
 
-export default Index;
+const RefIndex = forwardRef((props, ref) => Index(props, ref));
+
+export default RefIndex;
