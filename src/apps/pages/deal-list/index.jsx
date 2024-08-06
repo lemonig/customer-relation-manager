@@ -610,31 +610,14 @@ function DealList() {
             statusList: ["1"],
           }}
         >
-          <Form.Item label="" name="valueList">
-            <Select
-              style={{ width: 120 }}
-              options={[
-                {
-                  label: "1000万以上",
-                  value: "10000000",
-                },
-                {
-                  label: "500~1000万",
-                  value: "5000000,10000000",
-                },
-                {
-                  label: "100~500万",
-                  value: "1000000,5000000",
-                },
-                {
-                  label: "0~100万",
-                  value: "0,1000000",
-                },
-              ]}
-              placeholder="预算金额"
-              allowClear
+          <Form.Item label="" name="name">
+            <Input
+              placeholder="请输入商机名称、商机编号、客户公司"
+              style={{ width: 240 }}
+              // value={searchVal}
             />
           </Form.Item>
+
           <Form.Item label="" name="statusList">
             <Select
               style={{ width: 120 }}
@@ -661,17 +644,38 @@ function DealList() {
               maxTagCount="responsive"
             />
           </Form.Item>
-          <Form.Item label="" name="name">
-            <Input
-              placeholder="请输入商机名称、商机编号、客户公司"
-              style={{ width: 240 }}
-              // value={searchVal}
-            />
-          </Form.Item>
+
           {showTimepicker ? (
-            <Form.Item label="" name="time">
-              <RangePicker />
-            </Form.Item>
+            <>
+              <Form.Item label="" name="valueList">
+                <Select
+                  style={{ width: 120 }}
+                  options={[
+                    {
+                      label: "1000万以上",
+                      value: "10000000",
+                    },
+                    {
+                      label: "500~1000万",
+                      value: "5000000,10000000",
+                    },
+                    {
+                      label: "100~500万",
+                      value: "1000000,5000000",
+                    },
+                    {
+                      label: "0~100万",
+                      value: "0,1000000",
+                    },
+                  ]}
+                  placeholder="预算金额"
+                  allowClear
+                />
+              </Form.Item>
+              <Form.Item label="" name="time">
+                <RangePicker />
+              </Form.Item>
+            </>
           ) : null}
 
           <Form.Item>

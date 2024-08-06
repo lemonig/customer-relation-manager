@@ -1,4 +1,4 @@
-import React, { useEffect, useLayoutEffect, useState } from "react";
+import React, { useEffect, useLayoutEffect, useState, useRef } from "react";
 import { DndProvider, DragSource } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { Dustbin } from "./components/Dustbin";
@@ -24,7 +24,7 @@ import moment from "moment";
 import { arrayToTree } from "@Utils/util";
 
 import StaffTree from "@Shared/StaffTree";
-import { EyeOutlined } from "@ant-design/icons";
+import { EyeOutlined, DownOutlined, UpOutlined } from "@ant-design/icons";
 
 const { RangePicker } = DatePicker;
 
@@ -39,6 +39,9 @@ function Deal() {
   const [loading, setLoading] = useState(false);
 
   const [userId, setUserId] = useState([]);
+
+  const [showTimepicker, setShowTimepicker] = useState(false);
+  const staffTreeRef = useRef();
 
   useEffect(() => {
     getSalesmanList();
@@ -109,6 +112,16 @@ function Deal() {
       setUserId(val);
     }
   };
+
+  const resetForm = () => {
+    searchForm.resetFields();
+    setUserId([]);
+    getPageData();
+    if (staffTreeRef.current) {
+      staffTreeRef.current.resetVal(); // 调用子组件的方法
+    }
+  };
+
   return (
     <Spin spinning={loading}>
       <div className="search" style={{ marginBottom: "0px" }}>
@@ -127,49 +140,10 @@ function Deal() {
               // value={searchVal}
             />
           </Form.Item>
-          <Form.Item label="" name="time">
-            <RangePicker />
-          </Form.Item>
-          {/* <Form.Item label="" name="pipelineId">
-            <Select
-              style={{ width: 120 }}
-              placeholder="销售流程"
-              fieldNames={{
-                label: "name",
-                value: "id",
-              }}
-              options={pipeline}
-            />
-          </Form.Item> */}
 
-          <Form.Item label="" name="valueList">
-            <Select
-              style={{ width: 120 }}
-              options={[
-                {
-                  label: "1000万以上",
-                  value: "10000000",
-                },
-                {
-                  label: "500~1000万",
-                  value: "5000000,10000000",
-                },
-                {
-                  label: "100~500万",
-                  value: "1000000,5000000",
-                },
-                {
-                  label: "0~100万",
-                  value: "0,1000000",
-                },
-              ]}
-              placeholder="预算金额"
-              allowClear
-            />
-          </Form.Item>
           <Form.Item label="" name="statusList">
             <Select
-              style={{ width: 180 }}
+              style={{ width: 120 }}
               options={[
                 {
                   label: "进行中",
@@ -193,17 +167,67 @@ function Deal() {
               maxTagCount="responsive"
             />
           </Form.Item>
+
+          {showTimepicker ? (
+            <>
+              <Form.Item label="" name="valueList">
+                <Select
+                  style={{ width: 120 }}
+                  options={[
+                    {
+                      label: "1000万以上",
+                      value: "10000000",
+                    },
+                    {
+                      label: "500~1000万",
+                      value: "5000000,10000000",
+                    },
+                    {
+                      label: "100~500万",
+                      value: "1000000,5000000",
+                    },
+                    {
+                      label: "0~100万",
+                      value: "0,1000000",
+                    },
+                  ]}
+                  placeholder="预算金额"
+                  allowClear
+                />
+              </Form.Item>
+              <Form.Item label="" name="time">
+                <RangePicker />
+              </Form.Item>
+            </>
+          ) : null}
+
+          <Form.Item>
+            <Button onClick={resetForm}>重置</Button>
+          </Form.Item>
+
           <Form.Item>
             <Button type="primary" htmlType="submit">
               查询
             </Button>
           </Form.Item>
+          <Form.Item>
+            <Button
+              type="link"
+              onClick={() => setShowTimepicker(!showTimepicker)}
+              icon={!showTimepicker ? <DownOutlined /> : <UpOutlined />}
+              iconPosition="end"
+            >
+              {!showTimepicker ? "展开" : "收起"}
+            </Button>
+          </Form.Item>
+          {/* <Form.Item>
+            <BtnAuth word="deal:create">
+              <Button onClick={handleAdd}>新建</Button>
+            </BtnAuth>
+          </Form.Item> */}
           <Button type="text" onClick={showPeopleTree} icon={<EyeOutlined />}>
             {userId.length ? `已选择 ${userId.length} 人` : "按人员筛选"}
           </Button>
-          {/* <Form.Item>
-            <Button onClick={handleAdd}>新建</Button>
-          </Form.Item> */}
         </Form>
       </div>
       {stageMsg && (
