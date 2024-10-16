@@ -1,3 +1,10 @@
+/*
+ * @Author: Jonny
+ * @Date: 2022-11-01 13:57:05
+ * @LastEditors: Jonny
+ * @LastEditTime: 2024-08-29 10:18:59
+ * @FilePath: \grean-crm\src\setupProxy.js
+ */
 const { createProxyMiddleware } = require("http-proxy-middleware");
 
 module.exports = function (app) {

@@ -41,8 +41,6 @@ function SpinLoad() {
   let dispatch = useDispatch();
 
   useEffect(() => {
-    console.log("loading");
-
     isLogin();
   }, []);
 

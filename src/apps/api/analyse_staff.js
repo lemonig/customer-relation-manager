@@ -123,3 +123,17 @@ export function userinfo(data) {
     data
   })
 }
+// 销售拜访分析 
+export function countActivityByPerson(data) {
+  return _post({
+    url: `/api/analysis/countActivityByPerson`,
+    data
+  })
+}
+// 销售拜访客户列表 
+export function visitPage(data) {
+  return _post({
+    url: `/api/activity/visit/page`,
+    data
+  })
+}

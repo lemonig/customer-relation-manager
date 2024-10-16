@@ -207,3 +207,10 @@ export function competitorpage(data) {
     data
   })
 }
+// 商机-冲突
+export function countConflictDealDeal(data) {
+  return _post({
+    url: `/api/analysis/countConflictDeal`,
+    data
+  })
+}
