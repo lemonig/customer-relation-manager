@@ -59,6 +59,11 @@ function Tab5() {
 
   const columns = [
     {
+      title: "客户",
+      dataIndex: "orgName",
+      key: "orgName",
+    },
+    {
       title: "姓名",
       dataIndex: "name",
       key: "name",
@@ -94,11 +99,7 @@ function Tab5() {
         </Tooltip>
       ),
     },
-    {
-      title: "创建人",
-      dataIndex: "createUserName",
-      key: "createUserName",
-    },
+   
     {
       title: "创建时间",
       dataIndex: "createTime",

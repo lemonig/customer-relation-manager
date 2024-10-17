@@ -62,7 +62,7 @@ function Index(props) {
               children: <Tab3 />,
             },
             {
-              label: `新开客户`,
+              label: `新开发客户`,
               key: "4",
               children: <Tab4 />,
             },
