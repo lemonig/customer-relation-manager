@@ -133,16 +133,7 @@ function DealList() {
     };
     if ("id" in value) {
       return (
-        <NavLink
-          onClick={() => {
-            setOperateId(value.id);
-            setOperateTxt(value.value);
-            setDrawerVis({
-              ...drawerVis,
-              visit: true,
-            });
-          }}
-        >
+        <NavLink to={`/analyseStaff/${value.id}`} onClick={beforeRoute}>
           {value.value}
         </NavLink>
       );
@@ -170,7 +161,7 @@ function DealList() {
           form={searchForm}
           onFinish={search}
           initialValues={{
-            time: [moment().subtract(2, "years").startOf("year"), moment()],
+            time: [moment().startOf("month"), moment()],
           }}
         >
           <Form.Item label="" name="time">
@@ -203,7 +194,7 @@ function DealList() {
 
       <Table
         scroll={{
-          x: (column.length - 1) * 150 + 60,
+          x: (column.length - 1) * 150 + 60 + 60,
         }}
         columns={[
           {
@@ -217,6 +208,29 @@ function DealList() {
               1,
           },
           ...column,
+          {
+            title: "操作",
+            key: "operation",
+            width: 100,
+            render: (_, record) => {
+              if ("id" in record.key_1) {
+                return (
+                  <NavLink
+                    onClick={() => {
+                      setOperateId(record.key_1.id);
+                      setOperateTxt(record.key_1.value);
+                      setDrawerVis({
+                        ...drawerVis,
+                        visit: true,
+                      });
+                    }}
+                  >
+                    查看详情
+                  </NavLink>
+                );
+              }
+            },
+          },
         ]}
         dataSource={data}
         loading={loading}
@@ -239,7 +253,6 @@ function DealList() {
                 otherdata?.map((item, idx) => {
                   return (
                     <Table.Summary.Cell
-                      index={idx + 1}
                       key={idx}
                       style={{ textAlign: "center" }}
                     >

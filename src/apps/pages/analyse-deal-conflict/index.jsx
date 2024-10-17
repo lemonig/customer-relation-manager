@@ -192,7 +192,7 @@ function Index() {
           form={searchForm}
           onFinish={search}
           initialValues={{
-            time: [moment().subtract(2, "years").startOf("year"), moment()],
+            time: [moment().subtract(2, "years"), moment()],
           }}
         >
           <Form.Item label="" name="time">

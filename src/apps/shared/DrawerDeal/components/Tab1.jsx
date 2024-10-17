@@ -85,7 +85,7 @@ const Tab1 = () => {
       <div className="search" style={{ marginBottom: "0px" }}>
         <div>基本信息</div>
         <Button
-          type="link"
+          type="primary"
           onClick={() => {
             setModalVis({
               ...modalVis,
@@ -152,7 +152,9 @@ const Tab1 = () => {
                   {data.createTime}
                 </Descriptions.Item>
                 <Descriptions.Item label="商机状态">
-                <Tag color={taskStatusColor[data.statusName]}>{data.statusName}</Tag>
+                  <Tag color={taskStatusColor[data.statusName]}>
+                    {data.statusName}
+                  </Tag>
                 </Descriptions.Item>
                 <Descriptions.Item label="商机阶段" span={2}>
                   <Stage
