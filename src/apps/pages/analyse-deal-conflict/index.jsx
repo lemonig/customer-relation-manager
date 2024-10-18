@@ -152,7 +152,7 @@ function Index() {
       return "-";
     }
 
-    if (value.key == "key_2") {
+    if (value.key == "key_3") {
       return (
         <NavLink
           onClick={() => {
