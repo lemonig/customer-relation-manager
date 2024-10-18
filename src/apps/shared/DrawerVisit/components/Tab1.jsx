@@ -83,11 +83,6 @@ function Tab1() {
       dataIndex: "fee",
       key: "fee",
     },
-    {
-      title: "状态",
-      dataIndex: "statusName",
-      key: "status",
-    },
 
     {
       title: "联系人",
@@ -103,12 +98,9 @@ function Tab1() {
       title: "纪要",
       dataIndex: "description",
       key: "description",
+      ellipsis: true,
     },
-    {
-      title: "创建人",
-      dataIndex: "createUserName",
-      key: "createUserName",
-    },
+
     {
       title: "创建时间",
       dataIndex: "createTime",
