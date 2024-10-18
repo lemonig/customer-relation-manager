@@ -55,6 +55,16 @@ function Tab2() {
 
   const columns = [
     {
+      title: "序号",
+      key: "index",
+      width: 70,
+      fixed: true,
+      render: (_, record, idx) =>
+        pageMsg.pagination.pageSize * (pageMsg.pagination.current - 1) +
+        idx +
+        1,
+    },
+    {
       title: "商机名称",
       dataIndex: "title",
       key: "title",

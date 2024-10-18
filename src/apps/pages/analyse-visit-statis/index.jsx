@@ -212,6 +212,7 @@ function DealList() {
             title: "操作",
             key: "operation",
             width: 100,
+            fixed: "right",
             render: (_, record) => {
               if ("id" in record.key_1) {
                 return (

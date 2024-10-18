@@ -55,6 +55,16 @@ function Tab4() {
 
   const columns = [
     {
+      title: "序号",
+      key: "index",
+      width: 70,
+      fixed: true,
+      render: (_, record, idx) =>
+        pageMsg.pagination.pageSize * (pageMsg.pagination.current - 1) +
+        idx +
+        1,
+    },
+    {
       title: "客户名称",
       dataIndex: "name",
       key: "name",
@@ -69,8 +79,6 @@ function Tab4() {
       dataIndex: "visitTime",
       key: "visitTime",
     },
-
- 
   ];
 
   const handleTableChange = (pagination, filters, sorter, extra) => {
