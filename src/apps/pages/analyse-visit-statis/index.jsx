@@ -263,7 +263,14 @@ function DealList() {
                       key={idx}
                       style={{ textAlign: "center" }}
                     >
-                      {item.value}
+                      {typeof item.value == "number" ? (
+                        <Statistic
+                          value={item.value}
+                          valueStyle={{ fontSize: "12px" }}
+                        />
+                      ) : (
+                        item.value
+                      )}
                     </Table.Summary.Cell>
                   );
                 })}
