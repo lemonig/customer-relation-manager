@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Table, Tooltip } from "antd";
+import { Table, Tooltip, Statistic } from "antd";
 import { noChangeDeal as noChangeDealApi } from "@Api/analyse_staff";
 import { useParams, NavLink } from "react-router-dom";
 import SdTitle from "@Components/SdTitle";
@@ -108,6 +108,9 @@ function tableRender(value, clickCallback) {
         {value.value}
       </NavLink>
     );
+  }
+  if (["key_2"].includes(value.key)) {
+    return <Statistic value={value.value} valueStyle={{ fontSize: "12px" }} />;
   }
   return <>{<span>{value.value}</span>}</>;
 }

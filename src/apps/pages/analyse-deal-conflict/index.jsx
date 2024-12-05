@@ -168,6 +168,12 @@ function Index() {
         </NavLink>
       );
     }
+    if (["key_4"].includes(value.key)) {
+      return (
+        <Statistic value={value.value} valueStyle={{ fontSize: "12px" }} />
+      );
+    }
+
     return <>{<span>{value.value}</span>}</>;
   }
 

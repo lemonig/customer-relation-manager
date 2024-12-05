@@ -7,6 +7,7 @@ import {
   Form,
   Tooltip,
   Select,
+  Statistic,
 } from "antd";
 import { useNavigate } from "react-router-dom";
 import moment from "moment";
@@ -136,6 +137,11 @@ function DealList() {
         <NavLink to={`/analyseStaff/${value.id}`} onClick={beforeRoute}>
           {value.value}
         </NavLink>
+      );
+    }
+    if (["key_6", "key_11"].includes(value.key)) {
+      return (
+        <Statistic value={value.value} valueStyle={{ fontSize: "12px" }} />
       );
     }
     return <>{<span>{value.value}</span>}</>;

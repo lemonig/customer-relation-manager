@@ -10,6 +10,7 @@ import {
   message,
   Tooltip,
   PageHeader,
+  Statistic,
 } from "antd";
 import { companyInfo, companyDelete } from "@Api/info_company.js";
 import { tianyancha } from "@Api/public.js";
@@ -166,18 +167,27 @@ function MsgCompany() {
       dataIndex: "processDealValue",
       key: "processDealValue",
       sorter: true,
+      render: (val) => (
+        <Statistic value={val} valueStyle={{ fontSize: "12px" }} />
+      ),
     },
     {
       title: "赢单商机额",
       dataIndex: "winDealValue",
       key: "winDealValue",
       sorter: true,
+      render: (val) => (
+        <Statistic value={val} valueStyle={{ fontSize: "12px" }} />
+      ),
     },
     {
       title: "流失商机额",
       dataIndex: "unWinDealValue",
       key: "unWinDealValue",
       sorter: true,
+      render: (val) => (
+        <Statistic value={val} valueStyle={{ fontSize: "12px" }} />
+      ),
     },
     {
       title: "任务数量",
@@ -218,6 +228,9 @@ function MsgCompany() {
       dataIndex: "contractValue",
       key: "contractValue",
       sorter: true,
+      render: (val) => (
+        <Statistic value={val} valueStyle={{ fontSize: "12px" }} />
+      ),
     },
     // {
     //   title: "地址",
