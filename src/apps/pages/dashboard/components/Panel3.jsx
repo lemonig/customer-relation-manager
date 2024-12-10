@@ -30,7 +30,7 @@ echarts.use([
 function Panel3({ params }) {
   return (
     <div>
-      <Box title="合同金额">
+      <Box title="合同签订额">
         <div className="search"></div>
         <div>
           <BarCharet params={params}></BarCharet>

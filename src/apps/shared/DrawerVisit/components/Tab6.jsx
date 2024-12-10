@@ -90,7 +90,7 @@ function Tab6() {
       key: "signedDate",
     },
     {
-      title: "合同金额",
+      title: "合同签订额",
       dataIndex: "value",
       key: "value",
       render: (value, record) => (

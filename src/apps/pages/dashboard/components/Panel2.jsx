@@ -24,7 +24,7 @@ const salePanel = [
     type: 5,
   },
   {
-    label: "合同金额",
+    label: "合同签订额",
     val: "6",
     unit: "",
     link: "contract",

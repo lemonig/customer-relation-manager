@@ -29,7 +29,7 @@ export function funnelByDealValue(data) {
     data
   })
 }
-// 合同金额图表 
+// 合同签订额图表 
 export function chartByContractValue(data) {
   return _post({
     url: `/api/v2/index/chartByContractValue`,

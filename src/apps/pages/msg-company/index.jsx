@@ -224,7 +224,7 @@ function MsgCompany() {
       sorter: true,
     },
     {
-      title: "合同金额",
+      title: "合同签订额",
       dataIndex: "contractValue",
       key: "contractValue",
       sorter: true,
