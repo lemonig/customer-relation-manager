@@ -7,3 +7,9 @@ export function contractPage(data) {
     data,
   });
 }
+export function contractOpsPage(data) {
+  return _post({
+    url: `/api/contract/ops/page`,
+    data,
+  });
+}

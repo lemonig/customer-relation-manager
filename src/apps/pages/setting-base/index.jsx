@@ -2,7 +2,7 @@
  * @Author: Jonny
  * @Date: 2024-10-16 14:59:50
  * @LastEditors: Jonny
- * @LastEditTime: 2024-10-16 15:44:52
+ * @LastEditTime: 2024-12-19 17:42:10
  * @FilePath: \grean-crm\src\apps\pages\setting-base\index.jsx
  */
 import React, { useState, useEffect } from "react";
@@ -13,7 +13,7 @@ import {
   Space,
   Table,
   Tag,
-  Modal,
+  Input,
   Form,
   message,
   PageHeader,
@@ -41,6 +41,7 @@ function SettingBase() {
     setLoading(true);
     let { data } = await configList();
     form.setFieldsValue({
+      ...data,
       ACTIVITY_LIMIT_DAYS: Number(data.ACTIVITY_LIMIT_DAYS),
     });
     setLoading(false);
@@ -82,7 +83,9 @@ function SettingBase() {
             创建任务时开始时间距离现在时间不能超过回补天数
           </span>
         </Form.Item>
-
+        <Form.Item label="合同提醒天数" name="CONTRACT_REMIND_DAYS">
+          <Input placeholder="请输入" style={{ width: "300px" }} />
+        </Form.Item>
         <Form.Item wrapperCol={{ offset: 3, span: 21 }}>
           <Button type="primary" htmlType="submit">
             提交
